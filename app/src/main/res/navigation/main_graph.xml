@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_graph"
+    app:startDestination="@id/checkSexFragment">
+
+    <fragment
+        android:id="@+id/checkSexFragment"
+        android:name="com.example.exercisetechnique.checksex.CheckSexFragment"
+        android:label="fragment_check_sex"
+        tools:layout="@layout/fragment_check_sex" >
+        <action
+            android:id="@+id/action_checkSexFragment_to_bodyFragment"
+            app:destination="@id/bodyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/bodyFragment"
+        android:name="com.example.exercisetechnique.body.BodyFragment"
+        android:label="fragment_body"
+        tools:layout="@layout/fragment_body" >
+        <argument
+            android:name="sex"
+            app:argType="com.example.exercisetechnique.model.Sex" />
+        <argument
+            android:name="side"
+            app:argType="com.example.exercisetechnique.model.Side" />
+    </fragment>
+</navigation>
