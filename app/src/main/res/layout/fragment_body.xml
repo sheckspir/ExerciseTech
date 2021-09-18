@@ -12,7 +12,6 @@
         android:layout_height="match_parent"/>
 
     <ImageView
-        tools:src="@drawable/ic_body"
         android:id="@+id/imageBody"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
