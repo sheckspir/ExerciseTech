@@ -25,6 +25,8 @@ class BodyAreasManager(
     var bodyParts = HashMap<String,BodyPart>()
     private var selectedId: Muscle? = null
 
+    fun showed() = ::mAttacher.isInitialized
+
     fun showManFront() {
         showBody(R.raw.man_front_muscles, R.drawable.man_front)
     }

@@ -1,16 +1,15 @@
 package com.example.exercisetechnique.checksex
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.exercisetechnique.R
-import com.example.exercisetechnique.body.BodyFragment
+import com.example.exercisetechnique.bodymain.BodyMainFragment
 import com.example.exercisetechnique.model.Sex
-import com.example.exercisetechnique.model.Side
 
 class CheckSexFragment : Fragment() {
 
@@ -29,15 +28,13 @@ class CheckSexFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         view.findViewById<Button>(R.id.buttonMan).setOnClickListener {
-            findNavController().navigate(R.id.action_checkSexFragment_to_bodyFragment,Bundle().apply {
-                putSerializable(BodyFragment.ARG_SEX, Sex.MALE)
-                putSerializable(BodyFragment.ARG_SIDE, Side.FRONT)
+            findNavController().navigate(R.id.action_checkSexFragment_to_bodyMainFragment2,Bundle().apply {
+                putSerializable(BodyMainFragment.ARG_SEX, Sex.MALE)
             })
         }
         view.findViewById<Button>(R.id.buttonWoman).setOnClickListener {
-            findNavController().navigate(R.id.action_checkSexFragment_to_bodyFragment,Bundle().apply {
-                putSerializable(BodyFragment.ARG_SEX, Sex.FEMALE)
-                putSerializable(BodyFragment.ARG_SIDE, Side.FRONT)
+            findNavController().navigate(R.id.action_checkSexFragment_to_bodyMainFragment2,Bundle().apply {
+                putSerializable(BodyMainFragment.ARG_SEX, Sex.FEMALE)
             })
         }
 

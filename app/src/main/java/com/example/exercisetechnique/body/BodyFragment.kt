@@ -1,31 +1,32 @@
-package com.example.exercisetechnique.body
 
-import android.graphics.*
-import android.graphics.drawable.Drawable
+
 import android.os.Bundle
 import android.util.Log
-import android.view.*
-import androidx.annotation.NonNull
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.exercisetechnique.R
-import com.example.exercisetechnique.model.BodyPart
+import com.example.exercisetechnique.findNavigationPublisher
 import com.example.exercisetechnique.model.Muscle
 import com.example.exercisetechnique.model.Sex
 import com.example.exercisetechnique.model.Side
-import com.pixplicity.sharp.OnSvgElementListener
-import com.pixplicity.sharp.Sharp
+import io.reactivex.ObservableSource
+import io.reactivex.Observer
+import io.reactivex.functions.Consumer
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_body.view.*
-import uk.co.senab.photoview.DefaultOnDoubleTapListener
-import uk.co.senab.photoview.PhotoViewAttacher
-import uk.co.senab.photoview.PhotoViewAttacher.OnPhotoTapListener
+import uk.co.senab.photoview.log.LoggerDefault
 
 
-class BodyFragment : Fragment(), OnBodyPartSelectedListener{
+class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UIEventBody>, Consumer<BodyFeature.State> {
 
     private lateinit var sex : Sex
     private lateinit var side : Side
+    private val source = PublishSubject.create<UIEventBody>()
 
     private lateinit var manager : BodyAreasManager
+    private lateinit var bindings : BodyScreenBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,7 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener{
             sex = it.getSerializable(ARG_SEX) as Sex
             side = it.getSerializable(ARG_SIDE) as Side
         }
+        bindings = BodyScreenBinding(this, BodyFeature(sex, side, findNavigationPublisher()))
     }
 
 
@@ -45,29 +47,41 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener{
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("TAG", "onViewCreated side ${this.side}")
         manager = BodyAreasManager(view.imageBody, view.imageFullBody, this)
+        bindings.setup(this)
+    }
 
-        // TODO: 9/16/21 temp call here
-        when(sex) {
-            Sex.MALE -> manager.showManFront()
-            Sex.FEMALE -> manager.showWomanFront()
+    override fun subscribe(observer: Observer<in UIEventBody>) {
+        source.subscribe(observer)
+    }
+
+    override fun accept(t: BodyFeature.State) {
+        Log.d("TAG", "accept new state $t")
+        if (!::manager.isInitialized) {
+            return
+        }
+        if (manager.showed()) {
+
+        } else {
+            if (t.sex == Sex.MALE) {
+               if (t.side == Side.FRONT) {
+                   manager.showManFront()
+               } else {
+                   manager.showManBack()
+               }
+            } else {
+                if (t.side == Side.FRONT) {
+                    manager.showWomanFront()
+                } else {
+                    manager.showWomanBack()
+                }
+            }
         }
     }
 
-
-
-
-
-    fun showManFront() {
-        manager.showManFront()
-    }
-
-    fun showManBack() {
-        manager.showManBack()
-    }
-
     override fun onMuscleSelected(muscle: Muscle) {
-        Log.d("TAG", "onMuscleSelected $muscle")
+        source.onNext(UIEventBody.MuscleClicked(muscle))
     }
 
     companion object {

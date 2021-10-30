@@ -11,9 +11,25 @@
         android:label="fragment_check_sex"
         tools:layout="@layout/fragment_check_sex" >
         <action
-            android:id="@+id/action_checkSexFragment_to_bodyFragment"
-            app:destination="@id/bodyFragment" />
+            android:id="@+id/action_checkSexFragment_to_bodyMainFragment2"
+            app:destination="@id/bodyMainFragment2" />
     </fragment>
+
+    <fragment
+        android:id="@+id/bodyMainFragment2"
+        android:name="com.example.exercisetechnique.bodymain.BodyMainFragment"
+        android:label="BodyMainFragment" >
+        <argument
+            android:name="sex"
+            app:argType="com.example.exercisetechnique.model.Sex" />
+        <action
+            android:id="@+id/action_bodyMainFragment2_to_bodyFragment"
+            app:destination="@id/bodyFragment" />
+        <action
+            android:id="@+id/action_bodyFragment_to_videoListFragment"
+            app:destination="@id/videoListFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/bodyFragment"
         android:name="com.example.exercisetechnique.body.BodyFragment"
@@ -26,4 +42,18 @@
             android:name="side"
             app:argType="com.example.exercisetechnique.model.Side" />
     </fragment>
+    <fragment
+        android:id="@+id/videoListFragment"
+        android:name="com.example.exercisetechnique.videolist.VideoListFragment"
+        android:label="fragment_video_list"
+        tools:layout="@layout/fragment_video_list" >
+        <argument
+            android:name="muscle"
+            app:argType="com.example.exercisetechnique.model.Muscle" />
+        <argument
+            android:name="sex"
+            app:argType="com.example.exercisetechnique.model.Sex"
+            android:defaultValue="MALE" />
+    </fragment>
+
 </navigation>

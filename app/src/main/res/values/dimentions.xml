@@ -2,4 +2,7 @@
 <resources>
     <dimen name="space_regular">16dp</dimen>
     <dimen name="button_regular_height">60dp</dimen>
+
+    <dimen name="bodies_small_view_width">90dp</dimen>
+    <dimen name="bodies_small_view_height">160dp</dimen>
 </resources>
