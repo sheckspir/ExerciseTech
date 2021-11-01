@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.exercisetechnique.R
+import com.example.exercisetechnique.body.*
 import com.example.exercisetechnique.findNavigationPublisher
 import com.example.exercisetechnique.model.Muscle
 import com.example.exercisetechnique.model.Sex
@@ -16,7 +17,6 @@ import io.reactivex.Observer
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_body.view.*
-import uk.co.senab.photoview.log.LoggerDefault
 
 
 class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UIEventBody>, Consumer<BodyFeature.State> {
@@ -35,8 +35,8 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UI
             side = it.getSerializable(ARG_SIDE) as Side
         }
         bindings = BodyScreenBinding(this, BodyFeature(sex, side, findNavigationPublisher()))
+        bindings.setup(this)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,9 +47,12 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UI
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("TAG", "onViewCreated side ${this.side}")
         manager = BodyAreasManager(view.imageBody, view.imageFullBody, this)
-        bindings.setup(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
     }
 
     override fun subscribe(observer: Observer<in UIEventBody>) {
@@ -62,7 +65,7 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UI
             return
         }
         if (manager.showed()) {
-
+            manager.updateSelectedId(t.selectedMuscle)
         } else {
             if (t.sex == Sex.MALE) {
                if (t.side == Side.FRONT) {
@@ -77,10 +80,12 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UI
                     manager.showWomanBack()
                 }
             }
+            manager.updateSelectedId(t.selectedMuscle)
         }
     }
 
     override fun onMuscleSelected(muscle: Muscle) {
+        Log.d("TAG", "onMuscleSelected $muscle")
         source.onNext(UIEventBody.MuscleClicked(muscle))
     }
 

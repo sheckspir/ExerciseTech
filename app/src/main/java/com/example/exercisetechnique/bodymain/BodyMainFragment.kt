@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
 import com.example.exercisetechnique.R
-import com.example.exercisetechnique.body.BodyFragment
 import com.example.exercisetechnique.model.Sex
 import com.example.exercisetechnique.model.Side
 import kotlinx.android.synthetic.main.fragment_body_main.*

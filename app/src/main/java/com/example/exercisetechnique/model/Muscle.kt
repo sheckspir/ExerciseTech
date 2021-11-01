@@ -14,5 +14,6 @@ enum class Muscle {
     PRESS,
     BICEPS_BEDR,
     SHIROCH,
-    BUTT
+    BUTT,
+    BRAIN
 }

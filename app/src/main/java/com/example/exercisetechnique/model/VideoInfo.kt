@@ -1,9 +1,9 @@
 package com.example.exercisetechnique.model
 
 open class VideoInfo(
-    id: Int,
-    url : String,
-    title: String?
+    val id: Int,
+    val url : String,
+    val title: String?
 )
 
 

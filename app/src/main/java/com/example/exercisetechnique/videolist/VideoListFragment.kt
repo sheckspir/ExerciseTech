@@ -34,6 +34,7 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
         val api = ServerApiImpl.getInstance()
         val feature = VideoListFeature(AndroidTimeCapsule(savedInstanceState), api, sex, muscle)
         bindings = VideoListBindings(this, feature)
+        bindings.setup(this)
 
     }
 
@@ -49,7 +50,10 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
         adapter = VideoListAdapter(this)
         view.recyclerVideos.adapter = adapter
         adapter.notifyDataSetChanged()
-        bindings.setup(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
         uiEventSource.onNext(UIEventVideos.RedownloadAllVideos)
     }
 

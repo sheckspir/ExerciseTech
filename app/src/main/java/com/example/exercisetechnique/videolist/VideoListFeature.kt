@@ -53,29 +53,15 @@ class VideoListFeature(
 
     class ActorImpl(private val service: ServerApi, private val sex: Sex, private val muscle: Muscle) : Actor<State, Wish, Effect> {
         override fun invoke(state: State, action: Wish): Observable<out Effect> {
+            Log.d("TAG", "new action in videos $action")
             return when(action) {
                 is Wish.RedownloadList -> {
                     Observable.just(Effect.StartedLoading as Effect)
                         .observeOn(AndroidSchedulers.mainThread())
-//                        .subscribeOn(Schedulers.computation())
-//                        .observeOn(Schedulers.computation())
                         .mergeWith(service.getVideoList(sex == Sex.MALE, muscle)
                             .map { Effect.LoadedVideosInfo(it) as Effect}
                             .onErrorReturn { Effect.ErrorLoading(it) }
                             .observeOn(AndroidSchedulers.mainThread()))
-//                        .onErrorReturn { Effect.ErrorLoading(it) }
-
-//                    service.getVideoList(sex == Sex.MALE, muscle)
-//                        .map { Effect.LoadedVideosInfo(it) as Effect }
-
-//                        .startWith{ Effect.StartedLoading}
-//                        .onErrorReturn { Effect.ErrorLoading(it) }
-//                    val array = ArrayList<VideoInfo>().apply{
-//                        add(YouTubeVideoInfo("NvL6jeV05Wk"))
-//                        add(YouTubeVideoInfo("NvL6jeV05Wk"))
-//                        add(YouTubeVideoInfo("NvL6jeV05Wk"))
-//                    }
-//                    just(Effect.LoadedVideosInfo(array))
                 }
                 else -> empty() // TODO: 10/9/21 temp
             }
@@ -84,7 +70,6 @@ class VideoListFeature(
 
     class ReducerImpl : Reducer<State, Effect> {
         override fun invoke(state: State, effect: Effect): State {
-            Log.d("TAG", "new effect $effect")
             return when(effect) {
                 is Effect.StartedLoading -> {
                     state.copy(true)

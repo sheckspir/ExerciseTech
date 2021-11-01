@@ -43,6 +43,14 @@ class BodyAreasManager(
         showBody(R.raw.woman_back_muscles, R.drawable.woman_back)
     }
 
+    fun updateSelectedId(muscle: Muscle?) {
+        val shouldUpdate = muscle != selectedId
+        selectedId = muscle
+        if (shouldUpdate) {
+            refreshSvg()
+        }
+    }
+
     private fun showBody(bodyClickable : Int, bodyFull: Int) {
         mAttacher = PhotoViewAttacher(areasImageView)
         mAttacher.setOnDoubleTapListener(object : DefaultOnDoubleTapListener(mAttacher) {
@@ -101,9 +109,7 @@ class BodyAreasManager(
 
         if (canHandleClick) {
             refreshSvg()
-            if (lastSelectedMuscle == selectedId) {
-                listener.onMuscleSelected(selectedId!!)
-            }
+            listener.onMuscleSelected(selectedId!!)
         }
     }
 

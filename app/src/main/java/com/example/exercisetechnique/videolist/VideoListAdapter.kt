@@ -12,7 +12,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import kotlinx.android.synthetic.main.item_video.view.*
 
-class VideoListAdapter(errorListener: ErrorListener): LoadableRecyclerAdapter<VideoInfo>(errorListener) {
+class VideoListAdapter(errorListener: ErrorListener): LoadableRecyclerAdapter<VideoInfo, RecyclerView.ViewHolder>(errorListener) {
 
     private var items: MutableList<VideoInfo> = ArrayList()
 
@@ -38,12 +38,9 @@ class VideoListAdapter(errorListener: ErrorListener): LoadableRecyclerAdapter<Vi
         return YouTubeItemVH(LayoutInflater.from(parent.context).inflate(R.layout.item_video, parent, false))
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is VideoItemVH) {
-            holder.bind(getItem(position))
-        } else {
-            super.onBindViewHolder(holder, position)
-        }
+
+    override fun onBindNestedViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        (holder as VideoItemVH).bind(getItem(position))
     }
 }
 
@@ -58,24 +55,40 @@ class YouTubeItemVH(view: View) : VideoItemVH(view) {
     var videoId : String? = null
     lateinit var youTubePlayer: YouTubePlayer
 
+    val textView = view.textVideoName
+    val gradientVideo = view.viewGradient
+
     init {
         view.playerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener(){
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 super.onReady(youTubePlayer)
                 this@YouTubeItemVH.youTubePlayer = youTubePlayer
                 if (videoId != null) {
-                    youTubePlayer.loadVideo(videoId!!,0f)
+                    youTubePlayer.cueVideo(videoId!!, 0f)
                 }
             }
         })
     }
 
     override fun bind(videoInfo: VideoInfo) {
-        val videoId = (videoInfo as? YouTubeVideoInfo)?.youTubeId
-        this.videoId = videoId
+        if (videoInfo.title != null) {
+            textView.visibility = View.VISIBLE
+            gradientVideo.visibility = View.VISIBLE
+            textView.text = videoInfo.title
+        } else {
+            textView.visibility = View.GONE
+            gradientVideo.visibility = View.GONE
+        }
+        if (videoInfo is YouTubeVideoInfo) {
+            val videoId = videoInfo.youTubeId
+            this.videoId = videoId
 
-        if (::youTubePlayer.isInitialized && videoId != null) {
-            youTubePlayer.cueVideo(videoId, 0f)
+            if (::youTubePlayer.isInitialized) {
+                youTubePlayer.cueVideo(videoId, 0f)
+            }
+        } else {
+            youTubePlayer.cueVideo("", 0f)
+
         }
     }
 }

@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.exercisetechnique.R
 import kotlinx.android.synthetic.main.item_error.view.*
 
-abstract class LoadableRecyclerAdapter<T>(
+abstract class LoadableRecyclerAdapter<T, VH : RecyclerView.ViewHolder>(
     private val errorListener: ErrorListener
     ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -30,7 +30,9 @@ abstract class LoadableRecyclerAdapter<T>(
 
     abstract fun getNestedItemCount() : Int
 
-    abstract fun onCreateNestedViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
+    abstract fun onCreateNestedViewHolder(parent: ViewGroup, viewType: Int): VH
+
+    abstract fun onBindNestedViewHolder(holder: VH, position: Int)
 
     override fun getItemViewType(position: Int): Int {
         if (position == getNestedItemCount()) {
@@ -53,11 +55,13 @@ abstract class LoadableRecyclerAdapter<T>(
         }
     }
 
-    @CallSuper
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    final override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewType = getItemViewType(position)
         if (viewType == TYPE_ERROR) {
             (holder as ErrorVH).bind(errorMessage?:"")
+        } else if (viewType != TYPE_LOADING) {
+            @Suppress("UNCHECKED_CAST")
+            onBindNestedViewHolder(holder as VH, position)
         }
     }
 

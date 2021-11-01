@@ -16,5 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
+    <TextView
+        android:layout_marginStart="@dimen/space_large"
+        android:layout_marginTop="@dimen/space_large"
+        android:id="@+id/textNameMuscle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 
 </FrameLayout>
