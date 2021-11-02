@@ -6,6 +6,7 @@ import com.example.exercisetechnique.model.YouTubeVideoInfo
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
+import java.lang.IllegalArgumentException
 import java.util.concurrent.TimeUnit
 
 interface ServerApi {
@@ -174,6 +175,9 @@ class ServerApiImpl : ServerApi {
         return Completable.timer(10, TimeUnit.MILLISECONDS)
             .andThen(
                 Single.fromCallable {
+                    if (true) {
+                        throw IllegalArgumentException()
+                    }
                     return@fromCallable if (videos.containsKey(muscle)) {
                         videos[muscle]?: emptyList()
                     } else {
