@@ -1,8 +1,7 @@
-package com.example.exercisetechnique.body
+package com.example.exercisetechnique.bodymain.body
 
 import BodyFragment
 import com.badoo.binder.using
-import com.badoo.mvicore.android.AndroidBindings
 import com.example.exercisetechnique.core.AndroidFragmentBindings
 
 class BodyScreenBinding(view: BodyFragment,

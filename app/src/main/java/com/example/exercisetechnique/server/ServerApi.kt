@@ -27,7 +27,9 @@ class ServerApiImpl : ServerApi {
             add(YouTubeVideoInfo("NvL6jeV05Wk"))
         })
 
-        put(Muscle.TRAPECIA, emptyList()) // TODO: 10/30/21 add шраги
+        put(Muscle.TRAPECIA, ArrayList<VideoInfo>().apply {
+            add((YouTubeVideoInfo("8DoT2seNzCs")))
+        }) // TODO: 10/30/21 add шраги
 
         put(Muscle.DELTA, ArrayList<VideoInfo>().apply {
             add(YouTubeVideoInfo("HDBiiEONxhE"))
@@ -58,10 +60,9 @@ class ServerApiImpl : ServerApi {
             add(YouTubeVideoInfo("db5N9RypciI"))
             add(YouTubeVideoInfo("P957YHBOs6Q"))
             add(YouTubeVideoInfo("FqF11YdwxrQ"))
-            add(YouTubeVideoInfo("wYBU8X0"))
             //todo добавить подъём штанги с супинацией
             //todo добавить подтягивания обратным хватом
-            add(YouTubeVideoInfo("BXlu0k2w5_c","Подъём штанги обратным хватом"))
+            add(YouTubeVideoInfo("ygj-wYBU8X0"))
             //todo добавить концентрированный подъём
             //todo добавить молоток
 
@@ -73,7 +74,7 @@ class ServerApiImpl : ServerApi {
 
         put(Muscle.KOSS_PRESS, ArrayList<VideoInfo>().apply {
             add(YouTubeVideoInfo("JWG4ZRvS8n8"))
-            add(YouTubeVideoInfo("PsVSkWk8"))
+            add(YouTubeVideoInfo("ez-PsVSkWk8"))
             add(YouTubeVideoInfo("JOlhML9opNE"))
             add(YouTubeVideoInfo("kBv1yyQN51E"))
             //todo добавить скручивания в висе
@@ -85,7 +86,7 @@ class ServerApiImpl : ServerApi {
 
         put(Muscle.PRESS, ArrayList<VideoInfo>().apply {
             add(YouTubeVideoInfo("JWG4ZRvS8n8"))
-            add(YouTubeVideoInfo("PsVSkWk8"))
+            add(YouTubeVideoInfo("ez-PsVSkWk8"))
             add(YouTubeVideoInfo("JOlhML9opNE"))
             add(YouTubeVideoInfo("kBv1yyQN51E"))
             //todo добавить скручивания в висе
@@ -109,10 +110,12 @@ class ServerApiImpl : ServerApi {
         })
         
         put(Muscle.GOLEN, ArrayList<VideoInfo>().apply {
-            // TODO: 10/30/21 add подъём стоя на носки
+            add(YouTubeVideoInfo("uKaahmlHbMY"))
+            add(YouTubeVideoInfo("mVe69zfPkfs"))
+        // TODO: 10/30/21 add подъём стоя на носки
         })
 
-        put(Muscle.TRAPECIA, ArrayList<VideoInfo>().apply {
+        put(Muscle.TRICEPS, ArrayList<VideoInfo>().apply {
             add(YouTubeVideoInfo("D6q5VT-fGcs"))
             add(YouTubeVideoInfo("db5N9RypciI"))
             add(YouTubeVideoInfo("ixbV51Cd5es"))
@@ -168,7 +171,7 @@ class ServerApiImpl : ServerApi {
     }
 
     override fun getVideoList(male: Boolean, muscle: Muscle): Single<List<VideoInfo>> {
-        return Completable.timer(100, TimeUnit.MILLISECONDS)
+        return Completable.timer(10, TimeUnit.MILLISECONDS)
             .andThen(
                 Single.fromCallable {
                     return@fromCallable if (videos.containsKey(muscle)) {

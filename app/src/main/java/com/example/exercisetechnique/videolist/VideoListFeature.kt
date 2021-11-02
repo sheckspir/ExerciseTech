@@ -25,7 +25,7 @@ class VideoListFeature(
     sex: Sex,
     muscle: Muscle
 ): ActorReducerFeature<VideoListFeature.Wish, VideoListFeature.Effect, VideoListFeature.State, Nothing>(
-    initialState = timeCapsule.get(VideoListFeature::class.java)?: State(false),
+    initialState = timeCapsule.get(VideoListFeature::class.java)?: State(false, muscle),
     bootstrapper = null,
     actor =  ActorImpl(service, sex, muscle),
     reducer = ReducerImpl()
@@ -33,6 +33,7 @@ class VideoListFeature(
 
     data class State(
         val isLoading: Boolean,
+        val muscle: Muscle,
         val videoLists : List<VideoInfo>? = null
     )
 
@@ -78,7 +79,7 @@ class VideoListFeature(
                     state.copy(false)
                 }
                 is Effect.LoadedVideosInfo -> {
-                    state.copy(false, effect.videoLists)
+                    state.copy(false, state.muscle, effect.videoLists)
                 }
             }
         }

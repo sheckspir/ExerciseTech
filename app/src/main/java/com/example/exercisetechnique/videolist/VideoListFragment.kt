@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.badoo.mvicore.android.AndroidTimeCapsule
 import com.example.exercisetechnique.R
-import com.example.exercisetechnique.body.UIEventBody
 import com.example.exercisetechnique.core.LoadableRecyclerAdapter
 import com.example.exercisetechnique.model.Muscle
 import com.example.exercisetechnique.model.Sex
@@ -64,6 +63,7 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
     override fun accept(t: VideoListFeature.State) {
         Log.d("TAG", "new state loading ${t.isLoading} items ${t.videoLists}")
         if (::adapter.isInitialized) {
+            adapter.setMuscle(t.muscle)
             adapter.setItems(t.videoLists)
             adapter.showLoading(t.isLoading)
         }

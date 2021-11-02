@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/bodyFragment"
-        android:name="com.example.exercisetechnique.body.BodyFragment"
+        android:name="com.example.exercisetechnique.bodymain.body.BodyFragment"
         android:label="fragment_body"
         tools:layout="@layout/fragment_body" >
         <argument

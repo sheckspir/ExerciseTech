@@ -1,4 +1,4 @@
-package com.example.exercisetechnique.body
+package com.example.exercisetechnique.bodymain.body
 
 import android.util.Log
 import com.badoo.mvicore.element.Actor
@@ -27,23 +27,24 @@ class BodyFeature constructor(
     }
     sealed class Wish {
         data class SelectMuscle(val muscle: Muscle) : Wish()
+        data class FocusedSide(val side: Side) : Wish()
+        object ChangeSide : Wish()
     }
 
     sealed class Effect {
         data class ShowSelectedMuscle(val muscle: Muscle) : Effect()
+        object HideTitle : Effect()
+        object ShowTitle : Effect()
     }
 
     data class State(val side : Side,
                      val sex: Sex,
-                     val selectedMuscle : Muscle?)
+                     val selectedMuscle : Muscle?,
+                    val showTitleMuscle : Boolean = false)
 
     class ActorImpl(private val navigationPublisher: PublishSubject<NavigationEvent>) : Actor<State, Wish, Effect> {
         override fun invoke(state: State, action: Wish): Observable<out Effect> {
-//            for (one in Thread.currentThread().stackTrace){
-//                Log.d("TAG", one.toString())
-//            }
-            Log.d("TAG", "$this ActorImpl newAction $action")
-            //todo почему это вызывается дважды, после нажатия кнопки после восстановления. Возможно два фрагмента или две фичи
+            Log.d("TAG", "invoke new wish $action")
             val effect =  when(action) {
                 is Wish.SelectMuscle -> {
                     if (state.selectedMuscle != null && action.muscle == state.selectedMuscle) {
@@ -53,6 +54,17 @@ class BodyFeature constructor(
                         Effect.ShowSelectedMuscle(action.muscle)
                     }
                 }
+                is Wish.ChangeSide -> {
+                    Effect.HideTitle
+                }
+                is Wish.FocusedSide -> {
+                    if (action.side == state.side) {
+                        Effect.ShowTitle
+                    } else {
+                        Effect.HideTitle
+                    }
+                }
+                else -> null
             }
             return if (effect != null) {
                  Observable.just(effect)
@@ -65,9 +77,10 @@ class BodyFeature constructor(
 
     class ReducerImpl : Reducer<State, Effect>{
         override fun invoke(state: State, effect: Effect): State {
-            Log.d("TAG", "invoke effect $effect")
             return when(effect) {
-                is Effect.ShowSelectedMuscle -> State(state.side, state.sex, effect.muscle)
+                is Effect.ShowSelectedMuscle -> State(state.side, state.sex, effect.muscle, true)
+                is Effect.HideTitle -> state.copy(showTitleMuscle = false)
+                is Effect.ShowTitle -> state.copy(showTitleMuscle =  true)
             }
         }
     }

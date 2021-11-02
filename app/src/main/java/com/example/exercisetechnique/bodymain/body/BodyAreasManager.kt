@@ -1,4 +1,4 @@
-package com.example.exercisetechnique.body
+package com.example.exercisetechnique.bodymain.body
 
 import android.graphics.*
 import android.graphics.drawable.Drawable

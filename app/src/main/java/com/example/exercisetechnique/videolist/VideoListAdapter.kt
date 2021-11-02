@@ -6,16 +6,26 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.exercisetechnique.R
 import com.example.exercisetechnique.core.LoadableRecyclerAdapter
+import com.example.exercisetechnique.model.Muscle
 import com.example.exercisetechnique.model.VideoInfo
 import com.example.exercisetechnique.model.YouTubeVideoInfo
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import kotlinx.android.synthetic.main.item_title_videos.view.*
 import kotlinx.android.synthetic.main.item_video.view.*
 
 class VideoListAdapter(errorListener: ErrorListener): LoadableRecyclerAdapter<VideoInfo, RecyclerView.ViewHolder>(errorListener) {
 
     private var items: MutableList<VideoInfo> = ArrayList()
 
+    private var muscle : Muscle? = null
+
+    fun setMuscle(muscle: Muscle) {
+        if (this.muscle != muscle) {
+            this.muscle = muscle
+            notifyDataSetChanged()
+        }
+    }
 
     fun setItems(items : List<VideoInfo>?) {
         this.items.clear()
@@ -25,25 +35,74 @@ class VideoListAdapter(errorListener: ErrorListener): LoadableRecyclerAdapter<Vi
         notifyDataSetChanged()
     }
 
-    override fun getItem(position: Int): VideoInfo {
-        return items[position]
+    override fun getItemViewType(position: Int): Int {
+        val nestedItems = getNestedItemCount()
+        if (position < nestedItems) {
+            if(position == 0) {
+                return TYPE_TITLE
+            } else {
+                if (items[position - 1] is YouTubeVideoInfo) {
+                    return TYPE_YOUTUBE
+                }
+            }
+        }
+        return super.getItemViewType(position)
     }
 
-    override fun getNestedItemCount() = items.size
+    override fun getItem(position: Int): VideoInfo {
+        return items[position - 1]
+    }
+
+    override fun getNestedItemCount() : Int {
+        return if (items.size > 0) {
+            items.size + 1
+        } else {
+            items.size
+        }
+    }
 
     override fun onCreateNestedViewHolder(
         parent: ViewGroup,
         viewType: Int,
     ): RecyclerView.ViewHolder {
-        return YouTubeItemVH(LayoutInflater.from(parent.context).inflate(R.layout.item_video, parent, false))
+        return if (viewType == TYPE_YOUTUBE) {
+            YouTubeItemVH(LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_video, parent, false))
+        } else {
+            TitleVideosVH(LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_title_videos, parent, false))
+        }
     }
 
 
     override fun onBindNestedViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as VideoItemVH).bind(getItem(position))
+        if (holder is VideoItemVH) {
+            holder.bind(getItem(position))
+        } else if (holder is TitleVideosVH){
+            holder.bind(muscle)
+        }
+    }
+
+    companion object{
+        private const val TYPE_TITLE = 10
+        private const val TYPE_YOUTUBE = 20
     }
 }
 
+class TitleVideosVH(view: View) : RecyclerView.ViewHolder(view) {
+
+    private val textView = view.textTitle
+
+    fun bind(muscle: Muscle?) {
+        if (muscle == null) {
+            itemView.visibility = View.GONE
+        } else {
+            textView.setText(muscle.muscleName)
+            itemView.visibility = View.VISIBLE
+        }
+
+    }
+}
 abstract class VideoItemVH(view: View) : RecyclerView.ViewHolder(view) {
 
     abstract fun bind(videoInfo: VideoInfo)

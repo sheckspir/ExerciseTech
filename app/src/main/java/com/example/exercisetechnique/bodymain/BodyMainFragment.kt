@@ -1,6 +1,8 @@
 package com.example.exercisetechnique.bodymain
 
+import BodyFragment
 import android.animation.*
+import android.app.ActionBar
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,21 +11,36 @@ import android.view.ViewGroup
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
 import com.example.exercisetechnique.R
+import com.example.exercisetechnique.core.ObservableSourceEventContainer
 import com.example.exercisetechnique.model.Sex
 import com.example.exercisetechnique.model.Side
+import io.reactivex.ObservableSource
+import io.reactivex.Observer
+import io.reactivex.functions.Consumer
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_body_main.*
 import kotlinx.android.synthetic.main.fragment_body_main.view.*
 
-class BodyMainFragment : Fragment() {
+class BodyMainFragment : Fragment(), ObservableSource<UIEventMainBody>, Consumer<BodyMainFeature.State>, ObservableSourceEventContainer<UIEventMainBody>{
 
-    private lateinit var sex : Sex
+    private val source = PublishSubject.create<UIEventMainBody>()
+    private lateinit var binding : BodyMainScreenBinding
+
+    override fun getSource(): PublishSubject<out UIEventMainBody> {
+        return source
+    }
+
+    override fun subscribe(observer: Observer<in UIEventMainBody>) {
+        source.subscribe(observer)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("TAG", "onCreate MainBody")
-        arguments?.let {
-            sex = it.getSerializable(BodyFragment.ARG_SEX) as Sex
+        val sex : Sex = requireArguments().let {
+            it.getSerializable(BodyFragment.ARG_SEX) as Sex
         }
+        binding = BodyMainScreenBinding(this, BodyMainFeature(sex))
+        binding.setup(this)
     }
 
     override fun onCreateView(
@@ -35,49 +52,134 @@ class BodyMainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (isAdded){
-            Log.d("TAG", "onViewCreated")
-            if (childFragmentManager.findFragmentById(R.id.firstContainer) == null) {
-                childFragmentManager.beginTransaction()
-                    .add(R.id.firstContainer, BodyFragment.newInstance(sex, Side.FRONT))
-                    .add(R.id.secondContainer, BodyFragment.newInstance(sex, Side.BACK))
-                    .commit()
-            } else {
-                Log.d("TAG", "${childFragmentManager.findFragmentById(R.id.firstContainer)}")
-            }
-        }
-
         view.buttonChangeSides.setOnClickListener {
-            Log.d("TAG", "click changeSide")
-            if (!animatorsChangeSide.isRunning) {
-                changeSide()
-            }
-
+            source.onNext(UIEventMainBody.ChangeSideClicked)
         }
     }
 
-    val animatorsChangeSide = AnimatorSet().apply {
-        addListener({
-            Log.d("TAG","ended")
-            buttonChangeSides.isClickable = true
-        }, {
-            Log.d("TAG","started")
-            buttonChangeSides.isClickable = false
-        }, {}, {})
+    override fun onResume() {
+        super.onResume()
+        Log.d("TAG", "onResume")
+        val frontFragment = childFragmentManager.findFragmentById(R.id.firstContainer) as BodyFragment
+        val backFragment = childFragmentManager.findFragmentById(R.id.secondContainer) as BodyFragment
+
+        binding.setupInnerFeatures(frontFragment.feature, backFragment.feature)
     }
 
-    private fun changeSide() {
-        if (animatorsChangeSide.isRunning || !isAdded) {
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun accept(t: BodyMainFeature.State?) {
+        Log.d("TAG","accept new state in mainBody $t")
+        if (t == null) {
             return
         }
-        val fullWidth = requireView().width
-        val fullHeight = requireView().height
+
+        if (childFragmentManager.findFragmentById(R.id.firstContainer) == null) {
+            Log.d("TAG", "add fragments")
+            val frontFragment = BodyFragment.newInstance(t.sex, Side.FRONT)
+            val backFragment = BodyFragment.newInstance(t.sex, Side.BACK)
+            childFragmentManager.beginTransaction()
+                .add(R.id.firstContainer, frontFragment)
+                .add(R.id.secondContainer, backFragment)
+                .commit()
+
+        } else {
+            Log.d("TAG", "${childFragmentManager.findFragmentById(R.id.firstContainer)}")
+        }
+
+        buttonChangeSides.isClickable = t.active
+
+        if (t.side == Side.FRONT) {
+            focusFront(!t.active)
+        } else {
+            focusBack(!t.active)
+        }
+    }
+
+    private val animatorsChangeSide = AnimatorSet().apply {
+        addListener({
+            Log.d("TAG", "Animation ended")
+            source.onNext(UIEventMainBody.FocusedSide)
+        }, {}, {}, {})
+    }
+
+    private fun frontOnTop(): Boolean {
+        return firstContainer.width == view?.measuredWidth
+    }
+
+    private fun focusFront(animated : Boolean) {
+        if (!isAdded) {
+            return
+        }
+        if (animatorsChangeSide.isRunning) {
+            animatorsChangeSide.pause()
+        }
+
+        var fullWidth = requireView().measuredWidth
+        var fullHeight = requireView().measuredHeight
+        val smallWidth = resources.getDimension(R.dimen.bodies_small_view_width).toInt()
+        val smallHeight = resources.getDimension(R.dimen.bodies_small_view_height).toInt()
+        if (fullWidth == 0 || fullHeight == 0) {
+            val parentWidth = (requireView().parent as View).width
+            val parentHeight = (requireView().parent as View).height
+            if (requireView().layoutParams.width == ViewGroup.LayoutParams.MATCH_PARENT
+                && requireView().layoutParams.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+                fullWidth = parentWidth
+                fullHeight = parentHeight
+            } else {
+                requireView().measure(parentWidth, parentHeight)
+                fullHeight = requireView().measuredHeight
+                fullWidth = requireView().measuredWidth
+            }
+        }
+
+        if (animated) {
+            animatorsChangeSide.playTogether(
+                createChangeAnimation(fullHeight, smallHeight,
+                    fullWidth, smallWidth,
+                    0f, 0f,
+                    secondContainer, firstContainer)
+            )
+            animatorsChangeSide.start()
+        } else {
+            firstContainer.layoutParams.width = fullWidth
+            firstContainer.layoutParams.height = fullHeight
+            firstContainer.requestLayout()
+            secondContainer.layoutParams.width = smallWidth
+            secondContainer.layoutParams.height = smallHeight
+            secondContainer.requestLayout()
+        }
+    }
+
+    private fun focusBack(animated: Boolean) {
+        if (!isAdded) {
+            return
+        }
+        if (animatorsChangeSide.isRunning) {
+            animatorsChangeSide.pause()
+        }
+
+        var fullWidth = requireView().measuredWidth
+        var fullHeight = requireView().measuredHeight
         val smallWidth = resources.getDimension(R.dimen.bodies_small_view_width).toInt()
         val smallHeight = resources.getDimension(R.dimen.bodies_small_view_height).toInt()
 
-
-        Log.d("TAG", "widthFull = $fullWidth firstWidth = ${firstContainer.width} measured = ${view?.measuredWidth}")
-        if (firstContainer.width == view?.measuredWidth) {
+        if (fullWidth == 0 || fullHeight == 0) {
+            val parentWidth = (requireView().parent as View).width
+            val parentHeight = (requireView().parent as View).height
+            if (requireView().layoutParams.width == ViewGroup.LayoutParams.MATCH_PARENT
+                && requireView().layoutParams.height == ViewGroup.LayoutParams.MATCH_PARENT) {
+                fullWidth = parentWidth
+                fullHeight = parentHeight
+            } else {
+                requireView().measure(parentWidth, parentHeight)
+                fullHeight = requireView().measuredHeight
+                fullWidth = requireView().measuredWidth
+            }
+        }
+        if (animated) {
             animatorsChangeSide.playTogether(
                 createChangeAnimation(fullHeight, smallHeight,
                     fullWidth, smallWidth,
@@ -86,13 +188,12 @@ class BodyMainFragment : Fragment() {
             )
             animatorsChangeSide.start()
         } else {
-            animatorsChangeSide.playTogether(
-                createChangeAnimation(fullHeight, smallHeight,
-                    fullWidth, smallWidth,
-                    0f, 0f,
-                    secondContainer, firstContainer)
-            )
-            animatorsChangeSide.start()
+            secondContainer.layoutParams.width = fullWidth
+            secondContainer.layoutParams.height = fullHeight
+            secondContainer.requestLayout()
+            firstContainer.layoutParams.width = smallWidth
+            firstContainer.layoutParams.height = smallHeight
+            firstContainer.requestLayout()
         }
     }
 
@@ -103,10 +204,10 @@ class BodyMainFragment : Fragment() {
         fromView: View, toView: View,
     ) : ArrayList<Animator> {
         return arrayListOf(
-            ValueAnimator.ofObject(WidthEvaluator(fromView), fromWidth, toWidth).apply { duration = 500 },
-            ValueAnimator.ofObject(HeightEvaluator(fromView), fromHeight, toHeight).apply { duration = 450 },
-            ValueAnimator.ofObject(WidthEvaluator(toView), toWidth, fromWidth).apply { duration = 500 },
-            ValueAnimator.ofObject(HeightEvaluator(toView), toHeight, fromHeight).apply { duration = 450 },
+            ValueAnimator.ofObject(WidthEvaluator(fromView), fromView.width, toWidth).apply { duration = 500 },
+            ValueAnimator.ofObject(HeightEvaluator(fromView), fromView.height, toHeight).apply { duration = 450 },
+            ValueAnimator.ofObject(WidthEvaluator(toView), toView.width, fromWidth).apply { duration = 500 },
+            ValueAnimator.ofObject(HeightEvaluator(toView), toView.height, fromHeight).apply { duration = 450 },
             ObjectAnimator.ofFloat(fromView, "elevation", fromElevation, toElevation).apply { duration = 500 },
             ObjectAnimator.ofFloat(toView, "elevation", toElevation, fromElevation).apply { duration = 500 }
         )
@@ -126,7 +227,6 @@ class BodyMainFragment : Fragment() {
         override fun evaluate(fraction: Float, startValue: Int?, endValue: Int?): Int {
             val num = super.evaluate(fraction, startValue, endValue) as Int
             val params: ViewGroup.LayoutParams = view.layoutParams
-            Log.d("TAG", "current value $num endValue $endValue")
             params.height = num
             view.requestLayout()
             return num
