@@ -19,7 +19,7 @@ import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class VideoListFeature(
+class VideoListFeature constructor(
     timeCapsule: TimeCapsule<Parcelable>,
     service: ServerApi,
     sex: Sex,

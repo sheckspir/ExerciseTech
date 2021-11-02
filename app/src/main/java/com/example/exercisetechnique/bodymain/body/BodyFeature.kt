@@ -22,9 +22,6 @@ class BodyFeature constructor(
     reducer = ReducerImpl()
 ) {
 
-    init {
-        Log.d("TAG", "BodyFeature inited $this")
-    }
     sealed class Wish {
         data class SelectMuscle(val muscle: Muscle) : Wish()
         data class FocusedSide(val side: Side) : Wish()

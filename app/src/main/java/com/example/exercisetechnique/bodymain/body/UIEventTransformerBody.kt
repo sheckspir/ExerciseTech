@@ -1,10 +1,7 @@
 package com.example.exercisetechnique.bodymain.body
 
 import com.example.exercisetechnique.UIEvent
-import com.example.exercisetechnique.bodymain.BodyMainFeature
 import com.example.exercisetechnique.bodymain.UIEventMainBody
-import com.example.exercisetechnique.model.Muscle
-import com.example.exercisetechnique.model.Side
 
 
 class UIEventTransformerBody : (UIEvent) -> BodyFeature.Wish? {
