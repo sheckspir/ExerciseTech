@@ -4,9 +4,7 @@ import com.example.exercisetechnique.model.Muscle
 import com.example.exercisetechnique.model.VideoInfo
 import com.example.exercisetechnique.model.YouTubeVideoInfo
 import io.reactivex.Completable
-import io.reactivex.Observable
 import io.reactivex.Single
-import java.lang.IllegalArgumentException
 import java.util.concurrent.TimeUnit
 
 interface ServerApi {
@@ -21,7 +19,6 @@ class ServerApiImpl : ServerApi {
         private val instance : ServerApi = ServerApiImpl()
         fun getInstance() = instance
     }
-
     private val videos : Map<Muscle, List<VideoInfo>> = HashMap<Muscle, List<VideoInfo>>().apply {
 
         put(Muscle.NECK, ArrayList<VideoInfo>().apply{
@@ -175,9 +172,6 @@ class ServerApiImpl : ServerApi {
         return Completable.timer(10, TimeUnit.MILLISECONDS)
             .andThen(
                 Single.fromCallable {
-                    if (true) {
-                        throw IllegalArgumentException()
-                    }
                     return@fromCallable if (videos.containsKey(muscle)) {
                         videos[muscle]?: emptyList()
                     } else {

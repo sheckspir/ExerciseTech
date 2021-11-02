@@ -25,6 +25,20 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
     private lateinit var adapter: VideoListAdapter
     private val uiEventSource = PublishSubject.create<UIEventVideos>()
 
+    val newsConsumer =
+        Consumer<VideoListFeature.News> { t ->
+            if (t is VideoListFeature.News.ErrorExecuteRequest) {
+                Log.d("TAG","newsConsumer react")
+                if (::adapter.isInitialized) {
+                    var message = t.throwable.message
+                    if (message.isNullOrBlank()) {
+                        message = t.throwable.toString()
+                    }
+                    adapter.showError(message)
+                }
+            }
+        }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

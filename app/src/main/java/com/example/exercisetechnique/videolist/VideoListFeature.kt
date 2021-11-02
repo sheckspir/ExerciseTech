@@ -24,11 +24,12 @@ class VideoListFeature(
     service: ServerApi,
     sex: Sex,
     muscle: Muscle
-): ActorReducerFeature<VideoListFeature.Wish, VideoListFeature.Effect, VideoListFeature.State, Nothing>(
+): ActorReducerFeature<VideoListFeature.Wish, VideoListFeature.Effect, VideoListFeature.State, VideoListFeature.News>(
     initialState = timeCapsule.get(VideoListFeature::class.java)?: State(false, muscle),
     bootstrapper = null,
     actor =  ActorImpl(service, sex, muscle),
-    reducer = ReducerImpl()
+    reducer = ReducerImpl(),
+    newsPublisher = NewsPublisherImpl()
 ) {
 
     data class State(

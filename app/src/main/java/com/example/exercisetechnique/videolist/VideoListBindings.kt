@@ -9,5 +9,6 @@ private val feature: VideoListFeature): AndroidFragmentBindings<VideoListFragmen
     override fun setup(view: VideoListFragment) {
         binder.bind(view to feature using UIEventTransformerVideos())
         binder.bind(feature to view)
+        binder.bind(feature.news to view.newsConsumer)
     }
 }
