@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/checkSexFragment"
-        android:name="com.example.exercisetechnique.checksex.CheckSexFragment"
+        android:name="ru.fm4m.exercisetechnique.checksex.CheckSexFragment"
         android:label="fragment_check_sex"
         tools:layout="@layout/fragment_check_sex" >
         <action
@@ -17,11 +17,11 @@
 
     <fragment
         android:id="@+id/bodyMainFragment2"
-        android:name="com.example.exercisetechnique.bodymain.BodyMainFragment"
+        android:name="ru.fm4m.exercisetechnique.bodymain.BodyMainFragment"
         android:label="BodyMainFragment" >
         <argument
             android:name="sex"
-            app:argType="com.example.exercisetechnique.model.Sex" />
+            app:argType="ru.fm4m.exercisetechnique.model.Sex" />
         <action
             android:id="@+id/action_bodyMainFragment2_to_bodyFragment"
             app:destination="@id/bodyFragment" />
@@ -32,27 +32,27 @@
 
     <fragment
         android:id="@+id/bodyFragment"
-        android:name="com.example.exercisetechnique.bodymain.body.BodyFragment"
+        android:name="ru.fm4m.exercisetechnique.bodymain.body.BodyFragment"
         android:label="fragment_body"
         tools:layout="@layout/fragment_body" >
         <argument
             android:name="sex"
-            app:argType="com.example.exercisetechnique.model.Sex" />
+            app:argType="ru.fm4m.exercisetechnique.model.Sex" />
         <argument
             android:name="side"
-            app:argType="com.example.exercisetechnique.model.Side" />
+            app:argType="ru.fm4m.exercisetechnique.model.Side" />
     </fragment>
     <fragment
         android:id="@+id/videoListFragment"
-        android:name="com.example.exercisetechnique.videolist.VideoListFragment"
+        android:name="ru.fm4m.exercisetechnique.videolist.VideoListFragment"
         android:label="fragment_video_list"
         tools:layout="@layout/fragment_video_list" >
         <argument
             android:name="muscle"
-            app:argType="com.example.exercisetechnique.model.Muscle" />
+            app:argType="ru.fm4m.exercisetechnique.model.Muscle" />
         <argument
             android:name="sex"
-            app:argType="com.example.exercisetechnique.model.Sex"
+            app:argType="ru.fm4m.exercisetechnique.model.Sex"
             android:defaultValue="MALE" />
     </fragment>
 
