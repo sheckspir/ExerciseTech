@@ -20,7 +20,7 @@ class VideoListFeature constructor(
 ): ActorReducerFeature<VideoListFeature.Wish, VideoListFeature.Effect, VideoListFeature.State, VideoListFeature.News>(
     initialState = timeCapsule.get(VideoListFeature::class.java)?: State(false, muscle),
     bootstrapper = null,
-    actor =  ActorImpl(service, sex, muscle),
+    actor = ActorImpl(service, sex, muscle),
     reducer = ReducerImpl(),
     newsPublisher = NewsPublisherImpl()
 ) {

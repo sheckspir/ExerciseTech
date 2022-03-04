@@ -3,6 +3,7 @@
 
     <string name="man_button">♂  Мужчина</string>
     <string name="woman_button">♀  Женщина</string>
+    <string name="search_button">Поиск</string>
 
     <string name="retry_button">Повторить</string>
 

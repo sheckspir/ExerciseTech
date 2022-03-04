@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:clickable="true"
+    android:foreground="?selectableItemBackground"
+    android:id="@+id/layoutVideoInfo"
+    android:orientation="horizontal"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageVideo"
+        android:layout_margin="@dimen/space_small"
+        android:layout_width="90dp"
+        android:layout_height="@dimen/button_regular_height"/>
+
+    <TextView
+        android:layout_margin="@dimen/space_small"
+        tools:text="Name of video"
+        android:id="@+id/textVideoName"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

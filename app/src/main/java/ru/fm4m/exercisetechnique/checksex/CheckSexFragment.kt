@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.fragment_check_sex.view.*
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.bodymain.BodyMainFragment
 import ru.fm4m.exercisetechnique.model.Sex
@@ -36,6 +37,10 @@ class CheckSexFragment : Fragment() {
             findNavController().navigate(R.id.action_checkSexFragment_to_bodyMainFragment2,Bundle().apply {
                 putSerializable(BodyMainFragment.ARG_SEX, Sex.FEMALE)
             })
+        }
+
+        view.buttonSearch.setOnClickListener{
+            findNavController().navigate(R.id.action_checkSexFragment_to_searchVideosFragment)
         }
 
 

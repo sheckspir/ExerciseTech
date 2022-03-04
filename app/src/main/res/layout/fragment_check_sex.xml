@@ -27,6 +27,15 @@
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/space_regular"
             android:text="@string/woman_button" />
+
+        <Button
+            android:id="@+id/buttonSearch"
+            android:layout_margin="@dimen/space_regular"
+            android:minHeight="@dimen/button_regular_height"
+            android:layout_width="match_parent"
+            android:text="@string/search_button"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 </FrameLayout>

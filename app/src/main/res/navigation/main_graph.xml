@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_checkSexFragment_to_bodyMainFragment2"
             app:destination="@id/bodyMainFragment2" />
+        <action
+            android:id="@+id/action_checkSexFragment_to_searchVideosFragment"
+            app:destination="@id/searchVideosFragment" />
     </fragment>
 
     <fragment
@@ -54,6 +57,22 @@
             android:name="sex"
             app:argType="ru.fm4m.exercisetechnique.model.Sex"
             android:defaultValue="MALE" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchVideosFragment"
+        android:name="ru.fm4m.exercisetechnique.videosearch.SearchVideosFragment"
+        android:label="SearchVideosFragment" >
+        <action
+            android:id="@+id/action_searchVideosFragment_to_oneVideoFragment"
+            app:destination="@id/oneVideoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/oneVideoFragment"
+        android:name="ru.fm4m.exercisetechnique.onevideo.OneVideoFragment"
+        android:label="OneVideoFragment" >
+        <argument
+            android:name="info"
+            app:argType="ru.fm4m.exercisetechnique.model.VideoInfo" />
     </fragment>
 
 </navigation>
