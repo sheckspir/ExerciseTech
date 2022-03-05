@@ -6,9 +6,10 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17980072463768115" />
         <entry key="app/src/main/res/layout/fragment_body.xml" value="0.17980072463768115" />
         <entry key="app/src/main/res/layout/fragment_check_sex.xml" value="0.17980072463768115" />
+        <entry key="app/src/main/res/layout/fragment_new_program.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_one_video.xml" value="0.1887031408308004" />
         <entry key="app/src/main/res/layout/fragment_video_list.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_video_search.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/fragment_video_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/item_video_short.xml" value="0.17753623188405798" />
       </map>
     </option>

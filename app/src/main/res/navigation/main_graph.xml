@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/checkSexFragment"
-        android:name="ru.fm4m.exercisetechnique.checksex.CheckSexFragment"
+        android:name="ru.fm4m.exercisetechnique.checksex.ChooseFirstFragment"
         android:label="fragment_check_sex"
         tools:layout="@layout/fragment_check_sex" >
         <action
@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_checkSexFragment_to_searchVideosFragment"
             app:destination="@id/searchVideosFragment" />
+        <action
+            android:id="@+id/action_checkSexFragment_to_newProgramFragment"
+            app:destination="@id/newProgramFragment" />
     </fragment>
 
     <fragment
@@ -73,6 +76,14 @@
         <argument
             android:name="info"
             app:argType="ru.fm4m.exercisetechnique.model.VideoInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/newProgramFragment"
+        android:name="ru.fm4m.exercisetechnique.newprogram.NewProgramFragment"
+        android:label="NewProgramFragment" >
+        <action
+            android:id="@+id/action_newProgramFragment_to_oneVideoFragment"
+            app:destination="@id/oneVideoFragment" />
     </fragment>
 
 </navigation>

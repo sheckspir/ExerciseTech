@@ -261,6 +261,28 @@ class ServerApiImpl : ServerApi {
                     add(YouTubeVideoInfo("1-ut6uXyZ6o", null, arrayListOf("Махи гантелями через стороны сидя", "Махи гантелями в стороны сидя","дельты", "плечи","средний пучок")))
                     add(YouTubeVideoInfo("63n8aYEhTbk", null, arrayListOf("Подъем EZ-грифа на бицепс у стены", "строгий подъем на бицепс", "бицепс")))
                     add(YouTubeVideoInfo("Tyx1WBWFV6Q", null, arrayListOf("Разгибания кистей с гантелями","Разгибание Кистей с Гантелью Попеременно", "предплечья")))
+
+                    add(YouTubeVideoInfo("ULD3MHqt2Mg", null, arrayListOf("приседания со штангой", "ПРИСЕДАНИЯ классические","квадрицепс")))
+                    add(YouTubeVideoInfo("u7WBL40UC1c", null, arrayListOf("приседания с упоров до середины с удержанием", "Приседания с Упоров до Середины  + удержание 2 сек", "квадрицепс")))
+                    add(YouTubeVideoInfo("jFC-wIcUgok", null, arrayListOf("Мертвая тяга", "ягодицы", "ягодичные", "жопа", "бицепс бедра")))
+                    add(YouTubeVideoInfo("IsWtXXv1E8o", null, arrayListOf("Становая тяга", "Мертвая тяга", "широчайшие", "спина", "ягодицы", "ягодичные", "жопа")))
+                    add(YouTubeVideoInfo("qz8QvMGHJu0", null, arrayListOf("разгибание ног в тренажёре сидя", "Разгибание в Тренажере", "квадрицепс")))
+                    add(YouTubeVideoInfo("xS1KbQzAj7g", null, arrayListOf("Разгибание голени в тренажёре одной ногой", "Разгибание бедра в тренажёре одной ногой", "Разгибание в Тренажере ОДНОЙ ногой", "квадрицепс")))
+                    add(YouTubeVideoInfo("zAY_dFM6OC4", null, arrayListOf("Подъём ног в висе", "Скручивания в висе", "Подъем прямых ног к перекладине в висе", "пресс")))
+                    add(YouTubeVideoInfo("uli2PqMd2BA", null, arrayListOf("Подъём ног в висе", "Скручивания в висе", "Подъем прямых ног к перекладине в висе","пресс")))
+
+                    add(YouTubeVideoInfo("OlZwuV_0TDo", null, arrayListOf("Жим штанги средним хватом", "грудь", "грудные")))
+                    add(YouTubeVideoInfo("uFTH_rqLQNI", null, arrayListOf("Жим на смите перед собой", "Жим штанги сидя в тренажере Смита", "Жим штанги сидя в Смите", "Жим сидя в Смите до середины", "плечи", "дельты")))
+                    add(YouTubeVideoInfo("bF4T6-Mh0MU", null, arrayListOf("Подтягивания обратным хватом", "Подтягивания средним хватом", "широчайшие", "спина")))
+                    add(YouTubeVideoInfo("Y9x7blBNwJo", null, arrayListOf("ТЯГА ШТАНГИ К ПОДБОРОДКУ", "армейский жим","плечи","дельты")))
+                    add(YouTubeVideoInfo("oz_ecw_Pasc", null, arrayListOf("Французский жим с EZ-грифом ", "Французский жим лёжа", "Французский жим лежа", "трицепс")))
+                    add(YouTubeVideoInfo("uVO3IWanU_Y", null, arrayListOf("Сгибание кисти с гантелей", "Сгибание Кистей с Гантелью Попеременно", "предплечья")))
+
+                    add(YouTubeVideoInfo("duSnLRneftc", null, arrayListOf("Становая тяга", "квадрицепс", "широчайшие", "спина")))
+                    add(YouTubeVideoInfo("cB3ztFmAXnU", null, arrayListOf("Тяга штанги в наклоне","Тяга Штанги в Наклоне Обратным Хватом", "широчайшие", "спина")))
+                    add(YouTubeVideoInfo("Zpen5apxTk4", null, arrayListOf("Пуловер", "Пуловер У Блока", "грудь", "грудные")))
+                    add(YouTubeVideoInfo("S1vGMpdqdzM", null, arrayListOf("Сгибание Голени Одной Ногой", "Сгибание ноги в тренажёре стоя", "бицепс бедра" )))
+                    add(YouTubeVideoInfo("kBv1yyQN51E", null, arrayListOf("Скручивания", "пресс")))
                 }
             })
     }

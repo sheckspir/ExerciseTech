@@ -6,6 +6,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <EditText
+        android:textColor="@color/text_primary"
+        android:textColorHint="@color/text_hint_primary"
+        android:hint="@string/hint_search"
         android:id="@+id/editTextSearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

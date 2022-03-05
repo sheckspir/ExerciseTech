@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".checksex.CheckSexFragment">
+    tools:context=".checksex.ChooseFirstFragment">
 
     <LinearLayout
         android:layout_gravity="center"
@@ -34,6 +34,14 @@
             android:minHeight="@dimen/button_regular_height"
             android:layout_width="match_parent"
             android:text="@string/search_button"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/buttonNewProgram"
+            android:text="@string/new_program_button"
+            android:layout_margin="@dimen/space_regular"
+            android:minHeight="@dimen/button_regular_height"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
     </LinearLayout>

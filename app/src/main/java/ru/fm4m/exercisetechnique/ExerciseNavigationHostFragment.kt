@@ -24,6 +24,12 @@ class ExerciseNavigationHostFragment: NavHostFragment(), NavigationPublisherCont
                         this.putSerializable(OneVideoFragment.ARG_VIDEO_INFO, it.videoInfo)
                     })
                 }
+                // TODO: костыль. А как сделать так чтобы не надо было думать откуда прилетело? Может сделать из базового переход?
+                is NavigationEvent.ShowOneVideoFromNewProgram -> {
+                    findNavController().navigate(R.id.action_newProgramFragment_to_oneVideoFragment, Bundle().apply {
+                        this.putSerializable(OneVideoFragment.ARG_VIDEO_INFO, it.videoInfo)
+                    })
+                }
                 else -> {
                     //do nothing
                 }
