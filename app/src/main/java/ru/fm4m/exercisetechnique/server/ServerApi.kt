@@ -49,25 +49,29 @@ class ServerApiImpl : ServerApi {
             add(YouTubeVideoInfo("Pw97SOiOGyQ", null, arrayListOf("Протяжка", "протяжка со штангой", "плечи", "дельты" )))
             add(YouTubeVideoInfo("We1g2CnoVOY", null, arrayListOf("Протяжка", "протяжка в тренажере", "протяжка блока", "плечи", "дельты", "задний пучок", "задняя дельта")))
             add(YouTubeVideoInfo("uFTH_rqLQNI", null, arrayListOf("Жим на смите перед собой", "Жим штанги сидя в тренажере Смита", "Жим штанги сидя в Смите", "Жим сидя в Смите до середины", "плечи", "дельты")))
-
+            add(YouTubeVideoInfo("1pBefch_wcc", "Жим из-за головы в Смите сидя", arrayListOf("Жим из-за головы в Смите сидя", "Жим штанги сидя в тренажере Смита", "Жим из-за головы","плечи", "дельты")))
+            add(YouTubeVideoInfo("GBGI44G2Txg", null, arrayListOf("Отведение на Блоке одной рукой на заднюю дельту","Отведение в сторону на нижнем блоке", "Махи руками назад в кроссовере", "плечи","дельты")))
+            add(YouTubeVideoInfo("Hdez37pVs3U", null, arrayListOf("Махи в сторону одной рукой в кроссовере", "МАХИ у Блока По Переменно каждой рукой", "махи в блоке на дельты", "махи у блока на плечи", "плечи", "дельты")))
             add(YouTubeVideoInfo("HDBiiEONxhE", null, arrayListOf("плечи", "дельты", "полное видео")))
+
         })
         put(Muscle.CHEST, ArrayList<VideoInfo>().apply {
 
-            add(YouTubeVideoInfo("XUeE5cTzsfo", null, arrayListOf("Жим штанги лёжа классический", "жим лёжа", "грудь", "грудные")))
-            add(YouTubeVideoInfo("JsWe_LgS3OU", null, arrayListOf("Жим штанги лёжа узким хватом", "Жим узким хватом", "грудь", "грудные", "трицепс")))
+            add(YouTubeVideoInfo("XUeE5cTzsfo", null, arrayListOf("Жим штанги лёжа классический", "Жим штанги на горизонтальной скамье", "жим лёжа", "грудь", "грудные")))
+            add(YouTubeVideoInfo("JsWe_LgS3OU", null, arrayListOf("Жим штанги лёжа узким хватом", "Жим узким хватом", "Жим штанги Узким Хватом", "грудь", "грудные", "трицепс")))
             add(YouTubeVideoInfo("HuivGGB9Wlg", null, arrayListOf("Жим штанги лёжа под углом", "Жим штанги под углом", "Жим штанги на наклонной", "грудь", "грудные")))
             add(YouTubeVideoInfo("lBJuRIoqrrI", null, arrayListOf("Жим штанги с упоров", "Жим с упоров","грудь", "грудные")))
             add(YouTubeVideoInfo("OlZwuV_0TDo", null, arrayListOf("Жим штанги средним хватом", "грудь", "грудные")))
             add(YouTubeVideoInfo("e-8rXstgMCA", null, arrayListOf("Жим штанги в Смите", "грудь", "грудные")))
-
             add(YouTubeVideoInfo("eOxRFx8LBng", null, arrayListOf("Сведение рук в тренажёре", "Бабочка", "грудь", "грудные")))
-
-            add(YouTubeVideoInfo("xwtaHancCQc", null, arrayListOf("Жим Гантелей Лежа На Наклонной Скамье", "Жим Гантелей На Наклонной Скамье", "Жим Гантелей под 30 градусов", "грудь", "грудные")))
+            add(YouTubeVideoInfo("xwtaHancCQc", null, arrayListOf("Жим Гантелей Лежа На Наклонной Скамье", "Жим Гантелей На Наклонной Скамье", "Жим Гантелей под 30 градусов",  "Жим Гантелей под углом в 30 градусов","грудь", "грудные")))
             add(YouTubeVideoInfo("WaDPNbP3xWk", null, arrayListOf("Разведение Гантелей Лежа На Скамье", "Разведение Гантелей На Скамье", "Разведение Гантелей Лежа", "грудь", "грудные")))
             add(YouTubeVideoInfo("oW9GfQuhSVE", null, arrayListOf("Отжимания от пола", "грудь", "грудные")))
             add(YouTubeVideoInfo("Zpen5apxTk4", null, arrayListOf("Пуловер", "Пуловер У Блока", "грудь", "грудные")))
             add(YouTubeVideoInfo("1cunOUoh0RQ", null, arrayListOf("сведение рук в кроссовере","кроссовер", "грудь", "грудные")))
+            add(YouTubeVideoInfo("ECVnG2Ct8ac", null, arrayListOf("Отжимания на брусьях, широким хватом","Отжимания на брусьях широким хватом", "грудь", "грудные")))
+
+
 
             add(YouTubeVideoInfo("RTlMlKB9rn0","Как накачать грудные. Версия 1", arrayListOf("Как накачать грудные. Версия 1", "грудь", "грудные", "полное видео")))
 
@@ -79,10 +83,10 @@ class ServerApiImpl : ServerApi {
             add(YouTubeVideoInfo("WZsf_lQCHWg", null, arrayListOf("Подъем гантели с супинацией", "Подъем гантелей с супинацией", "супинация", "подьем гантелей на бицепс", "бицепс")))
             add(YouTubeVideoInfo("bF4T6-Mh0MU", null, arrayListOf("Подтягивание обратным хватом", "подтягивания", "бицепс")))
             add(YouTubeVideoInfo("ygj-wYBU8X0", null, arrayListOf("Подъем Штанги Обратным Хватом", "Подъём EZ штанги обратным хватом", "бицепс обратным хватом", "подъем обратным хватом", "бицепс")))
-            add(YouTubeVideoInfo("Pd4WUV-boGA", null, arrayListOf("Молоток", "молот", "подъём гантелей молот","Сгибание рук с гантелями молот", "бицепс")))
-
+            add(YouTubeVideoInfo("Pd4WUV-boGA", null, arrayListOf("Молоток", "молот", "подъём гантелей молот","Сгибание рук с гантелями молот", "Попеременное сгибание рук с гантелями", "бицепс")))
             add(YouTubeVideoInfo("db5N9RypciI", null, arrayListOf("Мощные руки", "бицепс", "трицепс", "предплечья", "полное видео")))
             add(YouTubeVideoInfo("D6q5VT-fGcs", null, arrayListOf("Тренировка рук от Андрей Скоромный", "бицепс", "трицепс", "полное видео")))
+            add(YouTubeVideoInfo("QDzbUatc4dg", null, arrayListOf("Сгибание рук на скамье скотта", "Подьем на Бицепс на Ск Скотта", "бицепс на скамье скотта", "бицепс")))
 
         })
 
@@ -92,7 +96,6 @@ class ServerApiImpl : ServerApi {
             add(YouTubeVideoInfo("GUc0OsEXUCY", null, arrayListOf("Сгибание рук со штангой хватом сверху", "предплечья")))
             add(YouTubeVideoInfo("uVO3IWanU_Y", null, arrayListOf("Сгибание кисти с гантелей", "Сгибание Кистей с Гантелью Попеременно", "предплечья")))
             add(YouTubeVideoInfo("Tyx1WBWFV6Q", null, arrayListOf("Разгибания кистей с гантелями","Разгибание Кистей с Гантелью Попеременно", "предплечья")))
-
             add(YouTubeVideoInfo("db5N9RypciI", null, arrayListOf("Мощные руки", "бицепс", "трицепс", "предплечья", "полное видео")))
         })
 
@@ -101,21 +104,19 @@ class ServerApiImpl : ServerApi {
             add(YouTubeVideoInfo("tX2KvWLlxwQ", null, arrayListOf("Боковые наклоны через козла","Боковые наклоны через гиперэкстензию", "косые")))
             add(YouTubeVideoInfo("ILSvcyRn7us", null, arrayListOf("Наклоны в бок с гантелей стоя","Наклоны в стороны с гантелей стоя", "косые")))
             add(YouTubeVideoInfo("WiZGHz_4was","Книжка", arrayListOf("книжка", "пресс")))
-
             add(YouTubeVideoInfo("JWG4ZRvS8n8", null, arrayListOf("Как накачать пресс", "пресс", "косые", "полное видео")))
         })
 
         put(Muscle.PRESS, ArrayList<VideoInfo>().apply {
             add(YouTubeVideoInfo("ez-PsVSkWk8", null, arrayListOf("ОБРАТНЫЕ СКРУЧИВАНИЯ", "ПОДЪЕМ НОГ", "пресс")))
+            add(YouTubeVideoInfo("POS7Wnwplwo","Обратные скручивания", arrayListOf("Обратные скручивания", "пресс")))
             add(YouTubeVideoInfo("JOlhML9opNE", null, arrayListOf("Планка", "пресс")))
-            add(YouTubeVideoInfo("kBv1yyQN51E", null, arrayListOf("Скручивания", "пресс")))
+            add(YouTubeVideoInfo("kBv1yyQN51E", null, arrayListOf("Скручивания", "Скручивание на полу", "пресс")))
             add(YouTubeVideoInfo("zAY_dFM6OC4", null, arrayListOf("Подъём ног в висе", "Скручивания в висе", "Подъем прямых ног к перекладине в висе", "пресс")))
             add(YouTubeVideoInfo("uli2PqMd2BA", null, arrayListOf("Подъём ног в висе", "Скручивания в висе", "Подъем прямых ног к перекладине в висе","пресс")))
-            add(YouTubeVideoInfo("POS7Wnwplwo","Обратные скручивания", arrayListOf("Обратные скручивания", "пресс")))
             add(YouTubeVideoInfo("C84WM9wSrac","Вакуум", arrayListOf("вакуум", "пресс")))
             add(YouTubeVideoInfo("4dnFqdd61JE",null,  arrayListOf("скручивания у вертикального блока","Скручивания с верхнего блока","молитва", "пресс")))
             add(YouTubeVideoInfo("WiZGHz_4was","Книжка", arrayListOf("книжка", "пресс")))
-
             add(YouTubeVideoInfo("JWG4ZRvS8n8", null, arrayListOf("Как накачать пресс", "пресс", "косые", "полное видео")))
         })
 
@@ -135,6 +136,7 @@ class ServerApiImpl : ServerApi {
             add(YouTubeVideoInfo("3nMof73yOQ0", null, arrayListOf("Становая тяга в стиле СУМО", "квадрицепс", "широчайшие", "спина")))
             add(YouTubeVideoInfo("duSnLRneftc", null, arrayListOf("Становая тяга", "квадрицепс", "широчайшие", "спина")))
             add(YouTubeVideoInfo("IzwyH77jBOU", null, arrayListOf("Жим Платформы Одной Ногой", "квадрицепс", "ягодицы", "ягодичные")))
+            add(YouTubeVideoInfo("Yy5wcN_9aQ0", null, arrayListOf("Болгарские Выпады", "Болгарские приседания","квадрицепс", "ягодицы", "ягодичные", "жопа")))
         })
         
         put(Muscle.GOLEN, ArrayList<VideoInfo>().apply {
@@ -148,10 +150,10 @@ class ServerApiImpl : ServerApi {
             add(YouTubeVideoInfo("oz_ecw_Pasc", null, arrayListOf("Французский жим с EZ-грифом ", "Французский жим лёжа", "Французский жим лежа", "трицепс")))
             add(YouTubeVideoInfo("WOOcjC2y-e4", null, arrayListOf("Французский жим стоя", "Французский жим сидя", "трицепс")))
             add(YouTubeVideoInfo("gt0Sz26hOCM", "Разгибание руки в наклоне", arrayListOf("Разгибание руки в наклоне", "Разгибание руки в упоре", "трицепс")))
+            add(YouTubeVideoInfo("T8JTg6nrfxU", null, arrayListOf("Разгибание рук из-за головы в блоке", "Разгибание из-за головы стоя на блоке", "трицепс")))
             add(YouTubeVideoInfo("MdCT_6DN3hk", "Разгибание рук у вертикального блока", arrayListOf("Разгибание рук у вертикального блока", "Разгибание рук в вертикальном блоке", "трицепс")))
             add(YouTubeVideoInfo("JsWe_LgS3OU", null, arrayListOf("Жим штанги лёжа узким хватом", "Жим узким хватом", "грудь", "грудные", "трицепс")))
             add(YouTubeVideoInfo("OSWanefT124", null, arrayListOf("Отжимания от скамьи с упором сзади", "трицепс")))
-
             add(YouTubeVideoInfo("db5N9RypciI", null, arrayListOf("Мощные руки", "бицепс", "трицепс", "предплечья", "полное видео")))
             add(YouTubeVideoInfo("D6q5VT-fGcs", null, arrayListOf("Тренировка рук от Андрей Скоромный", "бицепс", "трицепс", "полное видео")))
         })
@@ -159,17 +161,17 @@ class ServerApiImpl : ServerApi {
         put(Muscle.SHIROCH, ArrayList<VideoInfo>().apply {
             add(YouTubeVideoInfo("cB3ztFmAXnU", null, arrayListOf("Тяга штанги в наклоне","Тяга Штанги в Наклоне Обратным Хватом", "широчайшие", "спина")))
             add(YouTubeVideoInfo("OALB21WhghY", "Тяга гантели к поясу", arrayListOf("Тяга гантели к поясу", "тяга гантели в наклоне", "широчайшие", "спина")))
-            add(YouTubeVideoInfo("MCi1n7Y0_3Y", "Т-тяга", arrayListOf("Т-тяга", "т тяга", "тяга Т грифа", "широчайшие", "спина")))
+            add(YouTubeVideoInfo("MCi1n7Y0_3Y", "Т-тяга", arrayListOf("Т-тяга", "Тяга Т-грифа", "т тяга", "тяга Т грифа", "широчайшие", "спина")))
             add(YouTubeVideoInfo("GjVvFGSc-JM", null, arrayListOf("Подтягивания широким хватом", "широчайшие", "спина")))
             add(YouTubeVideoInfo("uJGJ1Rdys3I", null, arrayListOf("Подтягивания узким хватом", "Подтягивания параллельным хватом", "широчайшие", "спина")))
             add(YouTubeVideoInfo("bF4T6-Mh0MU", null, arrayListOf("Подтягивания обратным хватом", "Подтягивания средним хватом", "широчайшие", "спина")))
             add(YouTubeVideoInfo("9e77z6YzBx0", null, arrayListOf("тяга вертикального блока", "Тяга к груди с верхнего блока широким хватом", "Тяга с верхнего блока широким хватом", "широчайшие", "спина")))
+            add(YouTubeVideoInfo("h0MqHmsYavg", null, arrayListOf("Тяга с верхнего блока узким параллельным хватом", "вертикальная тяга параллельным хватом", "широчайшие", "спина")))
             add(YouTubeVideoInfo("CtP0tKV6DdM", null, arrayListOf("тяга горизонтального блока", "тяга горизонтального блока узким хватом", "широчайшие", "спина")))
             add(YouTubeVideoInfo("duSnLRneftc", null, arrayListOf("Становая тяга", "широчайшие", "спина")))
             add(YouTubeVideoInfo("pV501RQm864", null, arrayListOf("Становая тяга", "Мертвая тяга", "широчайшие", "спина", "бицепс бедра", "ягодицы", "ягодичные", "жопа" )))
             add(YouTubeVideoInfo("IsWtXXv1E8o", null, arrayListOf("Становая тяга", "Мертвая тяга", "широчайшие", "спина", "ягодицы", "ягодичные", "жопа")))
             add(YouTubeVideoInfo("ws8kM6EaLaA", null, arrayListOf("Гиперэкстензия", "экстензия", "широчайшие", "спина")))
-
             add(YouTubeVideoInfo("kBdGViTsJ_Q", null, arrayListOf("Тренировка спины Яковина", "полное видео", "широчайшие", "спина")))
         })
 
@@ -181,6 +183,9 @@ class ServerApiImpl : ServerApi {
             add(YouTubeVideoInfo("dDUz97h35_M", null, arrayListOf("Разведение ног на тренажере")))
             add(YouTubeVideoInfo("miHtt5dN9Oo", null, arrayListOf("Гиперэкстензия", "экстензия", "ягодицы", "ягодичные", "жопа")))
             add(YouTubeVideoInfo("IzwyH77jBOU", null, arrayListOf("Жим Платформы Одной Ногой", "квадрицепс", "ягодицы", "ягодичные", "жопа")))
+            add(YouTubeVideoInfo("Yy5wcN_9aQ0", null, arrayListOf("Болгарские Выпады", "Болгарские приседания","квадрицепс", "ягодицы", "ягодичные", "жопа")))
+
+
         })
 
         put(Muscle.BICEPS_BEDR, ArrayList<VideoInfo>().apply {
@@ -255,34 +260,71 @@ class ServerApiImpl : ServerApi {
         return Completable.timer(100, TimeUnit.MILLISECONDS)
             .andThen(Single.fromCallable {
                 return@fromCallable ArrayList<VideoInfo>().apply {
-                    add(YouTubeVideoInfo("XUeE5cTzsfo", null, arrayListOf("Жим штанги лёжа классический", "жим лёжа", "грудь", "грудные")))
-                    add(YouTubeVideoInfo("lBJuRIoqrrI", null, arrayListOf("Жим штанги с упоров", "Жим с упоров","грудь", "грудные")))
+                    //1
+                    add(YouTubeVideoInfo("xwtaHancCQc", null, arrayListOf("Жим Гантелей Лежа На Наклонной Скамье", "Жим Гантелей На Наклонной Скамье", "Жим Гантелей под 30 градусов",  "Жим Гантелей под углом в 30 градусов","грудь", "грудные")))
                     add(YouTubeVideoInfo("GjVvFGSc-JM", null, arrayListOf("Подтягивания широким хватом", "широчайшие", "спина")))
-                    add(YouTubeVideoInfo("1-ut6uXyZ6o", null, arrayListOf("Махи гантелями через стороны сидя", "Махи гантелями в стороны сидя","дельты", "плечи","средний пучок")))
-                    add(YouTubeVideoInfo("63n8aYEhTbk", null, arrayListOf("Подъем EZ-грифа на бицепс у стены", "строгий подъем на бицепс", "бицепс")))
+                    add(YouTubeVideoInfo("uKaahmlHbMY", null, arrayListOf("Подъём на носки стоя", "икры", "голень")))
+                    add(YouTubeVideoInfo("JsWe_LgS3OU", null, arrayListOf("Жим штанги лёжа узким хватом", "Жим узким хватом", "грудь", "грудные", "трицепс")))
+                    add(YouTubeVideoInfo("T8JTg6nrfxU", null, arrayListOf("Разгибание рук из-за головы в блоке", "Разгибание из-за головы стоя на блоке", "трицепс")))
+                    add(YouTubeVideoInfo("MCi1n7Y0_3Y", "Т-тяга", arrayListOf("Т-тяга", "Тяга Т-грифа", "т тяга", "тяга Т грифа", "широчайшие", "спина")))
+                    add(YouTubeVideoInfo("Pd4WUV-boGA", null, arrayListOf("Молоток", "молот", "подъём гантелей молот","Сгибание рук с гантелями молот", "Попеременное сгибание рук с гантелями", "бицепс")))
+
+                    //2
+                    add(YouTubeVideoInfo("ULD3MHqt2Mg", null, arrayListOf("приседания со штангой", "ПРИСЕДАНИЯ классические","квадрицепс")))
+                    add(YouTubeVideoInfo("1pBefch_wcc", "Жим из-за головы в Смите сидя", arrayListOf("Жим из-за головы в Смите сидя", "Жим штанги сидя в тренажере Смита", "Жим из-за головы","плечи", "дельты")))
+                    add(YouTubeVideoInfo("zAY_dFM6OC4", null, arrayListOf("Подъём ног в висе", "Скручивания в висе", "Подъем прямых ног к перекладине в висе", "пресс")))
+                    add(YouTubeVideoInfo("qz8QvMGHJu0", null, arrayListOf("разгибание ног в тренажёре сидя", "Разгибание в Тренажере", "квадрицепс")))
+                    add(YouTubeVideoInfo("hSFM7VAZELM", null, arrayListOf("сгибание ног лёжа", "бицепс бедра" )))
+                    add(YouTubeVideoInfo("4pqiISq4w2M", null, arrayListOf("РАЗВЕДЕНИЕ ГАНТЕЛЕЙ В НАКЛОНЕ", "махи ГАНТЕЛЕЙ В НАКЛОНЕ", "махи гантелей", "разведение гантелей", "дельты", "плечи","задний пучок")))
+                    add(YouTubeVideoInfo("kBv1yyQN51E", null, arrayListOf("Скручивания", "Скручивание на полу", "пресс")))
+
+                    //3
+                    add(YouTubeVideoInfo("XUeE5cTzsfo", null, arrayListOf("Жим штанги лёжа классический", "Жим штанги на горизонтальной скамье", "жим лёжа", "грудь", "грудные")))
+                    add(YouTubeVideoInfo("h0MqHmsYavg", null, arrayListOf("Тяга с верхнего блока узким параллельным хватом", "вертикальная тяга параллельным хватом", "широчайшие", "спина")))
+                    add(YouTubeVideoInfo("mVe69zfPkfs", null, arrayListOf("Подъём на носки сидя", "икры", "голень")))
+                    add(YouTubeVideoInfo("ECVnG2Ct8ac", null, arrayListOf("Отжимания на брусьях, широким хватом","Отжимания на брусьях широким хватом", "грудь", "грудные")))
+                    add(YouTubeVideoInfo("OALB21WhghY", "Тяга гантели к поясу", arrayListOf("Тяга гантели к поясу", "тяга гантели в наклоне", "широчайшие", "спина")))
+                    add(YouTubeVideoInfo("JoTWyGhTlhQ", null, arrayListOf("Французский жим лёжа", "Французский жим лежа", "трицепс")))
+
+                    //4
+                    add(YouTubeVideoInfo("LL0uQJthemo", null, arrayListOf("Жим одной ногой в тренажёре", "квадрицепсы", "ягодицы", "ягодичные", "жопа")))
+                    add(YouTubeVideoInfo("Y9x7blBNwJo", null, arrayListOf("ТЯГА ШТАНГИ К ПОДБОРОДКУ", "армейский жим","плечи","дельты")))
+                    add(YouTubeVideoInfo("kBv1yyQN51E", null, arrayListOf("Скручивания", "Скручивание на полу", "пресс")))
+                    add(YouTubeVideoInfo("Yy5wcN_9aQ0", null, arrayListOf("Болгарские Выпады", "Болгарские приседания","квадрицепс", "ягодицы", "ягодичные", "жопа")))
+                    add(YouTubeVideoInfo("GBGI44G2Txg", null, arrayListOf("Отведение на Блоке одной рукой на заднюю дельту","Отведение в сторону на нижнем блоке", "Махи руками назад в кроссовере", "плечи","дельты")))
+                    add(YouTubeVideoInfo("ez-PsVSkWk8", null, arrayListOf("ОБРАТНЫЕ СКРУЧИВАНИЯ", "ПОДЪЕМ НОГ", "пресс")))
+                    add(YouTubeVideoInfo("POS7Wnwplwo","Обратные скручивания", arrayListOf("Обратные скручивания", "пресс")))
+
+
+
+
+
+
+
                     add(YouTubeVideoInfo("Tyx1WBWFV6Q", null, arrayListOf("Разгибания кистей с гантелями","Разгибание Кистей с Гантелью Попеременно", "предплечья")))
 
-                    add(YouTubeVideoInfo("ULD3MHqt2Mg", null, arrayListOf("приседания со штангой", "ПРИСЕДАНИЯ классические","квадрицепс")))
-                    add(YouTubeVideoInfo("u7WBL40UC1c", null, arrayListOf("приседания с упоров до середины с удержанием", "Приседания с Упоров до Середины  + удержание 2 сек", "квадрицепс")))
-                    add(YouTubeVideoInfo("jFC-wIcUgok", null, arrayListOf("Мертвая тяга", "ягодицы", "ягодичные", "жопа", "бицепс бедра")))
-                    add(YouTubeVideoInfo("IsWtXXv1E8o", null, arrayListOf("Становая тяга", "Мертвая тяга", "широчайшие", "спина", "ягодицы", "ягодичные", "жопа")))
-                    add(YouTubeVideoInfo("qz8QvMGHJu0", null, arrayListOf("разгибание ног в тренажёре сидя", "Разгибание в Тренажере", "квадрицепс")))
-                    add(YouTubeVideoInfo("xS1KbQzAj7g", null, arrayListOf("Разгибание голени в тренажёре одной ногой", "Разгибание бедра в тренажёре одной ногой", "Разгибание в Тренажере ОДНОЙ ногой", "квадрицепс")))
-                    add(YouTubeVideoInfo("zAY_dFM6OC4", null, arrayListOf("Подъём ног в висе", "Скручивания в висе", "Подъем прямых ног к перекладине в висе", "пресс")))
-                    add(YouTubeVideoInfo("uli2PqMd2BA", null, arrayListOf("Подъём ног в висе", "Скручивания в висе", "Подъем прямых ног к перекладине в висе","пресс")))
+
+//                    add(YouTubeVideoInfo("u7WBL40UC1c", null, arrayListOf("приседания с упоров до середины с удержанием", "Приседания с Упоров до Середины  + удержание 2 сек", "квадрицепс")))
+                    add(YouTubeVideoInfo("sEzewPzO3Yo", null, arrayListOf("Наклоны со штангой на плечах","Наклоны со штангой", "упражнение доброе утро", "ягодичные", "жопа", "бицепс бедра")))
+
+//
+//                    add(YouTubeVideoInfo("xS1KbQzAj7g", null, arrayListOf("Разгибание голени в тренажёре одной ногой", "Разгибание бедра в тренажёре одной ногой", "Разгибание в Тренажере ОДНОЙ ногой", "квадрицепс")))
+//                    add(YouTubeVideoInfo("zAY_dFM6OC4", null, arrayListOf("Подъём ног в висе", "Скручивания в висе", "Подъем прямых ног к перекладине в висе", "пресс")))
+//                    add(YouTubeVideoInfo("uli2PqMd2BA", null, arrayListOf("Подъём ног в висе", "Скручивания в висе", "Подъем прямых ног к перекладине в висе","пресс")))
+
 
                     add(YouTubeVideoInfo("OlZwuV_0TDo", null, arrayListOf("Жим штанги средним хватом", "грудь", "грудные")))
                     add(YouTubeVideoInfo("uFTH_rqLQNI", null, arrayListOf("Жим на смите перед собой", "Жим штанги сидя в тренажере Смита", "Жим штанги сидя в Смите", "Жим сидя в Смите до середины", "плечи", "дельты")))
-                    add(YouTubeVideoInfo("bF4T6-Mh0MU", null, arrayListOf("Подтягивания обратным хватом", "Подтягивания средним хватом", "широчайшие", "спина")))
-                    add(YouTubeVideoInfo("Y9x7blBNwJo", null, arrayListOf("ТЯГА ШТАНГИ К ПОДБОРОДКУ", "армейский жим","плечи","дельты")))
+                    add(YouTubeVideoInfo("uJGJ1Rdys3I", null, arrayListOf("Подтягивания узким хватом", "Подтягивания параллельным хватом", "широчайшие", "спина")))
+
                     add(YouTubeVideoInfo("oz_ecw_Pasc", null, arrayListOf("Французский жим с EZ-грифом ", "Французский жим лёжа", "Французский жим лежа", "трицепс")))
                     add(YouTubeVideoInfo("uVO3IWanU_Y", null, arrayListOf("Сгибание кисти с гантелей", "Сгибание Кистей с Гантелью Попеременно", "предплечья")))
 
                     add(YouTubeVideoInfo("duSnLRneftc", null, arrayListOf("Становая тяга", "квадрицепс", "широчайшие", "спина")))
-                    add(YouTubeVideoInfo("cB3ztFmAXnU", null, arrayListOf("Тяга штанги в наклоне","Тяга Штанги в Наклоне Обратным Хватом", "широчайшие", "спина")))
-                    add(YouTubeVideoInfo("Zpen5apxTk4", null, arrayListOf("Пуловер", "Пуловер У Блока", "грудь", "грудные")))
-                    add(YouTubeVideoInfo("S1vGMpdqdzM", null, arrayListOf("Сгибание Голени Одной Ногой", "Сгибание ноги в тренажёре стоя", "бицепс бедра" )))
-                    add(YouTubeVideoInfo("kBv1yyQN51E", null, arrayListOf("Скручивания", "пресс")))
+
+                    add(YouTubeVideoInfo("CtP0tKV6DdM", null, arrayListOf("тяга горизонтального блока", "тяга горизонтального блока узким хватом", "широчайшие", "спина")))
+
+
                 }
             })
     }

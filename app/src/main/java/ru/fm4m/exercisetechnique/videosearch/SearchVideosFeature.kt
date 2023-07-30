@@ -77,7 +77,7 @@ class SearchVideosFeature(
                         return Completable.timer(500, TimeUnit.MILLISECONDS)
                             .andThen(Observable.just(Effect.StartedLoading as Effect)
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .mergeWith(serviceApi.getVideosForKey(action.text)
+                                .mergeWith (serviceApi.getVideosForKey(action.text)
                                     .map {
                                         Log.d("TAG", "map ${action.text} ${it.firstOrNull()}")
                                         return@map Effect.LoadedVideosInfo(action.text, it) as Effect }
