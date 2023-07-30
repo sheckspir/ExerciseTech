@@ -8,11 +8,11 @@ open class VideoInfo(
     val id: Int,
     val url : String,
     val title: String?,
-    val keys : List<String>
+    val keys : String
 ): Serializable
 
 
 class YouTubeVideoInfo constructor(val youTubeId: String,
                                    title: String? = null,
-                                   keys : List<String> = ArrayList<String>().apply { if (title != null) add(title) }
+                                   keys : String = title ?: ""
 ) : VideoInfo(youTubeId.hashCode(),"https://www.youtube.com/watch?v=$youTubeId", title, keys)

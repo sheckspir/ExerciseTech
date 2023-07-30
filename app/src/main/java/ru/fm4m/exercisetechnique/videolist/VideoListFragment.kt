@@ -17,6 +17,7 @@ import io.reactivex.Observer
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_video_list.view.*
+import ru.fm4m.exercisetechnique.ExerciseApplication
 
 
 class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, ObservableSource<UIEventVideos>, LoadableRecyclerAdapter.ErrorListener {
@@ -44,7 +45,7 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
         super.onCreate(savedInstanceState)
         val sex = requireArguments().getSerializable(ARG_SEX) as Sex
         val muscle = requireArguments().getSerializable(ARG_MUSCLE) as Muscle
-        val api = ServerApiImpl.getInstance()
+        val api = (context?.applicationContext as ExerciseApplication).getServerApi()
         val feature = VideoListFeature(AndroidTimeCapsule(savedInstanceState), api, sex, muscle)
         bindings = VideoListBindings(this, feature)
         bindings.setup(this)

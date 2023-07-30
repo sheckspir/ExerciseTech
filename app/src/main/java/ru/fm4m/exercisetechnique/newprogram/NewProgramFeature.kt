@@ -56,7 +56,7 @@ class NewProgramFeature(
                 is Wish.RedownloadLast -> {
                     Observable.just(Effect.StartedLoading as Effect)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .mergeWith(serviceApi.getNewProgramm()
+                        .mergeWith(serviceApi.getNewProgram()
                             .map { Effect.LoadedVideosInfo(it) as Effect }
                             .onErrorReturn { Effect.ErrorLoading(it) }
                             .observeOn(AndroidSchedulers.mainThread()))

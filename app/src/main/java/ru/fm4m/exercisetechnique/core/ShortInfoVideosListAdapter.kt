@@ -65,9 +65,11 @@ class ShortInfoVideosVH(view: View, clickListener: ShortInfoListListener) : Vide
         this.videoInfo = videoInfo
         var text = videoInfo.title
         if (text == null) {
-            text = videoInfo.keys.firstOrNull()
-            if (text == null) {
-                text = ""
+            val keys = videoInfo.keys.split(",")
+            if (keys.isNotEmpty()) {
+                text = keys[0]
+            } else {
+                text = "";
             }
         }
         textView.text = text

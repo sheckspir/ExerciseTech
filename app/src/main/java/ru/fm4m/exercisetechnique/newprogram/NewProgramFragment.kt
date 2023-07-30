@@ -12,6 +12,7 @@ import io.reactivex.Observer
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_new_program.view.*
+import ru.fm4m.exercisetechnique.ExerciseApplication
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.core.LoadableRecyclerAdapter
 import ru.fm4m.exercisetechnique.findNavigationPublisher
@@ -46,7 +47,7 @@ class NewProgramFragment : Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val api = ServerApiImpl.getInstance()
+        val api = (context?.applicationContext as ExerciseApplication).getServerApi()
         val feature = NewProgramFeature(AndroidTimeCapsule(savedInstanceState), api, findNavigationPublisher())
         binding = NewProgramBinding(this, feature)
         binding.setup(this)

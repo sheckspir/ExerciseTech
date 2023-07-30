@@ -14,6 +14,7 @@ import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_video_list.*
 import kotlinx.android.synthetic.main.fragment_video_search.view.*
+import ru.fm4m.exercisetechnique.ExerciseApplication
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.core.LoadableRecyclerAdapter
 import ru.fm4m.exercisetechnique.findNavigationPublisher
@@ -46,7 +47,7 @@ class SearchVideosFragment : Fragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val api = ServerApiImpl.getInstance()
+        val api = (context?.applicationContext as ExerciseApplication).getServerApi()
         val feature = SearchVideosFeature(AndroidTimeCapsule(savedInstanceState),api,findNavigationPublisher())
         bindings = SearchVideoBindings(this, feature)
         bindings.setup(this)
