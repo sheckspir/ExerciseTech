@@ -130,7 +130,7 @@ class YouTubeItemVH(view: View) : VideoItemVH(view) {
     }
 
     override fun bind(videoInfo: VideoInfo) {
-        if (videoInfo.title != null) {
+        if (!videoInfo.title.isNullOrEmpty()) {
             textView.visibility = View.VISIBLE
             gradientVideo.visibility = View.VISIBLE
             textView.text = videoInfo.title

@@ -64,7 +64,7 @@ class ShortInfoVideosVH(view: View, clickListener: ShortInfoListListener) : Vide
     override fun bind(videoInfo: VideoInfo) {
         this.videoInfo = videoInfo
         var text = videoInfo.title
-        if (text == null) {
+        if (text.isNullOrEmpty()) {
             val keys = videoInfo.keys.split(",")
             if (keys.isNotEmpty()) {
                 text = keys[0]
