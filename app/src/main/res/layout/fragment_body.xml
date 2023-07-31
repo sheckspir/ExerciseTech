@@ -6,12 +6,14 @@
     tools:context=".bodymain.body.BodyFragment">
 
     <ImageView
+        android:layout_marginTop="@dimen/space_large"
         tools:src="@drawable/man_front"
         android:id="@+id/imageFullBody"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
     <ImageView
+        android:layout_marginTop="@dimen/space_large"
         android:id="@+id/imageBody"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
