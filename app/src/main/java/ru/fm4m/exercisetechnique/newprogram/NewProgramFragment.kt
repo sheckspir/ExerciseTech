@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.badoo.mvicore.android.AndroidTimeCapsule
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.functions.Consumer
@@ -20,6 +21,7 @@ import ru.fm4m.exercisetechnique.model.VideoInfo
 import ru.fm4m.exercisetechnique.server.ServerApiImpl
 import ru.fm4m.exercisetechnique.videosearch.ShortInfoListListener
 import ru.fm4m.exercisetechnique.videosearch.ShortInfoVideosListAdapter
+import javax.inject.Inject
 
 class NewProgramFragment : Fragment(),
     LoadableRecyclerAdapter.ErrorListener,
@@ -27,9 +29,8 @@ class NewProgramFragment : Fragment(),
     Consumer<NewProgramFeature.State>,
     ObservableSource<UIEventNewProgram> {
 
-    private lateinit var binding: NewProgramBinding
+
     private lateinit var adapter: ShortInfoVideosListAdapter
-    private val uiEventSource = PublishSubject.create<UIEventNewProgram>()
 
     val newsConsumer =
         Consumer<NewProgramFeature.News>{ t ->
@@ -45,12 +46,22 @@ class NewProgramFragment : Fragment(),
             }
         }
 
+    private var savedInstanceState: Bundle? = null
+
+    @Inject
+    lateinit var binding: NewProgramBinding
+    @Inject
+    lateinit var uiEventSource : PublishSubject<UIEventNewProgram>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val api = (context?.applicationContext as ExerciseApplication).getServerApi()
-        val feature = NewProgramFeature(AndroidTimeCapsule(savedInstanceState), api, findNavigationPublisher())
-        binding = NewProgramBinding(this, feature)
+        this.savedInstanceState = savedInstanceState
+        AndroidSupportInjection.inject(this)
         binding.setup(this)
+    }
+
+    fun getLastSavedState(): Bundle? {
+        return savedInstanceState
     }
 
     override fun onCreateView(

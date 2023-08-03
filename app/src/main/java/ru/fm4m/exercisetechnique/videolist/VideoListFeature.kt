@@ -11,14 +11,18 @@ import ru.fm4m.exercisetechnique.server.ServerApi
 import io.reactivex.Observable
 import io.reactivex.Observable.empty
 import io.reactivex.android.schedulers.AndroidSchedulers
+import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
+import javax.inject.Inject
+import javax.inject.Named
 
-class VideoListFeature constructor(
-    timeCapsule: TimeCapsule<Parcelable>,
+@PerFragment
+class VideoListFeature @Inject constructor(
+    @Named("VideoListFeature") parcelableState : Parcelable?,
     service: ServerApi,
     sex: Sex,
     muscle: Muscle
 ): ActorReducerFeature<VideoListFeature.Wish, VideoListFeature.Effect, VideoListFeature.State, VideoListFeature.News>(
-    initialState = timeCapsule.get(VideoListFeature::class.java)?: State(false, muscle),
+    initialState = if (parcelableState != null) parcelableState as State else State(false, muscle),
     bootstrapper = null,
     actor = ActorImpl(service, sex, muscle),
     reducer = ReducerImpl(),

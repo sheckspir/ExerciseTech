@@ -3,10 +3,13 @@ package ru.fm4m.exercisetechnique.bodymain
 import android.util.Log
 import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.ReducerFeature
+import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
 import ru.fm4m.exercisetechnique.model.Sex
 import ru.fm4m.exercisetechnique.model.Side
+import javax.inject.Inject
 
-class BodyMainFeature(
+@PerFragment
+class BodyMainFeature @Inject constructor(
     sex: Sex
 ): ReducerFeature<BodyMainFeature.Wish, BodyMainFeature.State, BodyMainFeature.News>(
     State(sex, Side.FRONT, true),

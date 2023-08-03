@@ -2,13 +2,16 @@ package ru.fm4m.exercisetechnique.bodymain
 
 import com.badoo.binder.using
 import ru.fm4m.exercisetechnique.bodymain.body.BodyFeature
+import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
 import ru.fm4m.exercisetechnique.core.AndroidFragmentBinding
+import javax.inject.Inject
 
-class BodyMainScreenBinding(view: BodyMainFragment,
-                            private val feature: BodyMainFeature
+@PerFragment
+class BodyMainScreenBinding @Inject constructor(view: BodyMainFragment,
+                                                private val feature: BodyMainFeature
 ) : AndroidFragmentBinding<BodyMainFragment>(view) {
 
-    override fun setup(view: BodyMainFragment, ) {
+    override fun setup(view: BodyMainFragment) {
         binder.bind(view to feature using UIEventTransformerMainBody())
         binder.bind(feature to view)
 

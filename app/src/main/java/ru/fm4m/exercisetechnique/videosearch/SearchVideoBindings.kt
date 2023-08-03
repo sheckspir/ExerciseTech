@@ -1,9 +1,12 @@
 package ru.fm4m.exercisetechnique.videosearch
 
 import com.badoo.binder.using
+import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
 import ru.fm4m.exercisetechnique.core.AndroidFragmentBinding
+import javax.inject.Inject
 
-class SearchVideoBindings(
+@PerFragment
+class SearchVideoBindings @Inject constructor(
     view: SearchVideosFragment,
     private val feature: SearchVideosFeature,
 ) : AndroidFragmentBinding<SearchVideosFragment>(view) {

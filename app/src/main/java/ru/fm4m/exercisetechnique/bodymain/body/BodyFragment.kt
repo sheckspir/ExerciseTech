@@ -7,10 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.DaggerFragment
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.bodymain.UIEventMainBody
-import ru.fm4m.exercisetechnique.findNavigationPublisher
 import ru.fm4m.exercisetechnique.model.Muscle
 import ru.fm4m.exercisetechnique.model.Sex
 import ru.fm4m.exercisetechnique.model.Side
@@ -21,33 +19,27 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_body.*
 import kotlinx.android.synthetic.main.fragment_body.view.*
 import javax.inject.Inject
-import javax.inject.Named
 
-class BodyFragment : DaggerFragment(), OnBodyPartSelectedListener, ObservableSource<UIEventMainBody>, Consumer<BodyFeature.State> {
-
-    @Inject
-    @Named("sex")
-    lateinit var sex : Sex
-    @Inject
-    @Named("side")
-    lateinit var side : Side
-    private val source: PublishSubject<UIEventMainBody> = PublishSubject.create()
+class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UIEventMainBody>, Consumer<BodyFeature.State> {
 
     private lateinit var manager : BodyAreasManager
-    private lateinit var bindings : BodyScreenBinding
+
+
+    @Inject
+    lateinit var source: PublishSubject<UIEventMainBody>
+    @Inject
     lateinit var feature : BodyFeature
+    @Inject
+    lateinit var bindings : BodyScreenBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         AndroidSupportInjection.inject(this)
-        feature = BodyFeature(sex, side, findNavigationPublisher())
-        bindings = BodyScreenBinding(this, feature)
         bindings.setup(this)
     }
 
-//    @Named("sex")
-    fun getSex1() : Sex {
+    fun getSex() : Sex {
         val result = arguments?.getSerializable(ARG_SEX)
         return if (result == null) {
             Sex.MALE
@@ -56,8 +48,7 @@ class BodyFragment : DaggerFragment(), OnBodyPartSelectedListener, ObservableSou
         }
     }
 
-//    @Named("side")
-    fun getSide1() : Side {
+    fun getSide() : Side {
         val result = arguments?.getSerializable(ARG_SIDE)
         return if (result == null) {
             Side.FRONT

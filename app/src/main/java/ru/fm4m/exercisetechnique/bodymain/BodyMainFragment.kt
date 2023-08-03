@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
+import dagger.android.support.AndroidSupportInjection
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.core.ObservableSourceEventContainer
 import ru.fm4m.exercisetechnique.model.Sex
@@ -19,11 +20,14 @@ import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_body_main.*
 import kotlinx.android.synthetic.main.fragment_body_main.view.*
 import ru.fm4m.exercisetechnique.bodymain.body.BodyFragment
+import javax.inject.Inject
 
 class BodyMainFragment : Fragment(), ObservableSource<UIEventMainBody>, Consumer<BodyMainFeature.State>, ObservableSourceEventContainer<UIEventMainBody>{
 
     private val source = PublishSubject.create<UIEventMainBody>()
-    private lateinit var binding : BodyMainScreenBinding
+
+    @Inject
+    lateinit var binding : BodyMainScreenBinding
 
     override fun getSource(): PublishSubject<out UIEventMainBody> {
         return source
@@ -35,11 +39,15 @@ class BodyMainFragment : Fragment(), ObservableSource<UIEventMainBody>, Consumer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val sex : Sex = requireArguments().let {
+        AndroidSupportInjection.inject(this)
+
+        binding.setup(this)
+    }
+
+    fun getSex() : Sex {
+        return requireArguments().let {
             it.getSerializable(BodyFragment.ARG_SEX) as Sex
         }
-        binding = BodyMainScreenBinding(this, BodyMainFeature(sex))
-        binding.setup(this)
     }
 
     override fun onCreateView(

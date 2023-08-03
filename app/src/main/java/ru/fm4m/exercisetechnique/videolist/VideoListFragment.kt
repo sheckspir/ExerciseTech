@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.badoo.mvicore.android.AndroidTimeCapsule
+import dagger.android.support.AndroidSupportInjection
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.core.LoadableRecyclerAdapter
 import ru.fm4m.exercisetechnique.model.Muscle
@@ -18,13 +19,18 @@ import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_video_list.view.*
 import ru.fm4m.exercisetechnique.ExerciseApplication
+import javax.inject.Inject
 
 
 class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, ObservableSource<UIEventVideos>, LoadableRecyclerAdapter.ErrorListener {
 
-    private lateinit var bindings: VideoListBindings
+
     private lateinit var adapter: VideoListAdapter
-    private val uiEventSource = PublishSubject.create<UIEventVideos>()
+
+    @Inject
+    lateinit var bindings: VideoListBindings
+    @Inject
+    lateinit var uiEventSource : PublishSubject<UIEventVideos>
 
     val newsConsumer =
         Consumer<VideoListFeature.News> { t ->
@@ -41,16 +47,22 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
         }
 
 
+    private var lastSavedState : Bundle? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val sex = requireArguments().getSerializable(ARG_SEX) as Sex
-        val muscle = requireArguments().getSerializable(ARG_MUSCLE) as Muscle
-        val api = (context?.applicationContext as ExerciseApplication).getServerApi()
-        val feature = VideoListFeature(AndroidTimeCapsule(savedInstanceState), api, sex, muscle)
-        bindings = VideoListBindings(this, feature)
-        bindings.setup(this)
+        lastSavedState = savedInstanceState
+        AndroidSupportInjection.inject(this)
 
+        bindings.setup(this)
     }
+
+    fun getSex() : Sex {
+        return requireArguments().getSerializable(ARG_SEX) as Sex
+    }
+
+    fun getMuscle() = requireArguments().getSerializable(ARG_MUSCLE) as Muscle
+
+    fun getSavedState() = lastSavedState
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

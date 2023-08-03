@@ -10,22 +10,26 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import ru.fm4m.exercisetechnique.NavigationEvent
+import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
 import ru.fm4m.exercisetechnique.model.VideoInfo
 import ru.fm4m.exercisetechnique.server.ServerApi
+import javax.inject.Inject
+import javax.inject.Named
 
-class NewProgramFeature(
-    timeCapsule: TimeCapsule<Parcelable>,
+@PerFragment
+class NewProgramFeature @Inject constructor(
+    @Named("NewProgramState") state : Parcelable?,
     serviceApi: ServerApi,
     navigationPublisher: PublishSubject<NavigationEvent>,
 ) : ActorReducerFeature<NewProgramFeature.Wish, NewProgramFeature.Effect, NewProgramFeature.State, NewProgramFeature.News>(
-    initialState = timeCapsule[NewProgramFeature::class.java] ?: State(false),
+    initialState = if (state != null) state as State else State(false),
     bootstrapper = null,
     actor = ActorImpl(serviceApi, navigationPublisher),
     reducer = ReducerImpl(),
     newsPublisher = NewsPublisherImpl()
 ) {
 
-    data class State(
+    data class State (
         val isLoading: Boolean,
         val videoLists: List<VideoInfo>? = null,
     )

@@ -10,10 +10,13 @@ import ru.fm4m.exercisetechnique.model.Sex
 import ru.fm4m.exercisetechnique.model.Side
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import javax.inject.Inject
+import javax.inject.Named
 
-class BodyFeature constructor(
-    sex: Sex,
-    side: Side,
+@PerFragment
+class BodyFeature @Inject constructor(
+    @Named("sex") sex: Sex,
+    @Named("side") side: Side,
     navigationPublisher : PublishSubject<NavigationEvent>
 ) : ActorReducerFeature<BodyFeature.Wish, BodyFeature.Effect, BodyFeature.State, Nothing>(
     State(side, sex, null),

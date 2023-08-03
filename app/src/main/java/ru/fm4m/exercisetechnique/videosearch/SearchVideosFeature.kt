@@ -5,7 +5,6 @@ import android.util.Log
 import com.badoo.mvicore.element.Actor
 import com.badoo.mvicore.element.NewsPublisher
 import com.badoo.mvicore.element.Reducer
-import com.badoo.mvicore.element.TimeCapsule
 import com.badoo.mvicore.feature.ActorReducerFeature
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -13,16 +12,20 @@ import io.reactivex.Observable.empty
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import ru.fm4m.exercisetechnique.NavigationEvent
+import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
 import ru.fm4m.exercisetechnique.model.VideoInfo
 import ru.fm4m.exercisetechnique.server.ServerApi
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Named
 
-class SearchVideosFeature(
-    timeCapsule: TimeCapsule<Parcelable>,
+@PerFragment
+class SearchVideosFeature @Inject constructor(
+    @Named("SearchVideosFeature") lastState : Parcelable?,
     serviceApi: ServerApi,
     navigationPublisher : PublishSubject<NavigationEvent>
 ) : ActorReducerFeature<SearchVideosFeature.Wish, SearchVideosFeature.Effect, SearchVideosFeature.State, SearchVideosFeature.News>(
-    initialState = timeCapsule[SearchVideosFeature::class.java] ?: State(false),
+    initialState =  if (lastState != null) {lastState as State} else {State(false)},
     bootstrapper = null,
     actor = ActorImpl(serviceApi, navigationPublisher),
     reducer = ReducerImpl(),

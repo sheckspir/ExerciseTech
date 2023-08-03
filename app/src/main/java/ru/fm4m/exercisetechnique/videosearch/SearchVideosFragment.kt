@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.badoo.mvicore.android.AndroidTimeCapsule
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.functions.Consumer
@@ -20,6 +21,7 @@ import ru.fm4m.exercisetechnique.core.LoadableRecyclerAdapter
 import ru.fm4m.exercisetechnique.findNavigationPublisher
 import ru.fm4m.exercisetechnique.model.VideoInfo
 import ru.fm4m.exercisetechnique.server.ServerApiImpl
+import javax.inject.Inject
 
 class SearchVideosFragment : Fragment(),
     LoadableRecyclerAdapter.ErrorListener,
@@ -27,9 +29,7 @@ class SearchVideosFragment : Fragment(),
     Consumer<SearchVideosFeature.State>,
     ObservableSource<UIEventSearchVideos> {
 
-    private lateinit var bindings: SearchVideoBindings
     private lateinit var adapter: ShortInfoVideosListAdapter
-    private val uiEventSource = PublishSubject.create<UIEventSearchVideos>()
 
     val newsConsumer =
         Consumer<SearchVideosFeature.News> { t ->
@@ -45,12 +45,24 @@ class SearchVideosFragment : Fragment(),
             }
         }
 
+    private var lastState : Bundle? = null
+
+    @Inject
+    lateinit var bindings: SearchVideoBindings
+    @Inject
+    lateinit var uiEventSource : PublishSubject<UIEventSearchVideos>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val api = (context?.applicationContext as ExerciseApplication).getServerApi()
-        val feature = SearchVideosFeature(AndroidTimeCapsule(savedInstanceState),api,findNavigationPublisher())
-        bindings = SearchVideoBindings(this, feature)
+        lastState = savedInstanceState
+
+        AndroidSupportInjection.inject(this)
+
         bindings.setup(this)
+    }
+
+    fun getLastState() : Bundle? {
+        return lastState
     }
 
     override fun onCreateView(
