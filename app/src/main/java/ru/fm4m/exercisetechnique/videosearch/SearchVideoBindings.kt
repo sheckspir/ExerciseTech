@@ -1,12 +1,12 @@
 package ru.fm4m.exercisetechnique.videosearch
 
 import com.badoo.binder.using
-import ru.fm4m.exercisetechnique.core.AndroidFragmentBindings
+import ru.fm4m.exercisetechnique.core.AndroidFragmentBinding
 
 class SearchVideoBindings(
     view: SearchVideosFragment,
     private val feature: SearchVideosFeature,
-) : AndroidFragmentBindings<SearchVideosFragment>(view) {
+) : AndroidFragmentBinding<SearchVideosFragment>(view) {
 
     override fun setup(view: SearchVideosFragment) {
         binder.bind(view to feature using UIEventTransformerSearchVideos())

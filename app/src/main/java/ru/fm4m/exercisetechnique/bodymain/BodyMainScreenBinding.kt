@@ -2,11 +2,11 @@ package ru.fm4m.exercisetechnique.bodymain
 
 import com.badoo.binder.using
 import ru.fm4m.exercisetechnique.bodymain.body.BodyFeature
-import ru.fm4m.exercisetechnique.core.AndroidFragmentBindings
+import ru.fm4m.exercisetechnique.core.AndroidFragmentBinding
 
 class BodyMainScreenBinding(view: BodyMainFragment,
                             private val feature: BodyMainFeature
-) : AndroidFragmentBindings<BodyMainFragment>(view) {
+) : AndroidFragmentBinding<BodyMainFragment>(view) {
 
     override fun setup(view: BodyMainFragment, ) {
         binder.bind(view to feature using UIEventTransformerMainBody())

@@ -4,7 +4,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.badoo.binder.Binder
 import com.badoo.mvicore.android.lifecycle.StartStopBinderLifecycle
 
-abstract class AndroidFragmentBindings<T : Any>(
+abstract class AndroidFragmentBinding<T : Any>(
     lifecycleOwner: LifecycleOwner
 ) {
     protected val binder = Binder(

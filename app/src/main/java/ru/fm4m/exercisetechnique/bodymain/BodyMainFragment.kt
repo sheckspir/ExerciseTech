@@ -1,6 +1,5 @@
 package ru.fm4m.exercisetechnique.bodymain
 
-import BodyFragment
 import android.animation.*
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +18,7 @@ import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_body_main.*
 import kotlinx.android.synthetic.main.fragment_body_main.view.*
+import ru.fm4m.exercisetechnique.bodymain.body.BodyFragment
 
 class BodyMainFragment : Fragment(), ObservableSource<UIEventMainBody>, Consumer<BodyMainFeature.State>, ObservableSourceEventContainer<UIEventMainBody>{
 

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ru.fm4m.exercisetechnique">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -15,6 +14,7 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.ExerciseTechnique">
         <activity android:name="ru.fm4m.exercisetechnique.SplashActivity"
+            android:exported="true"
             android:theme="@style/Theme.ExerciseTechnique.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:exported="false"
             android:theme="@style/Theme.ExerciseTechnique"
             android:name="ru.fm4m.exercisetechnique.MainActivity">
 

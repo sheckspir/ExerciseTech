@@ -1,11 +1,11 @@
 package ru.fm4m.exercisetechnique.newprogram
 
 import com.badoo.binder.using
-import ru.fm4m.exercisetechnique.core.AndroidFragmentBindings
+import ru.fm4m.exercisetechnique.core.AndroidFragmentBinding
 
 class NewProgramBinding(view: NewProgramFragment,
                         private val feature: NewProgramFeature
-                        ): AndroidFragmentBindings<NewProgramFragment>(view) {
+                        ): AndroidFragmentBinding<NewProgramFragment>(view) {
 
     override fun setup(view: NewProgramFragment) {
         binder.bind(view to feature using UIEventTransformerNewProgram())
