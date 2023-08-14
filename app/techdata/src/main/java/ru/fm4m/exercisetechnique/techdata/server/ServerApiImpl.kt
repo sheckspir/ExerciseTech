@@ -1,24 +1,13 @@
-package ru.fm4m.exercisetechnique.server
+package ru.fm4m.exercisetechnique.techniquedata.server
 
-import ru.fm4m.exercisetechnique.model.Muscle
-import ru.fm4m.exercisetechnique.model.VideoInfo
-import ru.fm4m.exercisetechnique.model.YouTubeVideoInfo
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
+import ru.fm4m.exercisetechnique.techdomain.server.ServerApi
 import java.util.concurrent.TimeUnit
-
-interface ServerApi {
-
-    fun getVideoList(male: Boolean, muscle: Muscle): Single<List<VideoInfo>>
-
-    fun getVideosForKey(key : String): Single<List<VideoInfo>>
-
-    fun getNewProgram() : Single<List<VideoInfo>>
-
-}
 
 interface ServerApiBackend : ServerApi {
 

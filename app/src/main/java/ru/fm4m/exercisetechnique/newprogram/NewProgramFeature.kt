@@ -4,27 +4,27 @@ import android.os.Parcelable
 import com.badoo.mvicore.element.Actor
 import com.badoo.mvicore.element.NewsPublisher
 import com.badoo.mvicore.element.Reducer
-import com.badoo.mvicore.element.TimeCapsule
 import com.badoo.mvicore.feature.ActorReducerFeature
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
 import ru.fm4m.exercisetechnique.NavigationEvent
-import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
-import ru.fm4m.exercisetechnique.model.VideoInfo
-import ru.fm4m.exercisetechnique.server.ServerApi
+import ru.fm4m.exercisetechnique.PerFragment
+import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
+import ru.fm4m.exercisetechnique.techdomain.newprogram.RedownloadNewProgramUseCase
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Named
 
 @PerFragment
 class NewProgramFeature @Inject constructor(
     @Named("NewProgramState") state : Parcelable?,
-    serviceApi: ServerApi,
+    redownloadNewProgramUseCase: RedownloadNewProgramUseCase,
     navigationPublisher: PublishSubject<NavigationEvent>,
 ) : ActorReducerFeature<NewProgramFeature.Wish, NewProgramFeature.Effect, NewProgramFeature.State, NewProgramFeature.News>(
     initialState = if (state != null) state as State else State(false),
     bootstrapper = null,
-    actor = ActorImpl(serviceApi, navigationPublisher),
+    actor = ActorImpl(redownloadNewProgramUseCase, navigationPublisher),
     reducer = ReducerImpl(),
     newsPublisher = NewsPublisherImpl()
 ) {
@@ -50,7 +50,7 @@ class NewProgramFeature @Inject constructor(
     }
 
     class ActorImpl(
-        private val serviceApi: ServerApi,
+        private val redownloadNewProgramUseCase: RedownloadNewProgramUseCase,
         private val navigationPublisher: PublishSubject<NavigationEvent>,
     ) : Actor<State, Wish, Effect> {
 
@@ -58,12 +58,15 @@ class NewProgramFeature @Inject constructor(
         override fun invoke(state: State, action: Wish): Observable<out Effect> {
             return when (action) {
                 is Wish.RedownloadLast -> {
-                    Observable.just(Effect.StartedLoading as Effect)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .mergeWith(serviceApi.getNewProgram()
-                            .map { Effect.LoadedVideosInfo(it) as Effect }
-                            .onErrorReturn { Effect.ErrorLoading(it) }
-                            .observeOn(AndroidSchedulers.mainThread()))
+                    redownloadNewProgramUseCase.getData()
+                        .map {
+                            when(it) {
+                                is DownloadDataEffect.StartDownload -> Effect.StartedLoading
+                                is DownloadDataEffect.ErrorDownload -> Effect.ErrorLoading(it.e)
+                                is DownloadDataEffect.DownloadedData -> Effect.LoadedVideosInfo(it.result)
+                                else -> Effect.ErrorLoading(IllegalArgumentException("Here should be another value but we have $it"))
+                            }
+                        }
                 }
                 is Wish.ShowVideo -> {
                     navigationPublisher.onNext(NavigationEvent.ShowOneVideoFromNewProgram(action.videoInfo))

@@ -6,11 +6,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import io.reactivex.subjects.PublishSubject
-import ru.fm4m.exercisetechnique.bodymain.BodyMainFragment
-import ru.fm4m.exercisetechnique.bodymain.BodyMainModule
-import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
-import ru.fm4m.exercisetechnique.model.Muscle
-import ru.fm4m.exercisetechnique.model.Sex
+import ru.fm4m.exercisetechnique.PerFragment
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.videolist.RedownloadVideoListBySexAndMuscle
+import ru.fm4m.exercisetechnique.techdomain.videolist.RedownloadVideoListBySexAndMuscleImpl
 import javax.inject.Named
 
 @Module
@@ -39,6 +39,9 @@ class VideoListModule {
     fun getEventPublisher() : PublishSubject<UIEventVideos> {
         return PublishSubject.create()
     }
+
+    @Provides
+    fun provideRedownloadVideoListBySexAndMuscle(useCase: RedownloadVideoListBySexAndMuscleImpl) : RedownloadVideoListBySexAndMuscle = useCase
 }
 
 @Module

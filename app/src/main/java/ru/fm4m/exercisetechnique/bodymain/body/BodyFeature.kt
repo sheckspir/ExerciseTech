@@ -1,15 +1,17 @@
 package ru.fm4m.exercisetechnique.bodymain.body
 
-import android.util.Log
 import com.badoo.mvicore.element.Actor
 import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.ActorReducerFeature
-import ru.fm4m.exercisetechnique.NavigationEvent
-import ru.fm4m.exercisetechnique.model.Muscle
-import ru.fm4m.exercisetechnique.model.Sex
-import ru.fm4m.exercisetechnique.model.Side
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
+import ru.fm4m.exercisetechnique.techdomain.system.Logger
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.Side
+import ru.fm4m.exercisetechnique.NavigationEvent
+import ru.fm4m.exercisetechnique.PerFragment
+import ru.fm4m.exercisetechnique.techdomain.core.IMuscleName
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -17,12 +19,14 @@ import javax.inject.Named
 class BodyFeature @Inject constructor(
     @Named("sex") sex: Sex,
     @Named("side") side: Side,
-    navigationPublisher : PublishSubject<NavigationEvent>
+    navigationPublisher : PublishSubject<NavigationEvent>,
+    muscleNameProvider: IMuscleName,
+    logger: Logger
 ) : ActorReducerFeature<BodyFeature.Wish, BodyFeature.Effect, BodyFeature.State, Nothing>(
-    State(side, sex, null),
+    State(side, sex, null, ""),
     null,
-    actor = ActorImpl(navigationPublisher),
-    reducer = ReducerImpl()
+    actor = ActorImpl(navigationPublisher, logger, muscleNameProvider),
+    reducer = ReducerImpl(muscleNameProvider)
 ) {
 
     sealed class Wish {
@@ -32,7 +36,7 @@ class BodyFeature @Inject constructor(
     }
 
     sealed class Effect {
-        data class ShowSelectedMuscle(val muscle: Muscle) : Effect()
+        data class ShowSelectedMuscle(val muscle: Muscle, val muscleName: String) : Effect()
         object HideTitle : Effect()
         object ShowTitle : Effect()
     }
@@ -40,18 +44,25 @@ class BodyFeature @Inject constructor(
     data class State(val side : Side,
                      val sex: Sex,
                      val selectedMuscle : Muscle?,
-                    val showTitleMuscle : Boolean = false)
+                     val muscleName : String,
+                     val showTitleMuscle : Boolean = false)
 
-    class ActorImpl(private val navigationPublisher: PublishSubject<NavigationEvent>) : Actor<State, Wish, Effect> {
+    class ActorImpl(private val navigationPublisher: PublishSubject<NavigationEvent>,
+                    private val logger: Logger,
+                    private val muscleNameProvider: IMuscleName
+    ) : Actor<State, Wish, Effect> {
         override fun invoke(state: State, action: Wish): Observable<out Effect> {
-            Log.d("TAG", "invoke new wish $action")
+            logger.d("TAG","invoke new wish $action" )
             val effect =  when(action) {
                 is Wish.SelectMuscle -> {
                     if (state.selectedMuscle != null && action.muscle == state.selectedMuscle) {
                         navigationPublisher.onNext(NavigationEvent.ShowMuscleVideos(action.muscle, state.sex))
                         null
                     } else {
-                        Effect.ShowSelectedMuscle(action.muscle)
+                        Effect.ShowSelectedMuscle(
+                            action.muscle,
+                            muscleNameProvider.getMuscleName(action.muscle)
+                        )
                     }
                 }
                 is Wish.ChangeSide -> {
@@ -75,10 +86,10 @@ class BodyFeature @Inject constructor(
         }
     }
 
-    class ReducerImpl : Reducer<State, Effect>{
+    class ReducerImpl(private val muscleNameProvider: IMuscleName) : Reducer<State, Effect>{
         override fun invoke(state: State, effect: Effect): State {
             return when(effect) {
-                is Effect.ShowSelectedMuscle -> State(state.side, state.sex, effect.muscle, true)
+                is Effect.ShowSelectedMuscle -> State(state.side, state.sex, effect.muscle, muscleNameProvider.getMuscleName(effect.muscle),true)
                 is Effect.HideTitle -> state.copy(showTitleMuscle = false)
                 is Effect.ShowTitle -> state.copy(showTitleMuscle =  true)
             }

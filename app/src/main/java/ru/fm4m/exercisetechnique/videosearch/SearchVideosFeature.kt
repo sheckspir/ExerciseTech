@@ -9,12 +9,13 @@ import com.badoo.mvicore.feature.ActorReducerFeature
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Observable.empty
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.subjects.PublishSubject
+import ru.fm4m.exercisetechnique.PerFragment
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import ru.fm4m.exercisetechnique.NavigationEvent
-import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
-import ru.fm4m.exercisetechnique.model.VideoInfo
-import ru.fm4m.exercisetechnique.server.ServerApi
+import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
+import ru.fm4m.exercisetechnique.techdomain.videosearch.FindVideosByKeyUseCase
+import java.lang.IllegalArgumentException
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
@@ -22,12 +23,12 @@ import javax.inject.Named
 @PerFragment
 class SearchVideosFeature @Inject constructor(
     @Named("SearchVideosFeature") lastState : Parcelable?,
-    serviceApi: ServerApi,
+    findVideosUseCase : FindVideosByKeyUseCase,
     navigationPublisher : PublishSubject<NavigationEvent>
 ) : ActorReducerFeature<SearchVideosFeature.Wish, SearchVideosFeature.Effect, SearchVideosFeature.State, SearchVideosFeature.News>(
     initialState =  if (lastState != null) {lastState as State} else {State(false)},
     bootstrapper = null,
-    actor = ActorImpl(serviceApi, navigationPublisher),
+    actor = ActorImpl(findVideosUseCase, navigationPublisher),
     reducer = ReducerImpl(),
     newsPublisher = NewsPublisherImpl()
 ) {
@@ -53,7 +54,7 @@ class SearchVideosFeature @Inject constructor(
         data class ErrorExecuteRequest(val throwable: Throwable) : News()
     }
 
-    class ActorImpl(private val serviceApi : ServerApi,
+    class ActorImpl(private val findVideosByKeyUseCase: FindVideosByKeyUseCase,
                     private val navigationPublisher : PublishSubject<NavigationEvent>
     ) : Actor<State, Wish, Effect> {
 
@@ -64,12 +65,15 @@ class SearchVideosFeature @Inject constructor(
             return when(action) {
                 is Wish.RedownloadLast -> {
                     val downloadText = state.lastText
-                    Observable.just(Effect.StartedLoading as Effect)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .mergeWith(serviceApi.getVideosForKey(downloadText)
-                            .map { Effect.LoadedVideosInfo(downloadText, it) as Effect }
-                            .onErrorReturn { Effect.ErrorLoading(it) }
-                            .observeOn(AndroidSchedulers.mainThread()))
+                    findVideosByKeyUseCase.getData(downloadText)
+                        .map {
+                            when(it) {
+                                is DownloadDataEffect.StartDownload -> Effect.StartedLoading
+                                is DownloadDataEffect.DownloadedData -> Effect.LoadedVideosInfo(downloadText, it.result)
+                                is DownloadDataEffect.ErrorDownload -> Effect.ErrorLoading(it.e)
+                                else -> Effect.ErrorLoading(IllegalArgumentException("Not recognized result $it"))
+                            }
+                        }
                 }
                 is Wish.FindVideos -> {
                     interruptSignal.onNext(Unit)
@@ -78,25 +82,16 @@ class SearchVideosFeature @Inject constructor(
                         return Observable.just(Effect.LoadedVideosInfo(state.lastText, state.videoLists))
                     } else {
                         return Completable.timer(500, TimeUnit.MILLISECONDS)
-                            .andThen(Observable.just(Effect.StartedLoading as Effect)
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .mergeWith (serviceApi.getVideosForKey(action.text)
-                                    .map {
-                                        Log.d("TAG", "map ${action.text} ${it.firstOrNull()}")
-                                        return@map Effect.LoadedVideosInfo(action.text, it) as Effect }
-                                    .onErrorReturn { Effect.ErrorLoading(it) }
-                                    .observeOn(AndroidSchedulers.mainThread()))
-                                .doOnComplete {
-                                    Log.d("TAG", "doOnComplete")
-                                }
-                                .doOnDispose {
-                                    Log.d("TAG", "doOnDispose")
-                                }
-                                .doOnError {
-                                    Log.d("TAG", "error happened $it")
+                            .andThen(findVideosByKeyUseCase.getData(action.text)
+                                .map {
+                                    when(it) {
+                                        is DownloadDataEffect.StartDownload -> Effect.StartedLoading
+                                        is DownloadDataEffect.DownloadedData -> Effect.LoadedVideosInfo(action.text, it.result)
+                                        is DownloadDataEffect.ErrorDownload -> Effect.ErrorLoading(it.e)
+                                        else -> Effect.ErrorLoading(IllegalArgumentException("Not recognized result $it"))
+                                    }
                                 })
                             .takeUntil(interruptSignal)
-
                     }
                 }
                 is Wish.ShowVideo -> {

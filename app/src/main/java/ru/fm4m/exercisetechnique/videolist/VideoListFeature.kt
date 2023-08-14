@@ -4,34 +4,38 @@ import android.os.Parcelable
 import android.util.Log
 import com.badoo.mvicore.element.*
 import com.badoo.mvicore.feature.ActorReducerFeature
-import ru.fm4m.exercisetechnique.model.Muscle
-import ru.fm4m.exercisetechnique.model.Sex
-import ru.fm4m.exercisetechnique.model.VideoInfo
-import ru.fm4m.exercisetechnique.server.ServerApi
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import io.reactivex.Observable
 import io.reactivex.Observable.empty
-import io.reactivex.android.schedulers.AndroidSchedulers
-import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
+import ru.fm4m.exercisetechnique.PerFragment
+import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
+import ru.fm4m.exercisetechnique.techdomain.core.IMuscleName
+import ru.fm4m.exercisetechnique.techdomain.videolist.RedownloadVideoListBySexAndMuscle
+import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Named
 
 @PerFragment
 class VideoListFeature @Inject constructor(
     @Named("VideoListFeature") parcelableState : Parcelable?,
-    service: ServerApi,
+    redownloadVideosUseCase: RedownloadVideoListBySexAndMuscle,
+    muscleNameProvider: IMuscleName,
     sex: Sex,
     muscle: Muscle
 ): ActorReducerFeature<VideoListFeature.Wish, VideoListFeature.Effect, VideoListFeature.State, VideoListFeature.News>(
-    initialState = if (parcelableState != null) parcelableState as State else State(false, muscle),
+    initialState = if (parcelableState != null) parcelableState as State else State(false, muscle, muscleNameProvider.getMuscleName(muscle)),
     bootstrapper = null,
-    actor = ActorImpl(service, sex, muscle),
-    reducer = ReducerImpl(),
+    actor = ActorImpl(redownloadVideosUseCase),
+    reducer = ReducerImpl(muscleNameProvider),
     newsPublisher = NewsPublisherImpl()
 ) {
 
     data class State(
         val isLoading: Boolean,
         val muscle: Muscle,
+        val muscleName: String,
         val videoLists : List<VideoInfo>? = null
     )
 
@@ -50,24 +54,27 @@ class VideoListFeature @Inject constructor(
         data class ErrorExecuteRequest(val throwable: Throwable) : News()
     }
 
-    class ActorImpl(private val service: ServerApi, private val sex: Sex, private val muscle: Muscle) : Actor<State, Wish, Effect> {
+    class ActorImpl(private val redownloadUseCase : RedownloadVideoListBySexAndMuscle) : Actor<State, Wish, Effect> {
         override fun invoke(state: State, action: Wish): Observable<out Effect> {
             Log.d("TAG", "new action in videos $action")
             return when(action) {
                 is Wish.RedownloadList -> {
-                    Observable.just(Effect.StartedLoading as Effect)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .mergeWith(service.getVideoList(sex == Sex.MALE, muscle)
-                            .map { Effect.LoadedVideosInfo(it) as Effect}
-                            .onErrorReturn { Effect.ErrorLoading(it) }
-                            .observeOn(AndroidSchedulers.mainThread()))
+                    redownloadUseCase.getData()
+                        .map {
+                            when(it){
+                                is DownloadDataEffect.StartDownload -> Effect.StartedLoading
+                                is DownloadDataEffect.DownloadedData -> Effect.LoadedVideosInfo(it.result)
+                                is DownloadDataEffect.ErrorDownload -> Effect.ErrorLoading(it.e)
+                                else -> Effect.ErrorLoading(IllegalArgumentException("Not recognized result $it"))
+                            }
+                        }
                 }
                 else -> empty() // TODO: 10/9/21 temp
             }
         }
     }
 
-    class ReducerImpl : Reducer<State, Effect> {
+    class ReducerImpl(private val muscleNameProvider: IMuscleName) : Reducer<State, Effect> {
         override fun invoke(state: State, effect: Effect): State {
             return when(effect) {
                 is Effect.StartedLoading -> {
@@ -77,7 +84,7 @@ class VideoListFeature @Inject constructor(
                     state.copy(false)
                 }
                 is Effect.LoadedVideosInfo -> {
-                    state.copy(false, state.muscle, effect.videoLists)
+                    state.copy(false, state.muscle, muscleNameProvider.getMuscleName(state.muscle), effect.videoLists)
                 }
             }
         }

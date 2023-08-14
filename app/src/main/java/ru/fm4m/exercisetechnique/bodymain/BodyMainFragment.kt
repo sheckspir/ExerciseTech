@@ -1,6 +1,10 @@
 package ru.fm4m.exercisetechnique.bodymain
 
-import android.animation.*
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.IntEvaluator
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,17 +13,19 @@ import android.view.ViewGroup
 import androidx.core.animation.addListener
 import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
-import ru.fm4m.exercisetechnique.R
-import ru.fm4m.exercisetechnique.core.ObservableSourceEventContainer
-import ru.fm4m.exercisetechnique.model.Sex
-import ru.fm4m.exercisetechnique.model.Side
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_body_main.*
-import kotlinx.android.synthetic.main.fragment_body_main.view.*
+import kotlinx.android.synthetic.main.fragment_body_main.buttonChangeSides
+import kotlinx.android.synthetic.main.fragment_body_main.firstContainer
+import kotlinx.android.synthetic.main.fragment_body_main.secondContainer
+import kotlinx.android.synthetic.main.fragment_body_main.view.buttonChangeSides
+import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.bodymain.body.BodyFragment
+import ru.fm4m.exercisetechnique.core.ObservableSourceEventContainer
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.Side
 import javax.inject.Inject
 
 class BodyMainFragment : Fragment(), ObservableSource<UIEventMainBody>, Consumer<BodyMainFeature.State>, ObservableSourceEventContainer<UIEventMainBody>{

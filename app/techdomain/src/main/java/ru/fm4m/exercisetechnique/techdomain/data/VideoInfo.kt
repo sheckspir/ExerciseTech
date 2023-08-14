@@ -1,8 +1,6 @@
-package ru.fm4m.exercisetechnique.model
+package ru.fm4m.exercisetechnique.techdomain.data
 
 import java.io.Serializable
-import java.util.*
-import kotlin.collections.ArrayList
 
 open class VideoInfo(
     val id: Int,

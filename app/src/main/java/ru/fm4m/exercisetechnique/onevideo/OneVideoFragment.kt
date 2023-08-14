@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.fm4m.exercisetechnique.R
-import ru.fm4m.exercisetechnique.model.VideoInfo
-import ru.fm4m.exercisetechnique.model.YouTubeVideoInfo
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
+import ru.fm4m.exercisetechnique.techdomain.data.YouTubeVideoInfo
 import ru.fm4m.exercisetechnique.videolist.VideoListFragment
 import ru.fm4m.exercisetechnique.videolist.YouTubeItemVH
 

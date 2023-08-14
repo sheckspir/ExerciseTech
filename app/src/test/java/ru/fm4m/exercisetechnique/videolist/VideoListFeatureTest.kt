@@ -5,11 +5,11 @@ import android.util.Log
 import com.badoo.binder.Binder
 import com.badoo.binder.lifecycle.ManualLifecycle
 import com.badoo.mvicore.android.AndroidTimeCapsule
-import ru.fm4m.exercisetechnique.model.Muscle
-import ru.fm4m.exercisetechnique.model.Sex
-import ru.fm4m.exercisetechnique.model.VideoInfo
-import ru.fm4m.exercisetechnique.model.YouTubeVideoInfo
-import ru.fm4m.exercisetechnique.server.ServerApi
+import ru.fm4m.exercisetechnique.techdomain.model.Muscle
+import ru.fm4m.exercisetechnique.techdomain.model.Sex
+import ru.fm4m.exercisetechnique.techdomain.model.VideoInfo
+import ru.fm4m.exercisetechnique.techdomain.model.YouTubeVideoInfo
+import ru.fm4m.exercisetechnique.techniquedata.server.ServerApi
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -57,13 +57,13 @@ class VideoListFeatureTest {
 
     @Test
     fun checkDownloadProcess_allGood() {
-        every { serverApi.getVideoList(any(), any()) } returns Single.just(ArrayList<VideoInfo>().apply {
-            add(YouTubeVideoInfo("111"))
+        every { serverApi.getVideoList(any(), any()) } returns Single.just(ArrayList<ru.fm4m.exercisetechnique.techdomain.model.VideoInfo>().apply {
+            add(ru.fm4m.exercisetechnique.techdomain.model.YouTubeVideoInfo("111"))
         })
         val feature = VideoListFeature(AndroidTimeCapsule(null),
             serverApi,
-            Sex.MALE,
-            Muscle.TRICEPS)
+            ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE,
+            ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS)
         binder.bind(feature to stateConsumer)
         lifecycle.begin()
 
@@ -84,7 +84,7 @@ class VideoListFeatureTest {
 
         verify { stateConsumer.accept(withArg {
             assert(it.isLoading == false)
-            assert(it.videoLists?.first() is YouTubeVideoInfo)
+            assert(it.videoLists?.first() is ru.fm4m.exercisetechnique.techdomain.model.YouTubeVideoInfo)
         }) }
 
         lifecycle.end()
@@ -96,8 +96,8 @@ class VideoListFeatureTest {
         every { serverApi.getVideoList(any(), any()) } returns Single.error(exception)
         val feature = VideoListFeature(AndroidTimeCapsule(null),
             serverApi,
-            Sex.MALE,
-            Muscle.TRICEPS)
+            ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE,
+            ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS)
         binder.bind(feature to stateConsumer)
         binder.bind(feature.news to newsConsumer)
         lifecycle.begin()

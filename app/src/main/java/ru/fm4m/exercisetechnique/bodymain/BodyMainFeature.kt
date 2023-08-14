@@ -1,19 +1,20 @@
 package ru.fm4m.exercisetechnique.bodymain
 
-import android.util.Log
 import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.ReducerFeature
-import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
-import ru.fm4m.exercisetechnique.model.Sex
-import ru.fm4m.exercisetechnique.model.Side
+import ru.fm4m.exercisetechnique.PerFragment
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.Side
+import ru.fm4m.exercisetechnique.techdomain.system.Logger
 import javax.inject.Inject
 
 @PerFragment
 class BodyMainFeature @Inject constructor(
-    sex: Sex
+    sex: Sex,
+    logger: Logger
 ): ReducerFeature<BodyMainFeature.Wish, BodyMainFeature.State, BodyMainFeature.News>(
     State(sex, Side.FRONT, true),
-    ReducerImpl(),
+    ReducerImpl(logger),
     newsPublisher = NewsPublisherImpl()
 ) {
 
@@ -30,7 +31,7 @@ class BodyMainFeature @Inject constructor(
 
     data class State(val sex: Sex, val side: Side, val active: Boolean)
 
-    class ReducerImpl() : Reducer<State, Wish> {
+    class ReducerImpl(private val logger: Logger) : Reducer<State, Wish> {
         override fun invoke(state: State, effect: Wish): State {
             val newState = when(effect) {
                 is Wish.ChangeSide -> {
@@ -44,7 +45,7 @@ class BodyMainFeature @Inject constructor(
                     state.copy(active = true)
                 }
             }
-            Log.d("TAG", "mainFeature Reduce old state $state newState $newState")
+            logger.d("TAG", "mainFeature Reduce old state $state newState $newState")
             return newState
         }
     }

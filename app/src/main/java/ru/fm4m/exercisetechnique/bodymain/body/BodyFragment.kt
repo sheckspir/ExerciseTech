@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import dagger.android.support.AndroidSupportInjection
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.bodymain.UIEventMainBody
-import ru.fm4m.exercisetechnique.model.Muscle
-import ru.fm4m.exercisetechnique.model.Sex
-import ru.fm4m.exercisetechnique.model.Side
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.Side
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.functions.Consumer
@@ -79,8 +79,8 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UI
             return
         }
         textNameMuscle.visibility = if (t.showTitleMuscle) View.VISIBLE else View.GONE
-        if (t.selectedMuscle != null) {
-            textNameMuscle.setText(t.selectedMuscle.muscleName)
+        if (t.muscleName.isNotEmpty() && t.selectedMuscle != null) {
+            textNameMuscle.text = t.muscleName
         }
         if (manager.showed()) {
             manager.updateSelectedId(t.selectedMuscle)

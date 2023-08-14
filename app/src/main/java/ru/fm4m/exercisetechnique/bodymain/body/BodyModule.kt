@@ -5,13 +5,13 @@ import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import io.reactivex.subjects.PublishSubject
 import ru.fm4m.exercisetechnique.NavigationEvent
+import ru.fm4m.exercisetechnique.PerFragment
 import ru.fm4m.exercisetechnique.bodymain.UIEventMainBody
 import ru.fm4m.exercisetechnique.findNavigationPublisher
-import ru.fm4m.exercisetechnique.model.Sex
-import ru.fm4m.exercisetechnique.model.Side
-import java.lang.annotation.RetentionPolicy
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.Side
+
 import javax.inject.Named
-import javax.inject.Scope
 
 
 @Module
@@ -53,8 +53,3 @@ abstract class BodyFragmentProvider {
     abstract fun provideBodyFragment(): BodyFragment
 
 }
-
-/** PerFragment.java  */
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class PerFragment

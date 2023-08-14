@@ -5,24 +5,23 @@ import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import android.widget.ImageView
 import ru.fm4m.exercisetechnique.R
-import ru.fm4m.exercisetechnique.model.BodyPart
-import ru.fm4m.exercisetechnique.model.Muscle
 import com.pixplicity.sharp.OnSvgElementListener
 import com.pixplicity.sharp.Sharp
 import kotlinx.android.synthetic.main.fragment_body.view.*
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
 import uk.co.senab.photoview.DefaultOnDoubleTapListener
 import uk.co.senab.photoview.PhotoViewAttacher
 
 class BodyAreasManager(
-    val areasImageView: ImageView,
-    val bodyImageView: ImageView,
-    val listener: OnBodyPartSelectedListener
+    private val areasImageView: ImageView,
+    private val bodyImageView: ImageView,
+    private val listener: OnBodyPartSelectedListener
 ) {
 
     private lateinit var mSvg: Sharp
     private var canvasBoundsTemp: RectF? = null
     private lateinit var mAttacher: PhotoViewAttacher
-    var bodyParts = HashMap<String,BodyPart>()
+    var bodyParts = HashMap<String, BodyPart>()
     private var selectedId: Muscle? = null
 
     fun showed() = ::mAttacher.isInitialized
@@ -134,9 +133,17 @@ class BodyAreasManager(
                     val tempId = id.replace(("[0-9]").toRegex(), "").replace("_AREA","")
                     val muscle = Muscle.valueOf(tempId)
                     if (element is Path) {
-                        bodyParts[id] = BodyPart(muscle, element as Path, RectF(elementBounds))
+                        bodyParts[id] = BodyPart(
+                            muscle,
+                            element as Path,
+                            RectF(elementBounds)
+                        )
                     } else {
-                        bodyParts[id] = BodyPart(muscle, null, RectF(elementBounds))
+                        bodyParts[id] = BodyPart(
+                            muscle,
+                            null,
+                            RectF(elementBounds)
+                        )
                     }
                     if (selectedId == muscle && !justClickableArea) {
                         paint.color = Color.parseColor("#A0FF0000")
@@ -166,3 +173,9 @@ interface OnBodyPartSelectedListener {
 
     fun onMuscleSelected(muscle: Muscle)
 }
+
+class BodyPart(
+    val muscle: Muscle,
+    val path : Path?,
+    val bounds : RectF
+    )

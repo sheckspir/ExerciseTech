@@ -3,11 +3,8 @@ package ru.fm4m.exercisetechnique.bodymain
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
-import ru.fm4m.exercisetechnique.bodymain.body.BodyDataModule
-import ru.fm4m.exercisetechnique.bodymain.body.BodyFragment
-import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
-import ru.fm4m.exercisetechnique.model.Sex
-import javax.inject.Named
+import ru.fm4m.exercisetechnique.PerFragment
+ import ru.fm4m.exercisetechnique.techdomain.data.Sex
 
 @Module
 class BodyMainModule {

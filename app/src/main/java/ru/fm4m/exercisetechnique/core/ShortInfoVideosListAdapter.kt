@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_video_short.view.*
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.core.LoadableRecyclerAdapter
-import ru.fm4m.exercisetechnique.model.VideoInfo
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import ru.fm4m.exercisetechnique.videolist.VideoItemVH
 
 class ShortInfoVideosListAdapter(errorListener: ErrorListener,

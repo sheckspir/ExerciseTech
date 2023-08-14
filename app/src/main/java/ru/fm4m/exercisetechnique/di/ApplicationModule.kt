@@ -1,28 +1,46 @@
 package ru.fm4m.exercisetechnique.di
 
+import android.content.Context
+import android.content.res.Resources
+import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
 import dagger.Module
 import dagger.Provides
+import dagger.android.ContributesAndroidInjector
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.fm4m.exercisetechnique.model.VideoInfo
-import ru.fm4m.exercisetechnique.server.ApiVideoInfoAdapter
-import ru.fm4m.exercisetechnique.server.ServerApi
-import ru.fm4m.exercisetechnique.server.ServerApiBackend
+import ru.fm4m.exercisetechnique.ExerciseApplication
+import ru.fm4m.exercisetechnique.PerFragment
+import ru.fm4m.exercisetechnique.bodymain.BodyMainFragment
+import ru.fm4m.exercisetechnique.bodymain.BodyMainModule
+import ru.fm4m.exercisetechnique.techdomain.core.IMuscleName
+import ru.fm4m.exercisetechnique.techdomain.core.ISchedulerProvider
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
+import ru.fm4m.exercisetechnique.techdomain.system.Logger
+import ru.fm4m.exercisetechnique.techniquedata.server.ApiVideoInfoAdapter
+import ru.fm4m.exercisetechnique.techdomain.server.ServerApi
+import ru.fm4m.exercisetechnique.techniquedata.core.MuscleNameProvider
+import ru.fm4m.exercisetechnique.techniquedata.server.ServerApiBackend
+import java.lang.Exception
 import javax.inject.Singleton
 
 @Module
-class ApplicationModule {
+class ApplicationModule(private val context: Context) {
+//class ApplicationModule() {
 
     @Singleton
     @Provides
-    fun provideApi(): ServerApi {
+    fun provideApi(logger : Logger): ServerApi {
         val gson: Gson = GsonBuilder()
-            .registerTypeAdapter(VideoInfo::class.java, ApiVideoInfoAdapter())
+            .registerTypeAdapter(VideoInfo::class.java, ApiVideoInfoAdapter(logger))
             .create()
 
         val interceptor = HttpLoggingInterceptor()
@@ -38,4 +56,56 @@ class ApplicationModule {
 
         return retrofit.create(ServerApiBackend::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun schedulerProvider() : ISchedulerProvider {
+        return object : ISchedulerProvider {
+            override fun getMainScheduler(): Scheduler {
+                return AndroidSchedulers.mainThread()
+            }
+
+            override fun getNetworkScheduler(): Scheduler {
+                return Schedulers.io()
+            }
+        }
+
+    }
+
+    @Singleton
+    @Provides
+    fun logger() : Logger {
+        return object : Logger {
+            override fun d(tag: String, message: String) {
+                Log.d(tag, message)
+            }
+
+            override fun e(tag: String, message: String, e: Throwable?) {
+                Log.d(tag, message, e)
+            }
+        }
+    }
+
+    @Singleton
+    @Provides
+    fun muscleNameProvider(muscleNameProvider: MuscleNameProvider) : IMuscleName = muscleNameProvider
+
+    @Singleton
+    @Provides
+    fun resources(context: Context) : Resources {
+        return context.resources
+    }
+
+    @Singleton
+    @Provides
+    fun context() : Context {
+        return context
+    }
 }
+
+//@Module
+//abstract class ExerciseAppProvider {
+//
+//    @ContributesAndroidInjector(modules = [ApplicationModule::class])
+//    abstract fun provideExerciseApplication(): ExerciseApplication
+//}

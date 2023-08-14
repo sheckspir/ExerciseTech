@@ -1,8 +1,8 @@
 package ru.fm4m.exercisetechnique.bodymain
 
 import com.badoo.binder.using
+import ru.fm4m.exercisetechnique.PerFragment
 import ru.fm4m.exercisetechnique.bodymain.body.BodyFeature
-import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
 import ru.fm4m.exercisetechnique.core.AndroidFragmentBinding
 import javax.inject.Inject
 

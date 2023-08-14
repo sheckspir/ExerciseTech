@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_check_sex.view.*
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.bodymain.BodyMainFragment
-import ru.fm4m.exercisetechnique.model.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
 
 class ChooseFirstFragment : Fragment() {
 

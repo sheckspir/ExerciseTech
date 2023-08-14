@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import com.badoo.mvicore.android.AndroidTimeCapsule
 import dagger.android.support.AndroidSupportInjection
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
@@ -15,12 +14,9 @@ import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_video_list.*
 import kotlinx.android.synthetic.main.fragment_video_search.view.*
-import ru.fm4m.exercisetechnique.ExerciseApplication
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.core.LoadableRecyclerAdapter
-import ru.fm4m.exercisetechnique.findNavigationPublisher
-import ru.fm4m.exercisetechnique.model.VideoInfo
-import ru.fm4m.exercisetechnique.server.ServerApiImpl
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import javax.inject.Inject
 
 class SearchVideosFragment : Fragment(),

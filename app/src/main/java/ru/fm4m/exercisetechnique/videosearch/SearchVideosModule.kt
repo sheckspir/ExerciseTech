@@ -7,8 +7,10 @@ import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import io.reactivex.subjects.PublishSubject
 import ru.fm4m.exercisetechnique.NavigationEvent
-import ru.fm4m.exercisetechnique.bodymain.body.PerFragment
+import ru.fm4m.exercisetechnique.PerFragment
 import ru.fm4m.exercisetechnique.findNavigationPublisher
+import ru.fm4m.exercisetechnique.techdomain.videosearch.FindVideosByKeyUseCase
+import ru.fm4m.exercisetechnique.techdomain.videosearch.FindVideosByKeyUseCaseImpl
 import javax.inject.Named
 
 @Module
@@ -31,6 +33,9 @@ class SearchVideosModule {
     fun provideEventPublisher() : PublishSubject<UIEventSearchVideos> {
         return PublishSubject.create()
     }
+
+    @Provides
+    fun provideFindVideosByKeyUseCase(useCase: FindVideosByKeyUseCaseImpl) : FindVideosByKeyUseCase = useCase
 
 }
 

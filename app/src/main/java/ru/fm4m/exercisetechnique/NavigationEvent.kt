@@ -1,8 +1,8 @@
 package ru.fm4m.exercisetechnique
 
-import ru.fm4m.exercisetechnique.model.Muscle
-import ru.fm4m.exercisetechnique.model.Sex
-import ru.fm4m.exercisetechnique.model.VideoInfo
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 
 sealed class NavigationEvent {
     object ShowAnotherSide: NavigationEvent()

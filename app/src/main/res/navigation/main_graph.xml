@@ -27,7 +27,7 @@
         android:label="BodyMainFragment" >
         <argument
             android:name="sex"
-            app:argType="ru.fm4m.exercisetechnique.model.Sex" />
+            app:argType="ru.fm4m.exercisetechnique.techdomain.data.Sex" />
         <action
             android:id="@+id/action_bodyMainFragment2_to_bodyFragment"
             app:destination="@id/bodyFragment" />
@@ -43,10 +43,10 @@
         tools:layout="@layout/fragment_body" >
         <argument
             android:name="sex"
-            app:argType="ru.fm4m.exercisetechnique.model.Sex" />
+            app:argType="ru.fm4m.exercisetechnique.techdomain.data.Sex" />
         <argument
             android:name="side"
-            app:argType="ru.fm4m.exercisetechnique.model.Side" />
+            app:argType="ru.fm4m.exercisetechnique.techdomain.data.Side" />
     </fragment>
     <fragment
         android:id="@+id/videoListFragment"
@@ -55,10 +55,10 @@
         tools:layout="@layout/fragment_video_list" >
         <argument
             android:name="muscle"
-            app:argType="ru.fm4m.exercisetechnique.model.Muscle" />
+            app:argType="ru.fm4m.exercisetechnique.techdomain.data.Muscle" />
         <argument
             android:name="sex"
-            app:argType="ru.fm4m.exercisetechnique.model.Sex"
+            app:argType="ru.fm4m.exercisetechnique.techdomain.data.Sex"
             android:defaultValue="MALE" />
     </fragment>
     <fragment
@@ -75,7 +75,7 @@
         android:label="OneVideoFragment" >
         <argument
             android:name="info"
-            app:argType="ru.fm4m.exercisetechnique.model.VideoInfo" />
+            app:argType="ru.fm4m.exercisetechnique.techdomain.data.VideoInfo" />
     </fragment>
     <fragment
         android:id="@+id/newProgramFragment"

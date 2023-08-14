@@ -1,7 +1,7 @@
 package ru.fm4m.exercisetechnique.newprogram
 
 import ru.fm4m.exercisetechnique.UIEvent
-import ru.fm4m.exercisetechnique.model.VideoInfo
+ import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 
 sealed class UIEventNewProgram : UIEvent() {
     object RedownloadAllVideos: UIEventNewProgram()

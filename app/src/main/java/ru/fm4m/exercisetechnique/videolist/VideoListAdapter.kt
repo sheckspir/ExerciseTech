@@ -6,9 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.fm4m.exercisetechnique.R
 import ru.fm4m.exercisetechnique.core.LoadableRecyclerAdapter
-import ru.fm4m.exercisetechnique.model.Muscle
-import ru.fm4m.exercisetechnique.model.VideoInfo
-import ru.fm4m.exercisetechnique.model.YouTubeVideoInfo
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
+import ru.fm4m.exercisetechnique.techdomain.data.YouTubeVideoInfo
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import kotlinx.android.synthetic.main.item_title_videos.view.*
@@ -18,11 +17,11 @@ class VideoListAdapter(errorListener: ErrorListener): LoadableRecyclerAdapter<Vi
 
     private var items: MutableList<VideoInfo> = ArrayList()
 
-    private var muscle : Muscle? = null
+    private var muscle : String = ""
 
-    fun setMuscle(muscle: Muscle) {
-        if (this.muscle != muscle) {
-            this.muscle = muscle
+    fun setMuscle(name : String) {
+        if (this.muscle != name) {
+            this.muscle = name
             notifyDataSetChanged()
         }
     }
@@ -93,11 +92,11 @@ class TitleVideosVH(view: View) : RecyclerView.ViewHolder(view) {
 
     private val textView = view.textTitle
 
-    fun bind(muscle: Muscle?) {
-        if (muscle == null) {
+    fun bind(name: String) {
+        if (name.isEmpty()) {
             itemView.visibility = View.GONE
         } else {
-            textView.setText(muscle.muscleName)
+            textView.text = name
             itemView.visibility = View.VISIBLE
         }
 

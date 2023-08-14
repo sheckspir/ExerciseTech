@@ -13,6 +13,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app/techdata" />
+            <option value="$PROJECT_DIR$/app/techdomain" />
             <option value="$PROJECT_DIR$/clickableareasimage" />
           </set>
         </option>
