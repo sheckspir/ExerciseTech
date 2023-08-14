@@ -17,9 +17,9 @@ class VideoListAdapter(errorListener: ErrorListener): LoadableRecyclerAdapter<Vi
 
     private var items: MutableList<VideoInfo> = ArrayList()
 
-    private var muscle : String = ""
+    private var muscle : String? = null
 
-    fun setMuscle(name : String) {
+    fun setMuscle(name : String?) {
         if (this.muscle != name) {
             this.muscle = name
             notifyDataSetChanged()
@@ -92,8 +92,8 @@ class TitleVideosVH(view: View) : RecyclerView.ViewHolder(view) {
 
     private val textView = view.textTitle
 
-    fun bind(name: String) {
-        if (name.isEmpty()) {
+    fun bind(name: String?) {
+        if (name.isNullOrEmpty()) {
             itemView.visibility = View.GONE
         } else {
             textView.text = name

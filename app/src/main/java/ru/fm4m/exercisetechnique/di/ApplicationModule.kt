@@ -5,10 +5,8 @@ import android.content.res.Resources
 import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonDeserializationContext
 import dagger.Module
 import dagger.Provides
-import dagger.android.ContributesAndroidInjector
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -17,11 +15,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.fm4m.exercisetechnique.ExerciseApplication
-import ru.fm4m.exercisetechnique.PerFragment
-import ru.fm4m.exercisetechnique.bodymain.BodyMainFragment
-import ru.fm4m.exercisetechnique.bodymain.BodyMainModule
-import ru.fm4m.exercisetechnique.techdomain.core.IMuscleName
+import ru.fm4m.exercisetechnique.techdomain.bodymain.body.DownloadMuscleUseCase
+import ru.fm4m.exercisetechnique.techdomain.bodymain.body.DownloadMuscleUseCaseImpl
+import ru.fm4m.exercisetechnique.techdomain.server.IMuscleInfoApi
 import ru.fm4m.exercisetechnique.techdomain.core.ISchedulerProvider
 import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import ru.fm4m.exercisetechnique.techdomain.system.Logger
@@ -29,7 +25,6 @@ import ru.fm4m.exercisetechnique.techniquedata.server.ApiVideoInfoAdapter
 import ru.fm4m.exercisetechnique.techdomain.server.ServerApi
 import ru.fm4m.exercisetechnique.techniquedata.core.MuscleNameProvider
 import ru.fm4m.exercisetechnique.techniquedata.server.ServerApiBackend
-import java.lang.Exception
 import javax.inject.Singleton
 
 @Module
@@ -88,7 +83,10 @@ class ApplicationModule(private val context: Context) {
 
     @Singleton
     @Provides
-    fun muscleNameProvider(muscleNameProvider: MuscleNameProvider) : IMuscleName = muscleNameProvider
+    fun muscleNameProvider(muscleNameProvider: MuscleNameProvider) : IMuscleInfoApi = muscleNameProvider
+
+    @Provides
+    fun downloadMuscleUseCase(downloadMuscleUseCase: DownloadMuscleUseCaseImpl) : DownloadMuscleUseCase = downloadMuscleUseCase
 
     @Singleton
     @Provides

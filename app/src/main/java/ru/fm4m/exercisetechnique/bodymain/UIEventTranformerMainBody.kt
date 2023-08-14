@@ -3,10 +3,12 @@ package ru.fm4m.exercisetechnique.bodymain
 import ru.fm4m.exercisetechnique.UIEvent
 import ru.fm4m.exercisetechnique.bodymain.body.BodyFeature
 import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
 import ru.fm4m.exercisetechnique.techdomain.data.Side
 
 open class UIEventMainBody : UIEvent() {
     data class MuscleClicked(val muscle: Muscle): UIEventMainBody()
+    data class MuscleDownloadClicked(val sex: Sex) : UIEventMainBody()
     object ChangeSideClicked : UIEventMainBody()
     object FocusedSide: UIEventMainBody()
 }

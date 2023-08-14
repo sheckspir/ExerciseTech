@@ -87,7 +87,7 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
     override fun accept(t: VideoListFeature.State) {
         Log.d("TAG", "new state loading ${t.isLoading} items ${t.videoLists}")
         if (::adapter.isInitialized) {
-            adapter.setMuscle(t.muscleName)
+            adapter.setMuscle(t.muscleInfo?.name)
             adapter.setItems(t.videoLists)
             adapter.showLoading(t.isLoading)
         }

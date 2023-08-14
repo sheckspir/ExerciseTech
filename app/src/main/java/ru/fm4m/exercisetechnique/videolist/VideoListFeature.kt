@@ -11,7 +11,8 @@ import io.reactivex.Observable
 import io.reactivex.Observable.empty
 import ru.fm4m.exercisetechnique.PerFragment
 import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
-import ru.fm4m.exercisetechnique.techdomain.core.IMuscleName
+import ru.fm4m.exercisetechnique.techdomain.server.IMuscleInfoApi
+import ru.fm4m.exercisetechnique.techdomain.data.MuscleInfo
 import ru.fm4m.exercisetechnique.techdomain.videolist.RedownloadVideoListBySexAndMuscle
 import java.lang.IllegalArgumentException
 import javax.inject.Inject
@@ -21,21 +22,21 @@ import javax.inject.Named
 class VideoListFeature @Inject constructor(
     @Named("VideoListFeature") parcelableState : Parcelable?,
     redownloadVideosUseCase: RedownloadVideoListBySexAndMuscle,
-    muscleNameProvider: IMuscleName,
     sex: Sex,
     muscle: Muscle
 ): ActorReducerFeature<VideoListFeature.Wish, VideoListFeature.Effect, VideoListFeature.State, VideoListFeature.News>(
-    initialState = if (parcelableState != null) parcelableState as State else State(false, muscle, muscleNameProvider.getMuscleName(muscle)),
+    initialState = if (parcelableState != null) parcelableState as State else State(false, sex, muscle),
     bootstrapper = null,
     actor = ActorImpl(redownloadVideosUseCase),
-    reducer = ReducerImpl(muscleNameProvider),
+    reducer = ReducerImpl(),
     newsPublisher = NewsPublisherImpl()
 ) {
 
     data class State(
         val isLoading: Boolean,
+        val sex: Sex,
         val muscle: Muscle,
-        val muscleName: String,
+        val muscleInfo: MuscleInfo? = null,
         val videoLists : List<VideoInfo>? = null
     )
 
@@ -46,7 +47,7 @@ class VideoListFeature @Inject constructor(
 
     sealed class Effect {
         object StartedLoading : Effect()
-        data class LoadedVideosInfo(val videoLists: List<VideoInfo>) : Effect()
+        data class LoadedVideosInfo(val muscleInfo: MuscleInfo, val videoLists: List<VideoInfo>) : Effect()
         data class ErrorLoading(val throwable: Throwable) : Effect()
     }
 
@@ -63,7 +64,7 @@ class VideoListFeature @Inject constructor(
                         .map {
                             when(it){
                                 is DownloadDataEffect.StartDownload -> Effect.StartedLoading
-                                is DownloadDataEffect.DownloadedData -> Effect.LoadedVideosInfo(it.result)
+                                is DownloadDataEffect.DownloadedData -> Effect.LoadedVideosInfo(it.result.muscleInfo, it.result.videos)
                                 is DownloadDataEffect.ErrorDownload -> Effect.ErrorLoading(it.e)
                                 else -> Effect.ErrorLoading(IllegalArgumentException("Not recognized result $it"))
                             }
@@ -74,7 +75,7 @@ class VideoListFeature @Inject constructor(
         }
     }
 
-    class ReducerImpl(private val muscleNameProvider: IMuscleName) : Reducer<State, Effect> {
+    class ReducerImpl() : Reducer<State, Effect> {
         override fun invoke(state: State, effect: Effect): State {
             return when(effect) {
                 is Effect.StartedLoading -> {
@@ -84,7 +85,7 @@ class VideoListFeature @Inject constructor(
                     state.copy(false)
                 }
                 is Effect.LoadedVideosInfo -> {
-                    state.copy(false, state.muscle, muscleNameProvider.getMuscleName(state.muscle), effect.videoLists)
+                    state.copy(false, state.sex, state.muscle, effect.muscleInfo, effect.videoLists)
                 }
             }
         }

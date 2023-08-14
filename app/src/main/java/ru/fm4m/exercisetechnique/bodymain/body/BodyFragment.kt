@@ -18,6 +18,7 @@ import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_body.*
 import kotlinx.android.synthetic.main.fragment_body.view.*
+import ru.fm4m.exercisetechnique.videolist.UIEventVideos
 import javax.inject.Inject
 
 class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UIEventMainBody>, Consumer<BodyFeature.State> {
@@ -64,9 +65,15 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UI
         return inflater.inflate(R.layout.fragment_body, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+        source.onNext(UIEventMainBody.MuscleDownloadClicked(getSex()))
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         manager = BodyAreasManager(view.imageBody, view.imageFullBody, this)
+
     }
 
     override fun subscribe(observer: Observer<in UIEventMainBody>) {
@@ -78,13 +85,14 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UI
         if (!::manager.isInitialized) {
             return
         }
-        textNameMuscle.visibility = if (t.showTitleMuscle) View.VISIBLE else View.GONE
-        if (t.muscleName.isNotEmpty() && t.selectedMuscle != null) {
-            textNameMuscle.text = t.muscleName
+        if (t.selectedMuscle != null) {
+            textNameMuscle.visibility = if (t.showTitleMuscle) View.VISIBLE else View.GONE
+            textNameMuscle.text = t.selectedMuscle.name
         }
         if (manager.showed()) {
-            manager.updateSelectedId(t.selectedMuscle)
-        } else {
+            manager.updateSelectedId(t.selectedMuscle?.muscle)
+        } else if(!t.showedMuscles.isNullOrEmpty()) {
+            //пока игнорим showedMuscles, вообще по идее надо проверять этот лист и не отображать если у нас нет в списке, но кажется это может и не пригодиться
             if (t.sex == Sex.MALE) {
                if (t.side == Side.FRONT) {
                    manager.showManFront()
@@ -98,7 +106,7 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UI
                     manager.showWomanBack()
                 }
             }
-            manager.updateSelectedId(t.selectedMuscle)
+            manager.updateSelectedId(t.selectedMuscle?.muscle)
         }
     }
 
