@@ -1,7 +1,8 @@
-package ru.fm4m.exercisetechnique.techniquedata.core
+package ru.fm4m.exercisetechnique.techdata.core
 
 import android.content.res.Resources
 import io.reactivex.Single
+import org.jetbrains.annotations.TestOnly
 import ru.fm4m.exercisetechnique.techdata.R
 import ru.fm4m.exercisetechnique.techdomain.data.Muscle
 import ru.fm4m.exercisetechnique.techdomain.server.IMuscleInfoApi
@@ -41,7 +42,11 @@ class MuscleNameProvider @Inject constructor(private val resources: Resources) :
 
     override fun getMuscleInfo(muscle: Muscle): Single<MuscleInfo> {
         return Single.fromCallable {
-            namesString[muscle]
+            if (namesString.containsKey(muscle)) {
+                namesString[muscle]
+            } else {
+                MuscleInfo(muscle, "")
+            }
         }
     }
 

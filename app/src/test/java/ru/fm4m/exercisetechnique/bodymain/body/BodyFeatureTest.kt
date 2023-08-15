@@ -3,22 +3,22 @@ package ru.fm4m.exercisetechnique.bodymain.body
 import android.util.Log
 import com.badoo.binder.Binder
 import com.badoo.binder.lifecycle.ManualLifecycle
-import ru.fm4m.exercisetechnique.techdomain.model.Muscle
-import ru.fm4m.exercisetechnique.techdomain.model.Sex
-import ru.fm4m.exercisetechnique.techdomain.model.Side
 import io.mockk.impl.annotations.MockK
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import org.junit.Test
 import io.mockk.*
 import ru.fm4m.exercisetechnique.NavigationEvent
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.Side
 
 class BodyFeatureTest {
 
     @MockK
     lateinit var navigationEventPublisher : PublishSubject<NavigationEvent>
     @MockK
-    lateinit var stateConsumer : Consumer<ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.State>
+    lateinit var stateConsumer : Consumer<BodyFeature.State>
 
     val lifecycle = ManualLifecycle()
     val binder = Binder(lifecycle)
@@ -33,27 +33,27 @@ class BodyFeatureTest {
 
     @Test
     fun selectMuscleOne_onlyShowSelectedMuscle() {
-        val feature = ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature(
-            ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE,
-            ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT,
+        val feature = BodyFeature(
+            Sex.MALE,
+            Side.FRONT,
             navigationEventPublisher
         )
         binder.bind(feature to stateConsumer)
         lifecycle.begin()
 
-        feature.accept(ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.SelectMuscle(ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS))
+        feature.accept(BodyFeature.Wish.SelectMuscle(Muscle.TRICEPS))
 
         verify(exactly = 1){stateConsumer.accept(withArg {
             assert(it.selectedMuscle == null)
             assert(it.showTitleMuscle == false)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         })}
         verify(exactly = 1){stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS)
+            assert(it.selectedMuscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         })}
 
         lifecycle.end()
@@ -62,34 +62,34 @@ class BodyFeatureTest {
 
     @Test
     fun selectMuscleTwice_showSelected_openVideos() {
-        val feature = ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature(
-            ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE,
-            ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT,
+        val feature = BodyFeature(
+            Sex.MALE,
+            Side.FRONT,
             navigationEventPublisher
         )
         binder.bind(feature to stateConsumer)
         lifecycle.begin()
 
-        feature.accept(ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.SelectMuscle(ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS))
-        feature.accept(ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.SelectMuscle(ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS))
+        feature.accept(BodyFeature.Wish.SelectMuscle(Muscle.TRICEPS))
+        feature.accept(BodyFeature.Wish.SelectMuscle(Muscle.TRICEPS))
 
         verify(exactly = 1){stateConsumer.accept(withArg {
             assert(it.selectedMuscle == null)
             assert(it.showTitleMuscle == false)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         })}
         verify(exactly = 1){stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS)
+            assert(it.selectedMuscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         })}
 
         verify { navigationEventPublisher.onNext(withArg {
             assert(it is NavigationEvent.ShowMuscleVideos)
-            assert((it as NavigationEvent.ShowMuscleVideos).muscle == ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
+            assert((it as NavigationEvent.ShowMuscleVideos).muscle == Muscle.TRICEPS)
+            assert(it.sex == Sex.MALE)
         }) }
 
         lifecycle.end()
@@ -97,9 +97,9 @@ class BodyFeatureTest {
 
     @Test
     fun focusedBack_hideTitle() {
-        val feature = ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature(
-            ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE,
-            ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT,
+        val feature = BodyFeature(
+            Sex.MALE,
+            Side.FRONT,
             navigationEventPublisher
         )
         binder.bind(feature to stateConsumer)
@@ -108,35 +108,35 @@ class BodyFeatureTest {
         verify { stateConsumer.accept(withArg {
             assert(it.selectedMuscle == null)
             assert(it.showTitleMuscle == false)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         }) }
 
-        feature.accept(ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.SelectMuscle(ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS))
+        feature.accept(BodyFeature.Wish.SelectMuscle(Muscle.TRICEPS))
 
         verify { stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS)
+            assert(it.selectedMuscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         }) }
 
-        feature.accept(ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.FocusedSide(ru.fm4m.exercisetechnique.techdomain.model.Side.BACK))
+        feature.accept(BodyFeature.Wish.FocusedSide(Side.BACK))
 
         verify { stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS)
+            assert(it.selectedMuscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle == false)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         }) }
 
-        feature.accept(ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.FocusedSide(ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT))
+        feature.accept(BodyFeature.Wish.FocusedSide(Side.FRONT))
 
         verify(exactly = 2) { stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS)
+            assert(it.selectedMuscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         }) }
 
         lifecycle.end()
@@ -144,9 +144,9 @@ class BodyFeatureTest {
 
     @Test
     fun changeSideProcess_hideTitle() {
-        val feature = ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature(
-            ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE,
-            ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT,
+        val feature = BodyFeature(
+            Sex.MALE,
+            Side.FRONT,
             navigationEventPublisher
         )
         binder.bind(feature to stateConsumer)
@@ -155,26 +155,26 @@ class BodyFeatureTest {
         verify { stateConsumer.accept(withArg {
             assert(it.selectedMuscle == null)
             assert(it.showTitleMuscle == false)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         }) }
 
-        feature.accept(ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.SelectMuscle(ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS))
+        feature.accept(BodyFeature.Wish.SelectMuscle(Muscle.TRICEPS))
 
         verify { stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS)
+            assert(it.selectedMuscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         }) }
 
-        feature.accept(ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.ChangeSide)
+        feature.accept(BodyFeature.Wish.ChangeSide)
 
         verify { stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == ru.fm4m.exercisetechnique.techdomain.model.Muscle.TRICEPS)
+            assert(it.selectedMuscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle == false)
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
         }) }
 
         lifecycle.end()

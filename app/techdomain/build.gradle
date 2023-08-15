@@ -13,7 +13,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-def dagger_version = '2.47'
 dependencies {
 
     implementation 'javax.inject:javax.inject:1'
@@ -30,4 +29,7 @@ dependencies {
 //    implementation "com.google.dagger:dagger:$dagger_version"
 //    compileOnly "com.google.dagger:dagger-compiler:$dagger_version"
 //    compileOnly "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "io.mockk:mockk:1.12.0"
 }

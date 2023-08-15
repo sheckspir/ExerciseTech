@@ -9,7 +9,7 @@ import ru.fm4m.exercisetechnique.techdomain.model.Muscle
 import ru.fm4m.exercisetechnique.techdomain.model.Sex
 import ru.fm4m.exercisetechnique.techdomain.model.VideoInfo
 import ru.fm4m.exercisetechnique.techdomain.model.YouTubeVideoInfo
-import ru.fm4m.exercisetechnique.techniquedata.server.ServerApi
+import ru.fm4m.exercisetechnique.techdata.server.ServerApi
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

@@ -21,10 +21,10 @@ import ru.fm4m.exercisetechnique.techdomain.server.IMuscleInfoApi
 import ru.fm4m.exercisetechnique.techdomain.core.ISchedulerProvider
 import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import ru.fm4m.exercisetechnique.techdomain.system.Logger
-import ru.fm4m.exercisetechnique.techniquedata.server.ApiVideoInfoAdapter
+import ru.fm4m.exercisetechnique.techdata.server.ApiVideoInfoAdapter
 import ru.fm4m.exercisetechnique.techdomain.server.ServerApi
-import ru.fm4m.exercisetechnique.techniquedata.core.MuscleNameProvider
-import ru.fm4m.exercisetechnique.techniquedata.server.ServerApiBackend
+import ru.fm4m.exercisetechnique.techdata.core.MuscleNameProvider
+import ru.fm4m.exercisetechnique.techdata.server.ServerApiBackend
 import javax.inject.Singleton
 
 @Module

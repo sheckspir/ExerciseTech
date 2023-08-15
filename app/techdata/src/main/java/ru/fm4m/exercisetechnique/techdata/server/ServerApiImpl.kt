@@ -1,4 +1,4 @@
-package ru.fm4m.exercisetechnique.techniquedata.server
+package ru.fm4m.exercisetechnique.techdata.server
 
 import ru.fm4m.exercisetechnique.techdomain.data.Muscle
 import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
@@ -240,8 +240,8 @@ class ServerApiImpl : ServerApi {
                     if (videosForKeys.isEmpty()) {
                         for (videosList in videos.values) {
                             for (oneVideo in videosList) {
-                                if (!videosForKeys.containsKey(oneVideo.keys)) {
-                                    videosForKeys[oneVideo.keys] = ArrayList<VideoInfo>().apply {
+                                if (!videosForKeys.containsKey(oneVideo.hints)) {
+                                    videosForKeys[oneVideo.hints] = ArrayList<VideoInfo>().apply {
                                         add(oneVideo)
                                     }
                                 }

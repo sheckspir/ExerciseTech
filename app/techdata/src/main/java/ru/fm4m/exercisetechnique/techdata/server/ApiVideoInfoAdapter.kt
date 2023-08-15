@@ -1,4 +1,4 @@
-package ru.fm4m.exercisetechnique.techniquedata.server
+package ru.fm4m.exercisetechnique.techdata.server
 
 import com.google.gson.*
 import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
@@ -6,7 +6,7 @@ import ru.fm4m.exercisetechnique.techdomain.data.YouTubeVideoInfo
 import ru.fm4m.exercisetechnique.techdomain.system.Logger
 import java.lang.reflect.Type
 
-class ApiVideoInfoAdapter(val logger: Logger) : JsonDeserializer<VideoInfo> {
+class ApiVideoInfoAdapter(private val logger: Logger) : JsonDeserializer<VideoInfo> {
 
     override fun deserialize(
         json: JsonElement?,
@@ -16,7 +16,7 @@ class ApiVideoInfoAdapter(val logger: Logger) : JsonDeserializer<VideoInfo> {
         if (json?.isJsonObject == true) {
             val type = (json as JsonObject).get("type")
             logger.d("TAG", "type = $type")
-            if (type.asString == "YT") {
+            if (type?.asString?.uppercase() == "YT") {
                 return YouTubeVideoInfo(
                     json.get("id").asString,
                     json.get("name").asString,
@@ -24,6 +24,6 @@ class ApiVideoInfoAdapter(val logger: Logger) : JsonDeserializer<VideoInfo> {
                 )
             }
         }
-        return Gson().fromJson(json, VideoInfo::class.java);
+        return Gson().fromJson(json, VideoInfo::class.java)
     }
 }
