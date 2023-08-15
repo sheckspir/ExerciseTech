@@ -4,8 +4,6 @@ import android.util.Log
 import com.badoo.binder.Binder
 import com.badoo.binder.lifecycle.ManualLifecycle
 import com.badoo.binder.using
-import ru.fm4m.exercisetechnique.techdomain.model.Sex
-import ru.fm4m.exercisetechnique.techdomain.model.Side
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -13,17 +11,23 @@ import io.mockk.mockkStatic
 import io.mockk.verify
 import io.reactivex.functions.Consumer
 import org.junit.Test
+import ru.fm4m.exercisetechnique.bodymain.body.BodyFeature
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.Side
+import ru.fm4m.exercisetechnique.techdomain.system.TestLogger
 
 class BodyMainFeatureTest {
 
     @MockK
     lateinit var stateConsumer : Consumer<BodyMainFeature.State>
     @MockK
-    lateinit var newsToWishConsumer: Consumer<ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish>
+    lateinit var newsToWishConsumer: Consumer<BodyFeature.Wish>
 
-    val lifecycle = ManualLifecycle()
-    val binder = Binder(lifecycle)
-    val newsToWishTransformer = NewsToBodyiesNewsTransformer()
+    private val logger = TestLogger()
+
+    private val lifecycle = ManualLifecycle()
+    private val binder = Binder(lifecycle)
+    private val newsToWishTransformer = NewsToBodyiesNewsTransformer()
 
     init {
         MockKAnnotations.init(this)
@@ -35,22 +39,22 @@ class BodyMainFeatureTest {
 
     @Test
     fun changeSideClicked_updateState() {
-        val feature = BodyMainFeature(ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
+        val feature = BodyMainFeature(Sex.MALE, logger)
         binder.bind(feature to stateConsumer)
         lifecycle.begin()
 
         verify { stateConsumer.accept(withArg {
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.FRONT)
             assert(it.active)
         }) }
 
         feature.accept(BodyMainFeature.Wish.ChangeSide)
 
         verify { stateConsumer.accept(withArg {
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.BACK)
-            assert(it.active == false)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.BACK)
+            assert(!it.active)
         }) }
 
 
@@ -59,7 +63,7 @@ class BodyMainFeatureTest {
 
     @Test
     fun changeSideComplited_updateState() {
-        val feature = BodyMainFeature(ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
+        val feature = BodyMainFeature(Sex.MALE, logger)
         binder.bind(feature to stateConsumer)
         lifecycle.begin()
 
@@ -67,8 +71,8 @@ class BodyMainFeatureTest {
         feature.accept(BodyMainFeature.Wish.FocusedSide)
 
         verify { stateConsumer.accept(withArg {
-            assert(it.sex == ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
-            assert(it.side == ru.fm4m.exercisetechnique.techdomain.model.Side.BACK)
+            assert(it.sex == Sex.MALE)
+            assert(it.side == Side.BACK)
             assert(it.active)
         }) }
 
@@ -77,7 +81,7 @@ class BodyMainFeatureTest {
 
     @Test
     fun changeSideClicked_NotifyAnotherFeature() {
-        val feature = BodyMainFeature(ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
+        val feature = BodyMainFeature(Sex.MALE, logger)
         binder.bind(feature.news to newsToWishConsumer using newsToWishTransformer)
         lifecycle.begin()
 
@@ -85,7 +89,7 @@ class BodyMainFeatureTest {
 
         verify(exactly = 1) { newsToWishConsumer.accept(any()) }
         verify() { newsToWishConsumer.accept(withArg {
-            assert(it == ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.ChangeSide)
+            assert(it == BodyFeature.Wish.ChangeSide)
         }) }
 
         lifecycle.end()
@@ -94,7 +98,7 @@ class BodyMainFeatureTest {
 
     @Test
     fun completeSideFront_NotifyAnotherFeature() {
-        val feature = BodyMainFeature(ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
+        val feature = BodyMainFeature(Sex.MALE, logger)
 
         feature.accept(BodyMainFeature.Wish.ChangeSide)
         feature.accept(BodyMainFeature.Wish.FocusedSide)
@@ -107,8 +111,8 @@ class BodyMainFeatureTest {
 
         verify(exactly = 1) { newsToWishConsumer.accept(any()) }
         verify(exactly = 1) { newsToWishConsumer.accept(withArg {
-            assert(it is ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.FocusedSide)
-            assert((it as ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.FocusedSide).side == ru.fm4m.exercisetechnique.techdomain.model.Side.FRONT)
+            assert(it is BodyFeature.Wish.FocusedSide)
+            assert((it as BodyFeature.Wish.FocusedSide).side == Side.FRONT)
         }) }
 
         lifecycle.end()
@@ -117,7 +121,7 @@ class BodyMainFeatureTest {
 
     @Test
     fun completeSideBack_NotifyAnotherFeature() {
-        val feature = BodyMainFeature(ru.fm4m.exercisetechnique.techdomain.model.Sex.MALE)
+        val feature = BodyMainFeature(Sex.MALE, logger)
         binder.bind(feature.news to newsToWishConsumer using newsToWishTransformer)
         lifecycle.begin()
 
@@ -126,8 +130,8 @@ class BodyMainFeatureTest {
 
         verify(exactly = 2) { newsToWishConsumer.accept(any()) }
         verify(exactly = 1) { newsToWishConsumer.accept(withArg {
-            assert(it is ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.FocusedSide)
-            assert((it as ru.fm4m.exercisetechnique.techdomain.bodymain.body.BodyFeature.Wish.FocusedSide).side == ru.fm4m.exercisetechnique.techdomain.model.Side.BACK)
+            assert(it is BodyFeature.Wish.FocusedSide)
+            assert((it as BodyFeature.Wish.FocusedSide).side == Side.BACK)
         }) }
 
         lifecycle.end()

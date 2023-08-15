@@ -3,4 +3,3 @@ include ':app'
 rootProject.name = "Exercise technique"
 include ':app:techdomain'
 include ':app:techdata'
-include ':app:techpresentation'

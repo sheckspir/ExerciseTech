@@ -69,6 +69,7 @@ class VideoListFeature @Inject constructor(
                                 else -> Effect.ErrorLoading(IllegalArgumentException("Not recognized result $it"))
                             }
                         }
+                        .onErrorReturn { Effect.ErrorLoading(it) }
                 }
                 else -> empty() // TODO: 10/9/21 temp
             }

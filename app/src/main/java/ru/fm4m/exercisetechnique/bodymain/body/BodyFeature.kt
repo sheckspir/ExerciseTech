@@ -72,13 +72,13 @@ class BodyFeature @Inject constructor(
                     }
                 }
                 is Wish.SelectMuscle -> {
-                    Observable.fromCallable{
-                        if (state.selectedMuscle != null
-                            && action.muscle == state.selectedMuscle.muscle
-                        ) {
-                            navigationPublisher.onNext(NavigationEvent.ShowMuscleVideos(action.muscle, state.sex))
-                            Effect.ShowTitle
-                        } else {
+                    if (state.selectedMuscle != null
+                        && action.muscle == state.selectedMuscle.muscle
+                    ) {
+                        navigationPublisher.onNext(NavigationEvent.ShowMuscleVideos(action.muscle, state.sex))
+                        Observable.empty()
+                    } else {
+                        Observable.fromCallable {
                             var muscleInfo = state.showedMuscles?.get(action.muscle)
                             if (muscleInfo == null) {
                                 muscleInfo = MuscleInfo(action.muscle, "")
