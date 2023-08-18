@@ -33,27 +33,6 @@ class ApplicationModule(private val context: Context) {
 
     @Singleton
     @Provides
-    fun provideApi(logger : Logger): ServerApi {
-        val gson: Gson = GsonBuilder()
-            .registerTypeAdapter(VideoInfo::class.java, ApiVideoInfoAdapter(logger))
-            .create()
-
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.alekar.ru/exercise/")
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-            .client(client)
-            .build()
-
-        return retrofit.create(ServerApiBackend::class.java)
-    }
-
-    @Singleton
-    @Provides
     fun schedulerProvider() : ISchedulerProvider {
         return object : ISchedulerProvider {
             override fun getMainScheduler(): Scheduler {

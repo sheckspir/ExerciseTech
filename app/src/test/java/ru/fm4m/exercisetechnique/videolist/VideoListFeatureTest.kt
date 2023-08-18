@@ -14,7 +14,6 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.mockkStatic
 import io.mockk.verify
 import io.reactivex.Observable
-import io.reactivex.Single
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer

@@ -5,7 +5,10 @@ import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
 import ru.fm4m.exercisetechnique.techdomain.core.ISchedulerProvider
 import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import ru.fm4m.exercisetechnique.techdomain.server.ServerApi
+import ru.fm4m.exercisetechnique.techdomain.server.TechniqueRepository
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
 
 interface FindVideosByKeyUseCase {
 
@@ -14,8 +17,9 @@ interface FindVideosByKeyUseCase {
 
 class FindVideosByKeyUseCaseImpl @Inject constructor(
     private val schedulersProvider: ISchedulerProvider,
-    private val serverApi: ServerApi
-) : FindVideosByKeyUseCase {
+    private val serverApi: ServerApi,
+) : FindVideosByKeyUseCase  {
+
     override fun getData(search: String): Observable<DownloadDataEffect<List<VideoInfo>>> {
         return Observable.just(DownloadDataEffect.StartDownload<List<VideoInfo>>() as DownloadDataEffect<List<VideoInfo>>)
             .observeOn(schedulersProvider.getMainScheduler())

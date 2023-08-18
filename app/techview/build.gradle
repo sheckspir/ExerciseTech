@@ -1,0 +1,84 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+
+    id 'kotlin-kapt'
+    id 'kotlin-android-extensions'
+}
+
+android {
+    namespace 'ru.fm4m.exercisetechnique.techview'
+    compileSdk 33
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+def navigation_version = '2.6.0'
+def dagger_version = '2.47'
+dependencies {
+
+    implementation project(path: ':app:coreview')
+    implementation project(path: ':app:techdomain')
+    implementation project(path: ':app:techdata')
+    implementation project(':clickableareasimage')
+
+
+    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'com.pixplicity.sharp:library:+@aar'
+
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+
+    //todo temp!
+    implementation "io.reactivex.rxjava2:rxjava:2.2.21"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    implementation "com.google.dagger:dagger:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+//    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    // Dynamic Feature Module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$navigation_version"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+
+
+    implementation "com.github.badoo.mvicore:mvicore:1.4.0"
+    implementation 'com.github.badoo.mvicore:binder:1.4.0'
+    implementation 'com.github.badoo.mvicore:mvicore-android:1.4.0'
+    implementation 'com.github.badoo.mvicore:mvicore-diff:1.4.0'
+    implementation 'com.github.badoo.mvicore:mvicore-debugdrawer:1.4.0'
+
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+
+}

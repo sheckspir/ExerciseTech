@@ -8,7 +8,7 @@ import io.reactivex.subjects.PublishSubject
 import org.junit.Test
 import io.mockk.*
 import io.reactivex.Observable
-import ru.fm4m.exercisetechnique.NavigationEvent
+import ru.fm4m.exercisetechnique.core.NavigationEvent
 import ru.fm4m.exercisetechnique.techdomain.bodymain.body.DownloadMuscleUseCase
 import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
 import ru.fm4m.exercisetechnique.techdomain.data.Muscle

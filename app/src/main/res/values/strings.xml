@@ -1,12 +1,4 @@
 <resources>
     <string name="app_name">Exercise technique</string>
 
-    <string name="man_button">♂  Мужчина</string>
-    <string name="woman_button">♀  Женщина</string>
-    <string name="search_button">Поиск</string>
-    <string name="new_program_button">Тренировка сейчас</string>
-    <string name="hint_search">Введите слова для поиска</string>
-
-    <string name="retry_button">Повторить</string>
-
 </resources>
