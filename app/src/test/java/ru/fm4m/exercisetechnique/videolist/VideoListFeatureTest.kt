@@ -4,26 +4,26 @@ import android.os.Looper
 import android.util.Log
 import com.badoo.binder.Binder
 import com.badoo.binder.lifecycle.ManualLifecycle
-import com.badoo.mvicore.android.AndroidTimeCapsule
-import ru.fm4m.exercisetechnique.model.Muscle
-import ru.fm4m.exercisetechnique.model.Sex
-import ru.fm4m.exercisetechnique.model.VideoInfo
-import ru.fm4m.exercisetechnique.model.YouTubeVideoInfo
-import ru.fm4m.exercisetechnique.server.ServerApi
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
+import ru.fm4m.exercisetechnique.techdomain.data.YouTubeVideoInfo
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockkStatic
 import io.mockk.verify
-import io.reactivex.Scheduler
-import io.reactivex.Single
+import io.reactivex.Observable
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import org.junit.Test
+import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
+import ru.fm4m.exercisetechnique.techdomain.data.MuscleInfo
+import ru.fm4m.exercisetechnique.techdomain.data.MuscleVideos
+import ru.fm4m.exercisetechnique.techdomain.videolist.RedownloadVideoListBySexAndMuscle
 import java.lang.IllegalArgumentException
-import java.util.concurrent.Callable
 
 
 class VideoListFeatureTest {
@@ -33,12 +33,12 @@ class VideoListFeatureTest {
     @MockK
     lateinit var newsConsumer : Consumer<VideoListFeature.News>
     @MockK
-    lateinit var serverApi: ServerApi
-    @MockK
     lateinit var looper: Looper
+    @MockK
+    lateinit var redownloadVideoListBySexAndMuscle: RedownloadVideoListBySexAndMuscle
 
-    val lifecycle = ManualLifecycle()
-    val binder = Binder(lifecycle)
+    private val lifecycle = ManualLifecycle()
+    private val binder = Binder(lifecycle)
 
     init {
         MockKAnnotations.init(this)
@@ -51,17 +51,21 @@ class VideoListFeatureTest {
         every { Looper.getMainLooper() } returns looper
         mockkStatic("io.reactivex.android.schedulers.AndroidSchedulers")
         every { AndroidSchedulers.mainThread() } returns Schedulers.trampoline()
-        RxAndroidPlugins.setInitMainThreadSchedulerHandler { scheduler: Callable<Scheduler?>? -> Schedulers.trampoline() }
+        RxAndroidPlugins.setInitMainThreadSchedulerHandler { Schedulers.trampoline() }
     }
 
 
     @Test
     fun checkDownloadProcess_allGood() {
-        every { serverApi.getVideoList(any(), any()) } returns Single.just(ArrayList<VideoInfo>().apply {
+        val muscleInfo = MuscleInfo(Muscle.BICEPS, "")
+        val muscleVideos = ArrayList<VideoInfo>().apply {
             add(YouTubeVideoInfo("111"))
-        })
-        val feature = VideoListFeature(AndroidTimeCapsule(null),
-            serverApi,
+        }
+        every { redownloadVideoListBySexAndMuscle.getData() }returns Observable
+            .just(DownloadDataEffect.StartDownload<MuscleVideos>() as DownloadDataEffect<MuscleVideos>)
+            .mergeWith(Observable.just(DownloadDataEffect.DownloadedData(MuscleVideos(muscleInfo, muscleVideos)) as DownloadDataEffect<MuscleVideos>))
+        val feature = VideoListFeature(null,
+            redownloadVideoListBySexAndMuscle,
             Sex.MALE,
             Muscle.TRICEPS)
         binder.bind(feature to stateConsumer)
@@ -73,7 +77,7 @@ class VideoListFeatureTest {
         verify(exactly = 3) { stateConsumer.accept(any()) }
 
         verify { stateConsumer.accept(withArg {
-            assert(it.isLoading == false)
+            assert(!it.isLoading)
             assert(it.videoLists == null)
         }) }
 
@@ -83,7 +87,7 @@ class VideoListFeatureTest {
         }) }
 
         verify { stateConsumer.accept(withArg {
-            assert(it.isLoading == false)
+            assert(!it.isLoading)
             assert(it.videoLists?.first() is YouTubeVideoInfo)
         }) }
 
@@ -93,9 +97,12 @@ class VideoListFeatureTest {
     @Test
     fun checkDownloadProcess_withError() {
         val exception = IllegalArgumentException()
-        every { serverApi.getVideoList(any(), any()) } returns Single.error(exception)
-        val feature = VideoListFeature(AndroidTimeCapsule(null),
-            serverApi,
+        every { redownloadVideoListBySexAndMuscle.getData() } returns Observable
+            .just(DownloadDataEffect.StartDownload<MuscleVideos>() as DownloadDataEffect<MuscleVideos>)
+            .mergeWith(Observable.error(exception))
+
+        val feature = VideoListFeature(null,
+            redownloadVideoListBySexAndMuscle,
             Sex.MALE,
             Muscle.TRICEPS)
         binder.bind(feature to stateConsumer)

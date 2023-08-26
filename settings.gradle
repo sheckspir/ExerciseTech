@@ -1,3 +1,12 @@
 include ':clickableareasimage'
 include ':app'
 rootProject.name = "Exercise technique"
+include ':app:techdomain'
+include ':app:techdata'
+include ':app:trainingdomain'
+include ':app:trainingdata'
+include ':app:trainingview'
+include ':app:coreview'
+include ':app:coreviewbadoo'
+include ':app:techview'
+include ':app:coredomain'

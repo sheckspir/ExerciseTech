@@ -13,6 +13,15 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app/coredomain" />
+            <option value="$PROJECT_DIR$/app/coreview" />
+            <option value="$PROJECT_DIR$/app/coreviewbadoo" />
+            <option value="$PROJECT_DIR$/app/techdata" />
+            <option value="$PROJECT_DIR$/app/techdomain" />
+            <option value="$PROJECT_DIR$/app/techview" />
+            <option value="$PROJECT_DIR$/app/trainingdata" />
+            <option value="$PROJECT_DIR$/app/trainingdomain" />
+            <option value="$PROJECT_DIR$/app/trainingview" />
             <option value="$PROJECT_DIR$/clickableareasimage" />
           </set>
         </option>

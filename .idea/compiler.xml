@@ -1,6 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="11" />
+    <bytecodeTargetLevel target="1.7">
+      <module name="Exercise_technique.app" target="11" />
+      <module name="Exercise_technique.app.coreview" target="11" />
+      <module name="Exercise_technique.app.coreviewbadoo" target="11" />
+      <module name="Exercise_technique.app.techdata" target="11" />
+      <module name="Exercise_technique.app.techdomain" target="1.8" />
+      <module name="Exercise_technique.app.techdomain.main" target="1.8" />
+      <module name="Exercise_technique.app.techdomain.test" target="1.8" />
+      <module name="Exercise_technique.app.techview" target="11" />
+      <module name="Exercise_technique.app.trainingdata" target="11" />
+      <module name="Exercise_technique.app.trainingdomain" target="1.8" />
+      <module name="Exercise_technique.app.trainingdomain.main" target="1.8" />
+      <module name="Exercise_technique.app.trainingdomain.test" target="1.8" />
+      <module name="Exercise_technique.app.trainingview" target="11" />
+      <module name="Exercise_technique.clickableareasimage" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

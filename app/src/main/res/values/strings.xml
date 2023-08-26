@@ -1,28 +1,4 @@
 <resources>
     <string name="app_name">Exercise technique</string>
 
-    <string name="man_button">♂  Мужчина</string>
-    <string name="woman_button">♀  Женщина</string>
-    <string name="search_button">Поиск</string>
-    <string name="new_program_button">Тренировка сейчас</string>
-    <string name="hint_search">Введите слова для поиска</string>
-
-    <string name="retry_button">Повторить</string>
-
-    <string name="neck">Мышцы шеи</string>
-    <string name="biceps">Бицепс</string>
-    <string name="triceps">Трицепс</string>
-    <string name="chest">Грудные мышцы</string>
-    <string name="delta">Дельтовидные мышцы</string>
-    <string name="kvadr">Квадрицепсы</string>
-    <string name="predplechia">Мышцы предплечья</string>
-    <string name="trapecia">Трапеция</string>
-    <string name="golen">Голень</string>
-    <string name="koss_press">Косые мышцы пресса</string>
-    <string name="press">Пресс</string>
-    <string name="biceps_bedr">Бицепс бедра</string>
-    <string name="shiroch">Широчайшие мышцы</string>
-    <string name="butt">Ягодичные мышцы</string>
-    <string name="brain">Успешный успех</string>
-
 </resources>

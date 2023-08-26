@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="neck">Мышцы шеи</string>
+    <string name="biceps">Бицепс</string>
+    <string name="triceps">Трицепс</string>
+    <string name="chest">Грудные мышцы</string>
+    <string name="delta">Дельтовидные мышцы</string>
+    <string name="kvadr">Квадрицепсы</string>
+    <string name="predplechia">Мышцы предплечья</string>
+    <string name="trapecia">Трапеция</string>
+    <string name="golen">Голень</string>
+    <string name="koss_press">Косые мышцы пресса</string>
+    <string name="press">Пресс</string>
+    <string name="biceps_bedr">Бицепс бедра</string>
+    <string name="shiroch">Широчайшие мышцы</string>
+    <string name="butt">Ягодичные мышцы</string>
+    <string name="brain">Успешный успех</string>
+</resources>

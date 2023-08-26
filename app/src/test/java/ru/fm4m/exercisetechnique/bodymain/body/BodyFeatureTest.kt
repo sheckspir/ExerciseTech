@@ -1,17 +1,22 @@
 package ru.fm4m.exercisetechnique.bodymain.body
 
-import android.util.Log
 import com.badoo.binder.Binder
 import com.badoo.binder.lifecycle.ManualLifecycle
-import ru.fm4m.exercisetechnique.NavigationEvent
-import ru.fm4m.exercisetechnique.model.Muscle
-import ru.fm4m.exercisetechnique.model.Sex
-import ru.fm4m.exercisetechnique.model.Side
 import io.mockk.impl.annotations.MockK
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import org.junit.Test
 import io.mockk.*
+import io.reactivex.Observable
+import ru.fm4m.exercisetechnique.techdomain.bodymain.body.DownloadMuscleUseCase
+import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.MuscleInfo
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techdomain.data.Side
+import ru.fm4m.coredomain.system.TestLogger
+import ru.fm4m.exercisetechnique.techview.bodymain.body.BodyFeature
+import ru.fm4m.exercisetechnique.techview.core.NavigationEvent
 
 class BodyFeatureTest {
 
@@ -19,21 +24,40 @@ class BodyFeatureTest {
     lateinit var navigationEventPublisher : PublishSubject<NavigationEvent>
     @MockK
     lateinit var stateConsumer : Consumer<BodyFeature.State>
+    @MockK
+    lateinit var downloadMuscleUseCase : DownloadMuscleUseCase
+
+    val mockedMusclesInfo : Map<Muscle, MuscleInfo> = HashMap<Muscle, MuscleInfo>().apply {
+        for (one in Muscle.values()) {
+            put(one, MuscleInfo(one, one.name))
+        }
+    }
+
+    var logger = TestLogger()
 
     val lifecycle = ManualLifecycle()
     val binder = Binder(lifecycle)
 
     init {
         MockKAnnotations.init(this)
-        mockkStatic("android.util.Log")
-        every { Log.d(any(),any()) } returns 0
         every { stateConsumer.accept(any()) } returns Unit
         every { navigationEventPublisher.onNext(any()) } returns Unit
+
+        every { downloadMuscleUseCase.getData(any()) } returns Observable
+            .just<DownloadDataEffect<Map<Muscle, MuscleInfo>>?>(DownloadDataEffect.StartDownload())
+            .mergeWith(Observable.just(DownloadDataEffect.DownloadedData(mockedMusclesInfo)))
+
     }
 
     @Test
     fun selectMuscleOne_onlyShowSelectedMuscle() {
-        val feature = BodyFeature(Sex.MALE, Side.FRONT, navigationEventPublisher)
+        val feature = BodyFeature(
+            Sex.MALE,
+            Side.FRONT,
+            navigationEventPublisher,
+            downloadMuscleUseCase,
+            logger
+        )
         binder.bind(feature to stateConsumer)
         lifecycle.begin()
 
@@ -41,12 +65,12 @@ class BodyFeatureTest {
 
         verify(exactly = 1){stateConsumer.accept(withArg {
             assert(it.selectedMuscle == null)
-            assert(it.showTitleMuscle == false)
+            assert(!it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
         })}
         verify(exactly = 1){stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == Muscle.TRICEPS)
+            assert(it.selectedMuscle?.muscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
@@ -58,7 +82,13 @@ class BodyFeatureTest {
 
     @Test
     fun selectMuscleTwice_showSelected_openVideos() {
-        val feature = BodyFeature(Sex.MALE, Side.FRONT, navigationEventPublisher)
+        val feature = BodyFeature(
+            Sex.MALE,
+            Side.FRONT,
+            navigationEventPublisher,
+            downloadMuscleUseCase,
+            logger
+        )
         binder.bind(feature to stateConsumer)
         lifecycle.begin()
 
@@ -67,12 +97,12 @@ class BodyFeatureTest {
 
         verify(exactly = 1){stateConsumer.accept(withArg {
             assert(it.selectedMuscle == null)
-            assert(it.showTitleMuscle == false)
+            assert(!it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
         })}
         verify(exactly = 1){stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == Muscle.TRICEPS)
+            assert(it.selectedMuscle?.muscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
@@ -89,13 +119,19 @@ class BodyFeatureTest {
 
     @Test
     fun focusedBack_hideTitle() {
-        val feature = BodyFeature(Sex.MALE, Side.FRONT, navigationEventPublisher)
+        val feature = BodyFeature(
+            Sex.MALE,
+            Side.FRONT,
+            navigationEventPublisher,
+            downloadMuscleUseCase,
+            logger
+        )
         binder.bind(feature to stateConsumer)
         lifecycle.begin()
 
         verify { stateConsumer.accept(withArg {
             assert(it.selectedMuscle == null)
-            assert(it.showTitleMuscle == false)
+            assert(!it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
         }) }
@@ -103,7 +139,7 @@ class BodyFeatureTest {
         feature.accept(BodyFeature.Wish.SelectMuscle(Muscle.TRICEPS))
 
         verify { stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == Muscle.TRICEPS)
+            assert(it.selectedMuscle?.muscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
@@ -112,8 +148,8 @@ class BodyFeatureTest {
         feature.accept(BodyFeature.Wish.FocusedSide(Side.BACK))
 
         verify { stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == Muscle.TRICEPS)
-            assert(it.showTitleMuscle == false)
+            assert(it.selectedMuscle?.muscle == Muscle.TRICEPS)
+            assert(!it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
         }) }
@@ -121,7 +157,7 @@ class BodyFeatureTest {
         feature.accept(BodyFeature.Wish.FocusedSide(Side.FRONT))
 
         verify(exactly = 2) { stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == Muscle.TRICEPS)
+            assert(it.selectedMuscle?.muscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
@@ -132,13 +168,19 @@ class BodyFeatureTest {
 
     @Test
     fun changeSideProcess_hideTitle() {
-        val feature = BodyFeature(Sex.MALE, Side.FRONT, navigationEventPublisher)
+        val feature = BodyFeature(
+            Sex.MALE,
+            Side.FRONT,
+            navigationEventPublisher,
+            downloadMuscleUseCase,
+            logger
+        )
         binder.bind(feature to stateConsumer)
         lifecycle.begin()
 
         verify { stateConsumer.accept(withArg {
             assert(it.selectedMuscle == null)
-            assert(it.showTitleMuscle == false)
+            assert(!it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
         }) }
@@ -146,7 +188,7 @@ class BodyFeatureTest {
         feature.accept(BodyFeature.Wish.SelectMuscle(Muscle.TRICEPS))
 
         verify { stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == Muscle.TRICEPS)
+            assert(it.selectedMuscle?.muscle == Muscle.TRICEPS)
             assert(it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
@@ -155,8 +197,8 @@ class BodyFeatureTest {
         feature.accept(BodyFeature.Wish.ChangeSide)
 
         verify { stateConsumer.accept(withArg {
-            assert(it.selectedMuscle == Muscle.TRICEPS)
-            assert(it.showTitleMuscle == false)
+            assert(it.selectedMuscle?.muscle == Muscle.TRICEPS)
+            assert(!it.showTitleMuscle)
             assert(it.sex == Sex.MALE)
             assert(it.side == Side.FRONT)
         }) }
