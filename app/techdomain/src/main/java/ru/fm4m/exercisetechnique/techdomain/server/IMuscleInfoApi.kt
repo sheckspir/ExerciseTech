@@ -7,7 +7,7 @@ import ru.fm4m.exercisetechnique.techdomain.data.Sex
 
 interface IMuscleInfoApi {
 
-    fun getMuscleInfo(muscle: Muscle) : Single<MuscleInfo>
+    suspend fun getMuscleInfo(muscle: Muscle) : MuscleInfo
 
-    fun getListMusclesInfo(sex: Sex) : Single<Map<Muscle, MuscleInfo>>
+    suspend fun getListMusclesInfo(sex: Sex) : Map<Muscle, MuscleInfo>
 }

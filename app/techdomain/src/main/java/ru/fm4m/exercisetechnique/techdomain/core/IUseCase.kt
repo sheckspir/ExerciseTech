@@ -8,7 +8,7 @@ interface IUseCase<T> {
     fun getData() : Observable<DownloadDataEffect<T>>
 }
 
-open class DownloadDataEffect<T> {
+abstract class DownloadDataEffect<T> {
     class StartDownload<T> : DownloadDataEffect<T>()
     class ErrorDownload<T>(val e: Throwable) : DownloadDataEffect<T>()
     class DownloadedData<T>(val result : T) : DownloadDataEffect<T>()

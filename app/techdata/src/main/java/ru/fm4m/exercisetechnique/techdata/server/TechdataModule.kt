@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import ru.fm4m.exercisetechnique.techdomain.server.ServerApi
 import ru.fm4m.exercisetechnique.techdomain.server.TechniqueRepository
-import ru.fm4m.exercisetechnique.techdomain.system.Logger
+import ru.fm4m.coredomain.system.Logger
 import javax.inject.Singleton
 
 @Module
@@ -62,6 +62,6 @@ class TechdataModule {
             .baseUrl("https://api.alekar.ru/exercise/")
             .build()
 
-        return retrofit.create(TechniqueRepository::class.java)
+        return retrofit.create(ServerRepository::class.java)
     }
 }

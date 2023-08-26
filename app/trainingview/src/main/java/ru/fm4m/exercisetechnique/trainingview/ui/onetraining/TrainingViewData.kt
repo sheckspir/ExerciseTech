@@ -1,11 +1,13 @@
 package ru.fm4m.exercisetechnique.trainingview.ui.onetraining
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.mutableStateListOf
 import ru.fm4m.exercisetechnique.trainingdomain.data.ExerciseApproach
 import ru.fm4m.exercisetechnique.trainingdomain.data.ExerciseApproachCountable
 import ru.fm4m.exercisetechnique.trainingdomain.data.ExerciseApproachTimed
 import java.util.Date
 
+@Immutable
 interface TrainingViewExercise {
     val id : Int
     val name: String
@@ -21,6 +23,7 @@ interface TrainingViewExercise {
 }
 
 
+@Immutable
 data class TrainingViewExerciseTimed constructor(
     override val id : Int,
     override val name : String,
@@ -29,6 +32,7 @@ data class TrainingViewExerciseTimed constructor(
     override val approaches : MutableList<ExerciseApproachTimed>
 ) : TrainingViewExercise
 
+@Immutable
 data class TrainingViewExerciseCountable(
     override val id : Int,
     override val name : String,
@@ -37,6 +41,7 @@ data class TrainingViewExerciseCountable(
     override val approaches : MutableList<ExerciseApproachCountable>
 ) : TrainingViewExercise
 
+@Immutable
 data class TrainingViewData(val id : String,
                             val userId : Int,
                             val date : Date,

@@ -3,7 +3,7 @@ package ru.fm4m.exercisetechnique
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import ru.fm4m.exercisetechnique.trainingview.ui.UserTrainingActivity
+import ru.fm4m.exercisetechnique.trainingview.ui.TrainingActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,8 +17,8 @@ class SplashActivity : AppCompatActivity() {
         finish()
     }
 
-    fun startNewActivity() {
-        startActivity(Intent(applicationContext, UserTrainingActivity::class.java))
-//        startActivity(Intent(applicationContext, MainActivity::class.java))
+    private fun startNewActivity() {
+//        startActivity(Intent(applicationContext, TrainingActivity::class.java))
+        startActivity(Intent(applicationContext, MainActivity::class.java))
     }
 }

@@ -11,10 +11,12 @@ import io.mockk.mockkStatic
 import io.mockk.verify
 import io.reactivex.functions.Consumer
 import org.junit.Test
-import ru.fm4m.exercisetechnique.bodymain.body.BodyFeature
 import ru.fm4m.exercisetechnique.techdomain.data.Sex
 import ru.fm4m.exercisetechnique.techdomain.data.Side
-import ru.fm4m.exercisetechnique.techdomain.system.TestLogger
+import ru.fm4m.coredomain.system.TestLogger
+import ru.fm4m.exercisetechnique.techview.bodymain.BodyMainFeature
+import ru.fm4m.exercisetechnique.techview.bodymain.NewsToBodyiesNewsTransformer
+import ru.fm4m.exercisetechnique.techview.bodymain.body.BodyFeature
 
 class BodyMainFeatureTest {
 

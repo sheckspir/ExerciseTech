@@ -38,6 +38,7 @@ def dagger_version = '2.47'
 dependencies {
 
     implementation project(path: ':app:coreview')
+    implementation project(path: ':app:coredomain')
     implementation project(path: ':app:techdomain')
     implementation project(path: ':app:techdata')
     implementation project(':clickableareasimage')

@@ -5,7 +5,7 @@ import com.badoo.mvicore.feature.ReducerFeature
 import ru.fm4m.exercisetechnique.techview.core.PerFragment
 import ru.fm4m.exercisetechnique.techdomain.data.Sex
 import ru.fm4m.exercisetechnique.techdomain.data.Side
-import ru.fm4m.exercisetechnique.techdomain.system.Logger
+import ru.fm4m.coredomain.system.Logger
 import javax.inject.Inject
 
 @PerFragment
@@ -63,7 +63,6 @@ class BodyMainFeature @Inject constructor(
                         News.FocusOnBack
                     }
                 }
-                else -> null
             }
         }
     }

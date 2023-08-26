@@ -1,11 +1,13 @@
 package ru.fm4m.exercisetechnique.techview.videosearch
 
 import android.os.Parcelable
+import androidx.lifecycle.lifecycleScope
 import com.badoo.mvicore.android.AndroidTimeCapsule
 import dagger.Module
 import dagger.Provides
 import dagger.android.ContributesAndroidInjector
 import io.reactivex.subjects.PublishSubject
+import kotlinx.coroutines.CoroutineScope
 import ru.fm4m.exercisetechnique.techview.core.NavigationEvent
 import ru.fm4m.exercisetechnique.techview.core.PerFragment
 import ru.fm4m.exercisetechnique.techview.core.findNavigationPublisher
@@ -36,6 +38,11 @@ class SearchVideosModule {
 
     @Provides
     fun provideFindVideosByKeyUseCase(useCase: FindVideosByKeyUseCaseImpl) : FindVideosByKeyUseCase = useCase
+
+    @Provides
+    fun provideCoroutineScope(fragment: SearchVideosFragment) : CoroutineScope {
+        return fragment.lifecycleScope
+    }
 
 }
 

@@ -14,9 +14,15 @@
         android:theme="@style/Theme.ExerciseTechnique"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".trainingview.ui.UserTrainingActivity"
+            android:name=".trainingview.ui.TestUserTrainingActivity"
             android:exported="false"
             android:theme="@style/Theme.ExerciseTechnique" />
+
+        <activity
+            android:name=".trainingview.ui.TrainingActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ExerciseTechnique" />
+
         <activity
             android:name=".SplashActivity"
             android:exported="true"

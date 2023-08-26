@@ -5,7 +5,7 @@ import io.mockk.InternalPlatformDsl.toStr
 import org.junit.Test
 import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import ru.fm4m.exercisetechnique.techdomain.data.YouTubeVideoInfo
-import ru.fm4m.exercisetechnique.techdomain.system.TestLogger
+import ru.fm4m.coredomain.system.TestLogger
 
 class ApiVideoInfoAdapterTest {
 

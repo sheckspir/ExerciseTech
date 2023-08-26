@@ -13,6 +13,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/app/coredomain" />
             <option value="$PROJECT_DIR$/app/coreview" />
             <option value="$PROJECT_DIR$/app/coreviewbadoo" />
             <option value="$PROJECT_DIR$/app/techdata" />

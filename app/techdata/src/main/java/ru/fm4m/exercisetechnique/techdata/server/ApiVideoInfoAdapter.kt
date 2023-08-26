@@ -3,7 +3,7 @@ package ru.fm4m.exercisetechnique.techdata.server
 import com.google.gson.*
 import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import ru.fm4m.exercisetechnique.techdomain.data.YouTubeVideoInfo
-import ru.fm4m.exercisetechnique.techdomain.system.Logger
+import ru.fm4m.coredomain.system.Logger
 import java.lang.reflect.Type
 
 class ApiVideoInfoAdapter(private val logger: Logger) : JsonDeserializer<VideoInfo> {

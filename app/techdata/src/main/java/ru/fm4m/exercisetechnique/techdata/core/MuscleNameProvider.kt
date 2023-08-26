@@ -40,17 +40,15 @@ class MuscleNameProvider @Inject constructor(private val resources: Resources) :
         }
     }
 
-    override fun getMuscleInfo(muscle: Muscle): Single<MuscleInfo> {
-        return Single.fromCallable {
-            if (namesString.containsKey(muscle)) {
-                namesString[muscle]
-            } else {
-                MuscleInfo(muscle, "")
-            }
+    override suspend fun getMuscleInfo(muscle: Muscle): MuscleInfo {
+        return if (namesString.containsKey(muscle)) {
+            namesString[muscle]!!
+        } else {
+            MuscleInfo(muscle, "")
         }
     }
 
-    override fun getListMusclesInfo(sex: Sex): Single<Map<Muscle, MuscleInfo>> {
-        return Single.just(namesString)
+    override suspend fun getListMusclesInfo(sex: Sex): Map<Muscle, MuscleInfo> {
+        return namesString
     }
 }

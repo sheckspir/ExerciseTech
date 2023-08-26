@@ -5,7 +5,7 @@ import com.badoo.mvicore.element.Reducer
 import com.badoo.mvicore.feature.ActorReducerFeature
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import ru.fm4m.exercisetechnique.techdomain.system.Logger
+import ru.fm4m.coredomain.system.Logger
 import ru.fm4m.exercisetechnique.techdomain.data.Muscle
 import ru.fm4m.exercisetechnique.techdomain.data.Sex
 import ru.fm4m.exercisetechnique.techdomain.data.Side

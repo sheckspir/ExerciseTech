@@ -1,4 +1,4 @@
-package ru.fm4m.exercisetechnique.techdomain.system
+package ru.fm4m.coredomain.system
 
 
 class TestLogger : Logger {

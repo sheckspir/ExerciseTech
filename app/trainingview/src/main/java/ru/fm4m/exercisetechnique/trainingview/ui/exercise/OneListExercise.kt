@@ -26,7 +26,6 @@ fun OneListExercise(
     exercise: TrainingViewExercise,
     modifier: Modifier = Modifier,
     onExerciseClick: ((exerciseId: Int) -> Unit)? = null) {
-    Log.d("TAG", "OneListExercise.init(${exercise.id})")
 
     var mainModifier : Modifier = modifier
 //    if (onExerciseClick != null) {
@@ -60,23 +59,7 @@ fun OneListExercise(
                 approachSize
             }
 
-            Row {
-                for (i in 0 until itemsSize) {
-                    if (i < approachSize) {
-                        Text(text = "1")
-                    } else {
-                        Text(text = "0")
-                    }
-                }
-            }
-
-
-
-//            LazyRow(){
-//                items(count = itemsSize) {
-//
-//                }
-//            }
+            ApproachListShow(approaches.size, itemsSize)
 
         }
     }

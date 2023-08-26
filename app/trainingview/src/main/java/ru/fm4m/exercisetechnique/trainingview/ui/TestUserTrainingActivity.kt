@@ -8,49 +8,58 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import ru.fm4m.exercisetechnique.trainingdata.data.StubTraining
+import ru.fm4m.exercisetechnique.trainingdomain.data.ExerciseApproachCountable
+import ru.fm4m.exercisetechnique.trainingdomain.data.ExerciseApproachTimed
 import ru.fm4m.exercisetechnique.trainingview.ui.onetraining.OneTrainingScreen
 import ru.fm4m.exercisetechnique.trainingview.ui.onetraining.TrainingViewData
 import ru.fm4m.exercisetechnique.trainingview.ui.onetraining.TrainingViewExerciseCountable
 import ru.fm4m.exercisetechnique.trainingview.ui.onetraining.TrainingViewExerciseTimed
 import ru.fm4m.exercisetechnique.trainingview.ui.theme.ExerciseTechniqueTheme
-import ru.fm4m.exercisetechnique.trainingdata.data.StubTraining
-import ru.fm4m.exercisetechnique.trainingdomain.data.ExerciseApproachCountable
-import ru.fm4m.exercisetechnique.trainingdomain.data.ExerciseApproachTimed
 import java.util.Date
+import kotlin.coroutines.CoroutineContext
 
-class UserTrainingActivity : ComponentActivity() {
+class TestUserTrainingActivity : ComponentActivity(), CoroutineScope {
+
+
+    override val coroutineContext: CoroutineContext
+        get() = SupervisorJob() + Dispatchers.IO + CoroutineName("main name") + CoroutineExceptionHandler { coroutineContext, throwable ->
+            Log.e("TAG1", "error in coroutine $coroutineContext", throwable)
+        }
+
 
     val stubTraining = StubTraining(1, Date())
 
     val state = mutableStateOf(stubTraining)
-    val lifeData = MutableLiveData<StubTraining>(stubTraining)
+    val lifeData = MutableLiveData(stubTraining)
 
-    private suspend fun doingSomethingHard(param: Int) {
-        Log.d("TAG", "doingSomethingHard1 : $param")
-        Thread.sleep(1000)
-        Log.d("TAG", "doingSomethingHard2 : $param")
-    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
 
+        val workManager1 = WorkManagerCoroutinesStub("1")
 
-        GlobalScope.launch(Dispatchers.IO) {
-            doingSomethingHard(2)
+        workManager1.startEmitInSharedFlow(500)
+
+        launch {
+            delay(1000)
+            workManager1.onSharedFlowObserve {
+                Log.d("TAG", "onSharedFlowObserve2 $it")
+            }
         }
 
-        GlobalScope.launch(Dispatchers.Main) {
-            doingSomethingHard(1)
-        }
 
-        Log.d("TAG", "MainThread1")
 
-        Log.d("TAG", "MainThread2")
 
-        Log.d("TAG", "MainThread3")
+
         val state2 = mutableStateOf(TrainingViewData.create())
 
         setContent {
@@ -59,7 +68,7 @@ class UserTrainingActivity : ComponentActivity() {
                 Surface(
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    OneTrainingScreen(userTrainingState = state2 ) {
+                    OneTrainingScreen(userTrainingState = state2) {
 
                         val oldExerciseList = state2.value.exercises
 
@@ -69,12 +78,24 @@ class UserTrainingActivity : ComponentActivity() {
                             if (exerciseFirst.id == it) {
                                 val newExercise = when (exerciseFirst) {
                                     is TrainingViewExerciseTimed -> {
-                                        exerciseFirst.approaches.add(ExerciseApproachTimed(0,0f,1f))
+                                        exerciseFirst.approaches.add(
+                                            ExerciseApproachTimed(
+                                                0,
+                                                0f,
+                                                1f
+                                            )
+                                        )
                                         exerciseFirst.copy(approaches = exerciseFirst.approaches)
                                     }
 
                                     is TrainingViewExerciseCountable -> {
-                                        exerciseFirst.approaches.add(ExerciseApproachCountable(0,0f,1f))
+                                        exerciseFirst.approaches.add(
+                                            ExerciseApproachCountable(
+                                                0,
+                                                0f,
+                                                1f
+                                            )
+                                        )
                                         exerciseFirst.copy(approaches = exerciseFirst.approaches)
                                     }
 
@@ -89,7 +110,6 @@ class UserTrainingActivity : ComponentActivity() {
                                 break
                             }
                         }
-
 
 
 //                        val newExercise: TrainingViewExercise? =

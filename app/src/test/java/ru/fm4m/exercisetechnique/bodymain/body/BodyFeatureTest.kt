@@ -8,14 +8,15 @@ import io.reactivex.subjects.PublishSubject
 import org.junit.Test
 import io.mockk.*
 import io.reactivex.Observable
-import ru.fm4m.exercisetechnique.core.NavigationEvent
 import ru.fm4m.exercisetechnique.techdomain.bodymain.body.DownloadMuscleUseCase
 import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
 import ru.fm4m.exercisetechnique.techdomain.data.Muscle
 import ru.fm4m.exercisetechnique.techdomain.data.MuscleInfo
 import ru.fm4m.exercisetechnique.techdomain.data.Sex
 import ru.fm4m.exercisetechnique.techdomain.data.Side
-import ru.fm4m.exercisetechnique.techdomain.system.TestLogger
+import ru.fm4m.coredomain.system.TestLogger
+import ru.fm4m.exercisetechnique.techview.bodymain.body.BodyFeature
+import ru.fm4m.exercisetechnique.techview.core.NavigationEvent
 
 class BodyFeatureTest {
 

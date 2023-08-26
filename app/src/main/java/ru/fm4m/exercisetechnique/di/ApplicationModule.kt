@@ -3,37 +3,38 @@ package ru.fm4m.exercisetechnique.di
 import android.content.Context
 import android.content.res.Resources
 import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
+import ru.fm4m.coredomain.system.Logger
+import ru.fm4m.exercisetechnique.techdata.core.MuscleNameProvider
 import ru.fm4m.exercisetechnique.techdomain.bodymain.body.DownloadMuscleUseCase
 import ru.fm4m.exercisetechnique.techdomain.bodymain.body.DownloadMuscleUseCaseImpl
-import ru.fm4m.exercisetechnique.techdomain.server.IMuscleInfoApi
 import ru.fm4m.exercisetechnique.techdomain.core.ISchedulerProvider
-import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
-import ru.fm4m.exercisetechnique.techdomain.system.Logger
-import ru.fm4m.exercisetechnique.techdata.server.ApiVideoInfoAdapter
-import ru.fm4m.exercisetechnique.techdomain.server.ServerApi
-import ru.fm4m.exercisetechnique.techdata.core.MuscleNameProvider
-import ru.fm4m.exercisetechnique.techdata.server.ServerApiBackend
+import ru.fm4m.exercisetechnique.techdomain.server.IMuscleInfoApi
+import ru.fm4m.exercisetechnique.trainingdata.server.AccountRepositoryImpl
+import ru.fm4m.exercisetechnique.trainingdata.server.ExerciseRepositoryImpl
+import ru.fm4m.exercisetechnique.trainingdomain.repository.AccountRepository
+import ru.fm4m.exercisetechnique.trainingdomain.repository.ExerciseRepository
 import javax.inject.Singleton
 
 @Module
 class ApplicationModule(private val context: Context) {
-//class ApplicationModule() {
 
     @Singleton
     @Provides
-    fun schedulerProvider() : ISchedulerProvider {
+    fun provideExerciseRepository(repository: ExerciseRepositoryImpl): ExerciseRepository =
+        repository
+
+    @Singleton
+    @Provides
+    fun accountRepository(repository: AccountRepositoryImpl): AccountRepository = repository
+
+    @Singleton
+    @Provides
+    fun schedulerProvider(): ISchedulerProvider {
         return object : ISchedulerProvider {
             override fun getMainScheduler(): Scheduler {
                 return AndroidSchedulers.mainThread()
@@ -48,7 +49,7 @@ class ApplicationModule(private val context: Context) {
 
     @Singleton
     @Provides
-    fun logger() : Logger {
+    fun logger(): Logger {
         return object : Logger {
             override fun d(tag: String, message: String) {
                 Log.d(tag, message)
@@ -62,27 +63,22 @@ class ApplicationModule(private val context: Context) {
 
     @Singleton
     @Provides
-    fun muscleNameProvider(muscleNameProvider: MuscleNameProvider) : IMuscleInfoApi = muscleNameProvider
+    fun muscleNameProvider(muscleNameProvider: MuscleNameProvider): IMuscleInfoApi =
+        muscleNameProvider
 
     @Provides
-    fun downloadMuscleUseCase(downloadMuscleUseCase: DownloadMuscleUseCaseImpl) : DownloadMuscleUseCase = downloadMuscleUseCase
+    fun downloadMuscleUseCase(downloadMuscleUseCase: DownloadMuscleUseCaseImpl): DownloadMuscleUseCase =
+        downloadMuscleUseCase
 
     @Singleton
     @Provides
-    fun resources(context: Context) : Resources {
+    fun resources(context: Context): Resources {
         return context.resources
     }
 
     @Singleton
     @Provides
-    fun context() : Context {
+    fun context(): Context {
         return context
     }
 }
-
-//@Module
-//abstract class ExerciseAppProvider {
-//
-//    @ContributesAndroidInjector(modules = [ApplicationModule::class])
-//    abstract fun provideExerciseApplication(): ExerciseApplication
-//}

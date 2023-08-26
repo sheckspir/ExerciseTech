@@ -1,9 +1,12 @@
 package ru.fm4m.exercisetechnique.techdomain.bodymain.body
 
 import io.reactivex.Observable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.rx2.asObservable
 import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
-import ru.fm4m.exercisetechnique.techdomain.core.ISchedulerProvider
-import ru.fm4m.exercisetechnique.techdomain.core.IUseCase
 import ru.fm4m.exercisetechnique.techdomain.data.Muscle
 import ru.fm4m.exercisetechnique.techdomain.data.MuscleInfo
 import ru.fm4m.exercisetechnique.techdomain.data.Sex
@@ -13,19 +16,23 @@ import javax.inject.Singleton
 
 interface DownloadMuscleUseCase {
 
-    fun getData(sex: Sex): Observable<DownloadDataEffect<Map<Muscle,MuscleInfo>>>
+    fun getData(sex: Sex): Observable<DownloadDataEffect<Map<Muscle, MuscleInfo>>>
 }
 
 @Singleton
 class DownloadMuscleUseCaseImpl @Inject constructor(
-    private val muscleApi : IMuscleInfoApi,
-    private val schedulersProvider : ISchedulerProvider
-): DownloadMuscleUseCase {
+    private val muscleApi: IMuscleInfoApi,
+) : DownloadMuscleUseCase {
+
     override fun getData(sex: Sex): Observable<DownloadDataEffect<Map<Muscle, MuscleInfo>>> {
-        return muscleApi.getListMusclesInfo(sex)
-            .subscribeOn(schedulersProvider.getNetworkScheduler())
-            .observeOn(schedulersProvider.getMainScheduler())
-            .map { DownloadDataEffect.DownloadedData(it) as DownloadDataEffect<Map<Muscle,MuscleInfo>>}
-            .toObservable()
+        return flow {
+            emit(muscleApi.getListMusclesInfo(sex))
+        }.flowOn(
+            Dispatchers.IO
+        ).map {
+            DownloadDataEffect.DownloadedData(it) as DownloadDataEffect<Map<Muscle, MuscleInfo>>
+        }.flowOn(
+            Dispatchers.Main
+        ).asObservable()
     }
 }

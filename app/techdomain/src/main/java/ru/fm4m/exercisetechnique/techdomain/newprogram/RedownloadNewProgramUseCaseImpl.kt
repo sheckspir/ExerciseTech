@@ -1,26 +1,38 @@
 package ru.fm4m.exercisetechnique.techdomain.newprogram
 
 import io.reactivex.Observable
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.rx2.asObservable
 import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
-import ru.fm4m.exercisetechnique.techdomain.core.ISchedulerProvider
 import ru.fm4m.exercisetechnique.techdomain.core.IUseCase
 import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
-import ru.fm4m.exercisetechnique.techdomain.server.ServerApi
+import ru.fm4m.exercisetechnique.techdomain.server.TechniqueRepository
 import javax.inject.Inject
 
 class RedownloadNewProgramUseCaseImpl @Inject constructor(
-    private val schedulersProvider : ISchedulerProvider,
-    private val serverApi : ServerApi
-) : RedownloadNewProgramUseCase{
+    private val repository: TechniqueRepository,
+) : RedownloadNewProgramUseCase {
+
+    private val coldFlow = flow {
+        try {
+            emit(
+                DownloadDataEffect.DownloadedData(
+                    repository.getNewProgram()
+                ) as DownloadDataEffect<List<VideoInfo>>
+            )
+        } catch (e: Exception) {
+            emit(DownloadDataEffect.ErrorDownload(e))
+        }
+    }.flowOn(Dispatchers.IO)
+        .onStart {
+            emit(DownloadDataEffect.StartDownload<List<VideoInfo>>() as DownloadDataEffect<List<VideoInfo>>)
+        }.flowOn(Dispatchers.Main)
 
     override fun getData(): Observable<DownloadDataEffect<List<VideoInfo>>> {
-        return Observable.just(DownloadDataEffect.StartDownload<List<VideoInfo>>() as DownloadDataEffect<List<VideoInfo>>)
-            .observeOn(schedulersProvider.getMainScheduler())
-            .mergeWith(serverApi.getNewProgram()
-                .map { DownloadDataEffect.DownloadedData(it)  as DownloadDataEffect<List<VideoInfo>>}
-                .onErrorReturn{ DownloadDataEffect.ErrorDownload(it) }
-                .observeOn(schedulersProvider.getMainScheduler()))
-            .subscribeOn(schedulersProvider.getNetworkScheduler())
+        return coldFlow.asObservable()
     }
 }
 
