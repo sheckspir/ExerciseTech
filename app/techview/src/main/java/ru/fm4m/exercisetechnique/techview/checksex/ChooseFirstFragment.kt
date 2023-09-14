@@ -12,18 +12,7 @@ import ru.fm4m.exercisetechnique.techview.R
 import ru.fm4m.exercisetechnique.techview.bodymain.BodyMainFragment
 import ru.fm4m.exercisetechnique.techdomain.data.Sex
 
-class ChooseFirstFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_check_sex, container, false)
-    }
+class ChooseFirstFragment : Fragment(R.layout.fragment_check_sex) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

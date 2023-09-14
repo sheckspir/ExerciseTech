@@ -28,7 +28,10 @@ import ru.fm4m.exercisetechnique.techdomain.data.Sex
 import ru.fm4m.exercisetechnique.techdomain.data.Side
 import javax.inject.Inject
 
-class BodyMainFragment : Fragment(), ObservableSource<UIEventMainBody>, Consumer<BodyMainFeature.State>, ObservableSourceEventContainer<UIEventMainBody>{
+class BodyMainFragment : Fragment(R.layout.fragment_body_main),
+    ObservableSource<UIEventMainBody>,
+    Consumer<BodyMainFeature.State>,
+    ObservableSourceEventContainer<UIEventMainBody>{
 
     private val source = PublishSubject.create<UIEventMainBody>()
 
@@ -54,13 +57,6 @@ class BodyMainFragment : Fragment(), ObservableSource<UIEventMainBody>, Consumer
         return requireArguments().let {
             it.getSerializable(BodyFragment.ARG_SEX) as Sex
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        return inflater.inflate(R.layout.fragment_body_main, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

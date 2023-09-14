@@ -10,6 +10,7 @@
       <module name="Exercise_technique.app.techdomain.main" target="1.8" />
       <module name="Exercise_technique.app.techdomain.test" target="1.8" />
       <module name="Exercise_technique.app.techview" target="11" />
+      <module name="Exercise_technique.app.testmodule" target="11" />
       <module name="Exercise_technique.app.trainingdata" target="11" />
       <module name="Exercise_technique.app.trainingdomain" target="1.8" />
       <module name="Exercise_technique.app.trainingdomain.main" target="1.8" />

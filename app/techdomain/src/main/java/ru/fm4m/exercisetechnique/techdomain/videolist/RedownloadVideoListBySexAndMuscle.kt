@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.rx2.asObservable
 import ru.fm4m.exercisetechnique.techdomain.core.DownloadDataEffect
-import ru.fm4m.exercisetechnique.techdomain.core.ISchedulerProvider
 import ru.fm4m.exercisetechnique.techdomain.core.IUseCase
 import ru.fm4m.exercisetechnique.techdomain.data.Muscle
 import ru.fm4m.exercisetechnique.techdomain.data.MuscleVideos
@@ -21,7 +20,6 @@ import javax.inject.Inject
 
 class RedownloadVideoListBySexAndMuscleImpl @Inject constructor(
     private val repository: TechniqueRepository,
-    private val schedulersProvider: ISchedulerProvider,
     private val muscleInfoProvider: IMuscleInfoApi,
     private val sex: Sex,
     private val muscle: Muscle,

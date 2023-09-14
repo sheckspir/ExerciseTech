@@ -8,10 +8,10 @@ interface IUseCase<T> {
     fun getData() : Observable<DownloadDataEffect<T>>
 }
 
-abstract class DownloadDataEffect<T> {
+sealed class DownloadDataEffect<T> {
     class StartDownload<T> : DownloadDataEffect<T>()
     class ErrorDownload<T>(val e: Throwable) : DownloadDataEffect<T>()
-    class DownloadedData<T>(val result : T) : DownloadDataEffect<T>()
+    class DownloadedData<T> constructor(val result : T) : DownloadDataEffect<T>()
 }
 
 interface ISchedulerProvider {

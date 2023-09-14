@@ -65,7 +65,6 @@ class NewProgramFeature @Inject constructor(
                                 is DownloadDataEffect.StartDownload -> Effect.StartedLoading
                                 is DownloadDataEffect.ErrorDownload -> Effect.ErrorLoading(it.e)
                                 is DownloadDataEffect.DownloadedData -> Effect.LoadedVideosInfo(it.result)
-                                else -> Effect.ErrorLoading(IllegalArgumentException("Here should be another value but we have $it"))
                             }
                         }
                 }

@@ -1,4 +1,4 @@
-package ru.fm4m.exercisetechnique.trainingview.ui
+package ru.fm4m.testmodule
 
 import android.util.Log
 import kotlinx.coroutines.CancellationException
@@ -33,10 +33,12 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.merge
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.sample
 import kotlinx.coroutines.flow.shareIn
+import kotlinx.coroutines.flow.switchMap
 import kotlinx.coroutines.flow.zip
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -55,8 +57,10 @@ class WorkManagerCoroutinesStub(val name: String) {
     private fun doWorkException() = scope.async(Job()) {
         Log.d("TAG", "start doWorkException")
         delay(1500)
-        throw IllegalArgumentException()
-//            Log.d("TAG", "finish doWorkException")
+        if (true) {
+            throw IllegalArgumentException()
+        }
+        1
     }
 
     fun doWorkWithNested() = scope.launch {
@@ -64,6 +68,7 @@ class WorkManagerCoroutinesStub(val name: String) {
         val async = doWorkException()
         doWork1()
         launch {
+
             Log.d("TAG", "$name start work1_n")
             delay(2000)
             Log.d("TAG", "$name finish work1_n")
@@ -159,12 +164,18 @@ class WorkManagerCoroutinesStub(val name: String) {
 
 
     private var taskForActor: ((String) -> Unit)? = null
-    val actorChannel: SendChannel<String> = scope.actor {
-        taskForActor?.invoke(receive())
+    val actorChannel: SendChannel<String> = scope.actor(capacity = 2, context = Dispatchers.IO) {
+        delay(2000)
+        for (msg in channel) {
+            taskForActor?.invoke(msg)
+        }
+
     }
+
 
     fun sendTaskForActor(newTask: (String) -> Unit) {
         taskForActor = newTask
+
     }
 
     fun sendListOfMessageToActor(vararg sendValues: String) {
@@ -284,7 +295,7 @@ class WorkManagerCoroutinesStub(val name: String) {
 
     private val coldFlow2 = flow {
         var emittedValue = 0
-        while (currentCoroutineContext().isActive) {
+        while (currentCoroutineContext().isActive && emittedValue < 13) {
             delay(2_000)
             Log.d("TAG", "preemit coldFlow2")
             emit("Stroka#${emittedValue++}")
@@ -410,6 +421,17 @@ class WorkManagerCoroutinesStub(val name: String) {
         }
     }
 
+    fun merge() {
+        scope.launch {
+            val mergedFlow = merge(coldFlow, coldFlow2)
+
+            mergedFlow.collect{
+                Log.d("TAG", it.toString())
+            }
+        }
+
+    }
+
     fun flowWithFlatMapMerge(subscriber: (String) -> Unit) {
         scope.launch {
             coldFlow.flatMapMerge { flow1Value ->
@@ -500,6 +522,16 @@ class WorkManagerCoroutinesStub(val name: String) {
                 Log.d("TAG", "subscribeCount = ${sharedFlow.subscriptionCount.value}")
             }
 
+    }
+
+    fun someLongTask(result : ()-> Unit) {
+        scope.launch {
+            Log.d("TAG", "before delay")
+            delay(2000)
+            result.invoke()
+
+
+        }
     }
 
 

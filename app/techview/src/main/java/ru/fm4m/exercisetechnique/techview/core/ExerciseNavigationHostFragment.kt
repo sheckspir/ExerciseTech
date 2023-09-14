@@ -1,36 +1,28 @@
 package ru.fm4m.exercisetechnique.techview.core
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import ru.fm4m.exercisetechnique.techview.videolist.VideoListFragment
 import io.reactivex.subjects.PublishSubject
 import ru.fm4m.exercisetechnique.techview.R
-import ru.fm4m.exercisetechnique.techview.onevideo.OneVideoFragment
+import ru.fm4m.exercisetechnique.techview.onevideo.ExerciseInfoFragment
 
 class ExerciseNavigationHostFragment: NavHostFragment(), NavigationPublisherContainer {
 
-    private val navigationPublisher = PublishSubject.create<NavigationEvent>().apply {
+    @SuppressLint("CheckResult") //maybe change that to some another RX? OR StateFlow?
+    override val navigationPublisher = PublishSubject.create<NavigationEvent>().apply {
         this.subscribe {
             when(it) {
-                is NavigationEvent.ShowMuscleVideos -> {
-                    findNavController().navigate(R.id.action_bodyFragment_to_videoListFragment, Bundle().apply {
-                        this.putSerializable(VideoListFragment.ARG_SEX, it.sex)
-                        this.putSerializable(VideoListFragment.ARG_MUSCLE, it.muscle)
-                    })
-                }
+
                 is NavigationEvent.ShowOneVideo -> {
                     findNavController().navigate(R.id.action_searchVideosFragment_to_oneVideoFragment, Bundle().apply {
-                        this.putSerializable(OneVideoFragment.ARG_VIDEO_INFO, it.videoInfo)
+                        this.putSerializable(ExerciseInfoFragment.ARG_VIDEO_INFO, it.videoInfo)
                     })
                 }
                 // TODO: костыль. А как сделать так чтобы не надо было думать откуда прилетело? Может сделать из базового переход?
-                is NavigationEvent.ShowOneVideoFromNewProgram -> {
-                    findNavController().navigate(R.id.action_newProgramFragment_to_oneVideoFragment, Bundle().apply {
-                        this.putSerializable(OneVideoFragment.ARG_VIDEO_INFO, it.videoInfo)
-                    })
-                }
+
                 else -> {
                     //do nothing
                 }
@@ -38,27 +30,26 @@ class ExerciseNavigationHostFragment: NavHostFragment(), NavigationPublisherCont
         }
     }
 
-    override fun getNavPublisher() = navigationPublisher
 }
 
 interface NavigationPublisherContainer {
 
-    fun getNavPublisher() : PublishSubject<NavigationEvent>
+    val navigationPublisher : PublishSubject<NavigationEvent>
 }
 
 fun Fragment.findNavigationPublisher(): PublishSubject<NavigationEvent> {
     var findFragment: Fragment? = this
-    while (findFragment != null) {
+    do {
         if (findFragment is NavigationPublisherContainer) {
-            return findFragment.getNavPublisher()
+            return findFragment.navigationPublisher
         }
-        val primaryNavFragment = findFragment.parentFragmentManager
-            .primaryNavigationFragment
+        val primaryNavFragment = findFragment?.parentFragmentManager?.primaryNavigationFragment
         if (primaryNavFragment is NavigationPublisherContainer) {
-            return primaryNavFragment.getNavPublisher()
+            return primaryNavFragment.navigationPublisher
         }
-        findFragment = findFragment.parentFragment
-    }
+        //repeat maybe parent fragment is Navigation
+        findFragment = findFragment?.parentFragment
+    } while (findFragment != null)
 
     throw IllegalStateException("Fragment " + this
             + " does not have a NavigationPublisher set")

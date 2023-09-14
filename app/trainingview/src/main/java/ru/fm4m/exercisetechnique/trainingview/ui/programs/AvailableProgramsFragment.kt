@@ -16,7 +16,7 @@ import ru.fm4m.exercisetechnique.trainingdomain.data.UserTraining
 import ru.fm4m.exercisetechnique.trainingview.databinding.FragmentAvailableProgramsBinding
 import javax.inject.Inject
 
-class AvailableProgramsFragment private constructor() : Fragment() {
+class AvailableProgramsFragment : Fragment() {
 
     private lateinit var viewModel: AvailableProgramsViewModel
 
@@ -77,7 +77,7 @@ class AvailableProgramsFragment private constructor() : Fragment() {
                         viewBinding.adapter?.submitList(state.userTrainings)
                     }
 
-                    if(state.throwable != null) {
+                    if (state.throwable != null) {
                         //show error
                         lastTimeDownload = false
                     }

@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ru.fm4m.exercisetechnique.trainingview.ui.TrainingActivity
+import ru.fm4m.testmodule.TestUserTrainingActivity
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,5 +21,6 @@ class SplashActivity : AppCompatActivity() {
     private fun startNewActivity() {
 //        startActivity(Intent(applicationContext, TrainingActivity::class.java))
         startActivity(Intent(applicationContext, MainActivity::class.java))
+//        startActivity(Intent(applicationContext, TestUserTrainingActivity::class.java))
     }
 }

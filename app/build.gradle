@@ -75,6 +75,8 @@ dependencies {
     implementation project(path: ':app:trainingview')
     implementation project(path: ':app:techview')
 
+    implementation project(path: ':app:testmodule')
+
     //DI
     implementation project(path: ':app:techdata')
     implementation project(path: ':app:techdomain')

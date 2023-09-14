@@ -1,50 +1,59 @@
 package ru.fm4m.exercisetechnique.techview.videolist
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.AndroidSupportInjection
-import ru.fm4m.exercisetechnique.techview.R
-import ru.fm4m.exercisetechnique.techview.core.LoadableRecyclerAdapter
-import ru.fm4m.exercisetechnique.techdomain.data.Muscle
-import ru.fm4m.exercisetechnique.techdomain.data.Sex
 import io.reactivex.ObservableSource
 import io.reactivex.Observer
 import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
+import kotlinx.android.synthetic.main.fragment_video_list.toolbar
 import kotlinx.android.synthetic.main.fragment_video_list.view.*
+import ru.fm4m.exercisetechnique.techdomain.data.Muscle
+import ru.fm4m.exercisetechnique.techdomain.data.Sex
+import ru.fm4m.exercisetechnique.techview.R
+import ru.fm4m.exercisetechnique.techview.core.LoadableRecyclerAdapter
+import ru.fm4m.exercisetechnique.techview.core.NavigationEvent
+import ru.fm4m.exercisetechnique.techview.core.NavigationPublisherContainer
+import ru.fm4m.exercisetechnique.techview.core.findNavigationPublisher
+import ru.fm4m.exercisetechnique.techview.onevideo.ExerciseInfoFragment
 import javax.inject.Inject
 
 
-class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, ObservableSource<UIEventVideos>, LoadableRecyclerAdapter.ErrorListener {
+class VideoListFragment : Fragment(R.layout.fragment_video_list),
+    Consumer<VideoListFeature.State>,
+    ObservableSource<UIEventVideos>,
+    LoadableRecyclerAdapter.ErrorListener {
 
-
-    private lateinit var adapter: VideoListAdapter
+    private var adapter: VideoListAdapter? = null
+    private var recyclerView: RecyclerView? = null
 
     @Inject
     lateinit var bindings: VideoListBindings
+
     @Inject
-    lateinit var uiEventSource : PublishSubject<UIEventVideos>
+    lateinit var uiEventSource: PublishSubject<UIEventVideos>
 
     val newsConsumer =
         Consumer<VideoListFeature.News> { t ->
             if (t is VideoListFeature.News.ErrorExecuteRequest) {
-                Log.d("TAG","newsConsumer react")
-                if (::adapter.isInitialized) {
-                    var message = t.throwable.message
-                    if (message.isNullOrBlank()) {
-                        message = t.throwable.toString()
-                    }
-                    adapter.showError(message)
+                Log.d("TAG", "newsConsumer react")
+                var message = t.throwable.message
+                if (message.isNullOrBlank()) {
+                    message = t.throwable.toString()
                 }
+                adapter?.showError(message)
             }
         }
 
 
-    private var lastSavedState : Bundle? = null
+    private var lastSavedState: Bundle? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         lastSavedState = savedInstanceState
@@ -53,26 +62,29 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
         bindings.setup(this)
     }
 
-    fun getSex() : Sex {
+    fun getSex(): Sex {
         return requireArguments().getSerializable(ARG_SEX) as Sex
     }
 
     fun getMuscle() = requireArguments().getSerializable(ARG_MUSCLE) as Muscle
 
+    fun getMuscleName() = requireArguments().getString(ARG_MUSCLE_NAME, "")
+
     fun getSavedState() = lastSavedState
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_video_list, container, false)
-    }
-
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = VideoListAdapter(this)
-        view.recyclerVideos.adapter = adapter
-        adapter.notifyDataSetChanged()
+        recyclerView = view.recyclerVideos
+        recyclerView?.adapter = adapter
+        adapter?.notifyDataSetChanged()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        adapter = null
+        recyclerView = null
     }
 
     override fun onResume() {
@@ -86,8 +98,10 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
 
     override fun accept(t: VideoListFeature.State) {
         Log.d("TAG", "new state loading ${t.isLoading} items ${t.videoLists}")
-        if (::adapter.isInitialized) {
-            adapter.setMuscle(t.muscleInfo?.name)
+
+        toolbar.title = t.muscleName
+        val adapter = adapter
+        if (adapter != null) {
             adapter.setItems(t.videoLists)
             adapter.showLoading(t.isLoading)
         }
@@ -97,7 +111,7 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
 
     override fun onRetryClicked() {
         // TODO: 10/9/21 implement this
-        if (adapter.getNestedItemCount() == 0) {
+        if (adapter?.getNestedItemCount() == 0) {
             uiEventSource.onNext(UIEventVideos.RedownloadAllVideos)
 //        } else {
 
@@ -108,13 +122,15 @@ class VideoListFragment : Fragment(), Consumer<VideoListFeature.State>, Observab
 
         const val ARG_SEX = "sex"
         const val ARG_MUSCLE = "muscle"
+        const val ARG_MUSCLE_NAME = "muscle_name"
 
         @JvmStatic
-        fun newInstance(sex: Sex, muscle: Muscle) =
+        fun newInstance(sex: Sex, muscle: Muscle, muscleName: String) =
             VideoListFragment().apply {
                 arguments = Bundle().apply {
                     putSerializable(ARG_SEX, sex)
                     putSerializable(ARG_MUSCLE, muscle)
+                    putString(ARG_MUSCLE_NAME, muscleName)
                 }
             }
     }

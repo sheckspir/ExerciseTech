@@ -4,4 +4,11 @@
     <dimen name="space_regular">16dp</dimen>
     <dimen name="space_large">32dp</dimen>
     <dimen name="button_regular_height">60dp</dimen>
+
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_regular">14sp</dimen>
+
+    <dimen name="text_large">16sp</dimen>
+    <dimen name="text_xlarge">20sp</dimen>
+    <dimen name="text_xxlarge">24sp</dimen>
 </resources>

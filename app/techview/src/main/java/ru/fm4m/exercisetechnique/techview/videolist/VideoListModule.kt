@@ -34,6 +34,13 @@ class VideoListModule {
         return fragment.getMuscle()
     }
 
+    @Named("musclename")
+    @PerFragment
+    @Provides
+    fun getMuscleName(fragment: VideoListFragment) : String {
+        return fragment.getMuscleName()
+    }
+
     @PerFragment
     @Provides
     fun getEventPublisher() : PublishSubject<UIEventVideos> {

@@ -22,9 +22,10 @@ class VideoListFeature @Inject constructor(
     @Named("VideoListFeature") parcelableState : Parcelable?,
     redownloadVideosUseCase: RedownloadVideoListBySexAndMuscle,
     sex: Sex,
-    muscle: Muscle
+    muscle: Muscle,
+    @Named("musclename") muscleName : String
 ): ActorReducerFeature<VideoListFeature.Wish, VideoListFeature.Effect, VideoListFeature.State, VideoListFeature.News>(
-    initialState = if (parcelableState != null) parcelableState as State else State(false, sex, muscle),
+    initialState = if (parcelableState != null) parcelableState as State else State(false, sex, muscle, muscleName),
     bootstrapper = null,
     actor = ActorImpl(redownloadVideosUseCase),
     reducer = ReducerImpl(),
@@ -35,6 +36,7 @@ class VideoListFeature @Inject constructor(
         val isLoading: Boolean,
         val sex: Sex,
         val muscle: Muscle,
+        val muscleName : String,
         val muscleInfo: MuscleInfo? = null,
         val videoLists : List<VideoInfo>? = null
     )
@@ -85,7 +87,12 @@ class VideoListFeature @Inject constructor(
                     state.copy(false)
                 }
                 is Effect.LoadedVideosInfo -> {
-                    state.copy(false, state.sex, state.muscle, effect.muscleInfo, effect.videoLists)
+                    state.copy(false,
+                        sex = state.sex,
+                        muscle = state.muscle,
+                        muscleName = effect.muscleInfo.name,
+                        muscleInfo = effect.muscleInfo,
+                        videoLists = effect.videoLists)
                 }
             }
         }

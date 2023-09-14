@@ -5,4 +5,8 @@
     <string name="search_button">Поиск</string>
     <string name="new_program_button">Тренировка сейчас</string>
     <string name="hint_search">Введите слова для поиска</string>
+
+    <string name="muscles_label">Задействованные мышцы:</string>
+
+    <string name="exercise_video_unavailable">Не удалось загрузить видео упражнения</string>
 </resources>

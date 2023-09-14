@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:elevation="10dp"
+            android:id="@+id/progressTemp"
+            app:layout_constraintStart_toStartOf="@id/mainImageView"
+            app:layout_constraintEnd_toEndOf="@id/mainImageView"
+            app:layout_constraintTop_toTopOf="@id/mainImageView"
+            app:layout_constraintBottom_toBottomOf="@id/mainImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/marginStart"
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/space_regular"
+            android:layout_height="0dp"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/marginEnd"
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/space_regular"
+            android:layout_height="0dp"/>
+
+        <ImageView
+            android:id="@+id/mainImageView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/img_top"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient"
+            app:layout_constraintBottom_toBottomOf="@id/mainImageView"
+            app:layout_constraintEnd_toEndOf="@id/mainImageView"
+            app:layout_constraintStart_toStartOf="@id/mainImageView"
+            app:layout_constraintTop_toTopOf="@id/mainImageView" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupMainInfo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:constraint_referenced_ids="titleTextView,directorLabelTextView, directorTextView, smallImageView"/>
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_regular"
+            android:layout_marginEnd="@dimen/space_small"
+            android:text="Оружейный барон"
+            android:textSize="24sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constrainedHeight="true"
+            app:layout_constraintEnd_toStartOf="@id/smallImageView"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/marginStart"
+            app:layout_constraintTop_toBottomOf="@id/mainImageView"
+            app:layout_goneMarginEnd="@dimen/space_regular" />
+
+<!--        -->
+
+        <TextView
+            android:id="@+id/directorLabelTextView"
+            app:layout_constraintTop_toBottomOf="@id/titleTextView"
+            app:layout_constraintStart_toStartOf="@id/marginStart"
+            android:layout_width="wrap_content"
+            android:textSize="20sp"
+            android:text="Режиссер:"
+            android:layout_marginTop="@dimen/space_small"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/directorTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_small"
+            android:text="Эндрю Никкол"
+            app:layout_constraintBaseline_toBaselineOf="@id/directorLabelTextView"
+            app:layout_constraintStart_toEndOf="@id/directorLabelTextView"
+            app:layout_constraintEnd_toStartOf="@id/smallImageView"
+            android:layout_marginEnd="@dimen/space_small"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_goneMarginEnd="@dimen/space_regular" />
+
+        <ImageView
+            android:id="@+id/smallImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_regular"
+            android:adjustViewBounds="true"
+            android:maxWidth="120dp"
+            android:scaleType="fitEnd"
+            android:src="@drawable/img_small"
+            app:layout_constraintEnd_toEndOf="@id/marginEnd"
+            app:layout_constraintTop_toBottomOf="@id/mainImageView" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/titlePartBarrier"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:barrierDirection="bottom"
+            app:elevation="0dp"
+            app:constraint_referenced_ids="mainImageView,titleTextView,directorLabelTextView,directorTextView,smallImageView" />
+
+        <TextView
+            android:id="@+id/descriptionTextView"
+            android:layout_width="match_parent"
+            app:layout_constrainedWidth="true"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_regular"
+            android:text="Родители Юрия и Виталия Орловых покинули Украину и обосновались в Америке: у них маленький ресторанчик на Брайтон-Бич. Дети же не стремятся идти по родительским стопам. Юрий начинает торговать оружием и с помощью брата быстро завоевывает свое место под солнцем. Но чем выше он поднимается, тем ближе к нему подбирается агент Интерпола."
+            app:layout_constraintEnd_toEndOf="@id/marginEnd"
+            app:layout_constraintStart_toStartOf="@id/marginStart"
+            app:layout_constraintTop_toBottomOf="@id/titlePartBarrier" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/groupActors"
+            android:layout_width="0dp"
+            app:constraint_referenced_ids="actorsTitleTextView, flowActors"
+            android:layout_height="0dp"/>
+        <TextView
+            android:id="@+id/actorsTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_regular"
+            android:text="Actors"
+            app:layout_constraintStart_toStartOf="@id/marginStart"
+            app:layout_constraintTop_toBottomOf="@id/descriptionTextView" />
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flowActors"
+            android:layout_marginTop="@dimen/space_small"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:flow_wrapMode="chain"
+            app:flow_horizontalBias="0"
+            app:flow_horizontalStyle="packed"
+            app:flow_verticalStyle="packed"
+            app:flow_horizontalGap="@dimen/space_small"
+            app:flow_verticalGap="@dimen/space_small"
+            app:layout_constraintStart_toStartOf="@id/marginStart"
+            app:layout_constraintEnd_toEndOf="@id/marginEnd"
+            app:layout_constraintTop_toBottomOf="@id/actorsTitleTextView"
+            app:constraint_referenced_ids="actor1,actor2,actor3,actor4"/>
+
+
+        <TextView
+            android:background="@drawable/gray_rect_circle5"
+            android:id="@+id/actor1"
+            android:padding="4dp"
+            android:text="Николас Кейдж"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:background="@drawable/gray_rect_circle5"
+            android:id="@+id/actor2"
+            android:padding="4dp"
+            android:text="Бриджет Мойнэхэн"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:background="@drawable/gray_rect_circle5"
+            android:id="@+id/actor3"
+            android:padding="4dp"
+            android:text="Джаред Лето"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:background="@drawable/gray_rect_circle5"
+            android:id="@+id/actor4"
+            android:padding="4dp"
+            android:text="Итан Хоук"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/buttonLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Like"
+            app:layout_constraintEnd_toStartOf="@id/buttonWatch"
+            app:layout_constraintTop_toTopOf="@id/buttonWatch" />
+
+        <Button
+            android:id="@+id/buttonWatch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Watch"
+            app:layout_constraintTop_toBottomOf="@id/flowActors"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/buttonShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Share"
+            app:layout_constraintStart_toEndOf="@id/buttonWatch"
+            app:layout_constraintTop_toTopOf="@id/buttonWatch" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

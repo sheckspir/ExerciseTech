@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="0dp"
+        app:layout_constraintGuide_begin="@dimen/space_regular"
+        android:orientation="vertical"
+        android:id="@+id/marginStart"
+        android:layout_height="0dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="0dp"
+        app:layout_constraintGuide_end="@dimen/space_regular"
+        android:orientation="vertical"
+        android:id="@+id/marginEnd"
+        android:layout_height="0dp"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/groupImageBody"
+        app:constraint_referenced_ids="imageBody, imageMuscles"/>
+
+    <ImageView
+        android:id="@+id/imageBody"
+        android:layout_marginTop="@dimen/space_regular"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/marginEnd"
+        android:layout_width="@dimen/bodies_small_view_width"
+        android:layout_height="@dimen/bodies_small_view_height"/>
+
+    <ImageView
+        android:id="@+id/imageMuscles"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="@id/imageBody"
+        app:layout_constraintEnd_toEndOf="@id/imageBody"
+        app:layout_constraintTop_toTopOf="@id/imageBody"
+        app:layout_constraintBottom_toBottomOf="@id/imageBody"
+        android:layout_height="0dp"/>
+
+    <androidx.constraintlayout.helper.widget.Flow
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageBody"
+        android:layout_marginEnd="@dimen/space_small"
+        app:layout_goneMarginEnd="@dimen/space_regular"
+        android:layout_marginTop="@dimen/space_regular"
+        app:layout_constraintStart_toStartOf="@id/marginStart"
+        app:constraint_referenced_ids="muscleLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/flowMuscles"
+        app:flow_wrapMode="chain"
+        app:flow_horizontalBias="0"
+        app:flow_verticalAlign="baseline"
+        app:flow_verticalGap="@dimen/space_small"
+        app:flow_horizontalGap="@dimen/space_small"
+        app:flow_horizontalStyle="packed"
+        />
+
+
+    <TextView
+        android:textSize="@dimen/text_large"
+        android:text="@string/muscles_label"
+        android:id="@+id/muscleLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrierMusclesInfo"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="flowMuscles,imageMuscles,imageBody"
+        android:layout_height="0dp"/>
+
+
+    <TextView
+        android:id="@+id/textTechnique"
+        app:layout_constraintStart_toStartOf="@id/marginStart"
+        app:layout_constraintEnd_toEndOf="@id/marginEnd"
+        android:layout_marginTop="@dimen/space_small"
+        app:layout_constraintTop_toBottomOf="@id/barrierMusclesInfo"
+        android:layout_width="0dp"
+        tools:text="Здесь будет очень длинное описание техники упражнений и как важно чтобы это всё было просто супер круто и прекрасно. Особенно держать спину и не заваливать горизонт"
+        android:layout_height="wrap_content"/>
+
+<!--    todo добавить красивые иконки в будущем-->
+    <TextView
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/space_small"
+        app:layout_constraintStart_toStartOf="@id/marginStart"
+        app:layout_constraintEnd_toEndOf="@id/marginEnd"
+        tools:text="Тут будет результат предыдущего раза"
+        app:layout_constraintTop_toBottomOf="@id/textTechnique"
+        android:id="@+id/textPreviousResult"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/space_small"
+        app:layout_constraintStart_toStartOf="@id/marginStart"
+        app:layout_constraintEnd_toEndOf="@id/marginEnd"
+        tools:text="Тут будет рекордный результат"
+        app:layout_constraintTop_toBottomOf="@id/textPreviousResult"
+        android:id="@+id/textMaxResult"
+        android:layout_height="wrap_content"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

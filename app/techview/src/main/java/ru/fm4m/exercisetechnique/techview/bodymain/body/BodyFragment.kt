@@ -1,11 +1,11 @@
 package ru.fm4m.exercisetechnique.techview.bodymain.body
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import dagger.android.support.AndroidSupportInjection
 import ru.fm4m.exercisetechnique.techview.R
 import ru.fm4m.exercisetechnique.techview.bodymain.UIEventMainBody
@@ -18,10 +18,32 @@ import io.reactivex.functions.Consumer
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.fragment_body.*
 import kotlinx.android.synthetic.main.fragment_body.view.*
+import ru.fm4m.exercisetechnique.techview.core.NavigationEvent
+import ru.fm4m.exercisetechnique.techview.core.NavigationPublisherContainer
+import ru.fm4m.exercisetechnique.techview.core.findNavigationPublisher
+import ru.fm4m.exercisetechnique.techview.videolist.VideoListFragment
 import javax.inject.Inject
 
-class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UIEventMainBody>, Consumer<BodyFeature.State> {
+class BodyFragment : Fragment(R.layout.fragment_body),
+    OnBodyPartSelectedListener,
+    ObservableSource<UIEventMainBody>,
+    Consumer<BodyFeature.State>,
+    NavigationPublisherContainer {
 
+    @SuppressLint("CheckResult")
+    override val navigationPublisher = PublishSubject.create<NavigationEvent>().apply {
+            this.subscribe {event ->
+                if (event is NavigationEvent.ShowMuscleVideos) {
+                    findNavController().navigate(R.id.action_bodyFragment_to_videoListFragment, Bundle().apply {
+                        this.putSerializable(VideoListFragment.ARG_SEX, event.sex)
+                        this.putSerializable(VideoListFragment.ARG_MUSCLE, event.muscle)
+                    })
+                } else {
+                    //send to parent
+                    parentFragment?.findNavigationPublisher()?.onNext(event)
+                }
+            }
+        }
     private lateinit var manager : BodyAreasManager
 
 
@@ -55,13 +77,6 @@ class BodyFragment : Fragment(), OnBodyPartSelectedListener, ObservableSource<UI
         } else{
             result as Side
         }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        return inflater.inflate(R.layout.fragment_body, container, false)
     }
 
     override fun onResume() {
