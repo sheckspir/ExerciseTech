@@ -2,6 +2,7 @@ package ru.fm4m.testmodule
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.util.ArrayMap
 import android.util.Log
@@ -145,7 +146,6 @@ class TestUserTrainingActivity : ComponentActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_test)
-
 
         /*
         lifecycleScope.launch {

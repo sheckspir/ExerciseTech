@@ -9,4 +9,15 @@
     <string name="muscles_label">Задействованные мышцы:</string>
 
     <string name="exercise_video_unavailable">Не удалось загрузить видео упражнения</string>
+    
+    <string name="day_image_description">Иконка дня</string>
+    <string name="day_title">День %s</string>
+    <plurals name="plural_exercises">
+        <item quantity="zero">%d упражнений</item>
+        <item quantity="one">%d упражнение</item>
+        <item quantity="two">%d упражнения</item>
+        <item quantity="few">%d упражнения</item>
+        <item quantity="many">%d упражнений</item>
+        <item quantity="other">%d упражнений</item>
+    </plurals>
 </resources>

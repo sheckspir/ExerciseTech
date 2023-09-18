@@ -9,4 +9,5 @@ sealed class NavigationEvent {
     data class ShowMuscleVideos(val muscle: Muscle, val sex: Sex): NavigationEvent()
     data class ShowOneVideo(val videoInfo: VideoInfo): NavigationEvent()
     data class ShowOneVideoFromNewProgram(val videoInfo: VideoInfo) : NavigationEvent()
+    data class ShowProgramDay(val programId : Int, val dayId : Int) : NavigationEvent()
 }

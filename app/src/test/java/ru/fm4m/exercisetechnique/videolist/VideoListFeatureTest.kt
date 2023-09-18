@@ -61,7 +61,7 @@ class VideoListFeatureTest {
         val muscleVideos = ArrayList<VideoInfo>().apply {
             add(YouTubeVideoInfo("111"))
         }
-        every { redownloadVideoListBySexAndMuscle.getData() }returns Observable
+        every { redownloadVideoListBySexAndMuscle.invoke() }returns Observable
             .just(DownloadDataEffect.StartDownload<MuscleVideos>() as DownloadDataEffect<MuscleVideos>)
             .mergeWith(Observable.just(DownloadDataEffect.DownloadedData(MuscleVideos(muscleInfo, muscleVideos)) as DownloadDataEffect<MuscleVideos>))
         val feature = VideoListFeature(null,
@@ -97,7 +97,7 @@ class VideoListFeatureTest {
     @Test
     fun checkDownloadProcess_withError() {
         val exception = IllegalArgumentException()
-        every { redownloadVideoListBySexAndMuscle.getData() } returns Observable
+        every { redownloadVideoListBySexAndMuscle.invoke() } returns Observable
             .just(DownloadDataEffect.StartDownload<MuscleVideos>() as DownloadDataEffect<MuscleVideos>)
             .mergeWith(Observable.error(exception))
 

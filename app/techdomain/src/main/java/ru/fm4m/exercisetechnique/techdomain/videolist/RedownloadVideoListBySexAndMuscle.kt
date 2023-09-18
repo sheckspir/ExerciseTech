@@ -44,7 +44,7 @@ class RedownloadVideoListBySexAndMuscleImpl @Inject constructor(
         emit(DownloadDataEffect.StartDownload())
     }.flowOn(Dispatchers.Main)
 
-    override fun getData(): Observable<DownloadDataEffect<MuscleVideos>> {
+    override fun invoke(): Observable<DownloadDataEffect<MuscleVideos>> {
         return coldFlow.asObservable()
     }
 }

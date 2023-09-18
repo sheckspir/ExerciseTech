@@ -1,9 +1,7 @@
 package ru.fm4m.exercisetechnique.techview.checksex
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -33,7 +31,7 @@ class ChooseFirstFragment : Fragment(R.layout.fragment_check_sex) {
         }
 
         view.buttonNewProgram.setOnClickListener{
-            findNavController().navigate(R.id.action_checkSexFragment_to_newProgramFragment)
+            findNavController().navigate(R.id.action_checkSexFragment_to_actualProgramFragment)
         }
 
 

@@ -13,7 +13,6 @@ import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import ru.fm4m.exercisetechnique.techdomain.newprogram.RedownloadNewProgramUseCase
 import ru.fm4m.exercisetechnique.techview.core.PerFragment
 
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -59,7 +58,7 @@ class NewProgramFeature @Inject constructor(
         override fun invoke(state: State, action: Wish): Observable<out Effect> {
             return when (action) {
                 is Wish.RedownloadLast -> {
-                    redownloadNewProgramUseCase.getData()
+                    redownloadNewProgramUseCase.invoke()
                         .map {
                             when(it) {
                                 is DownloadDataEffect.StartDownload -> Effect.StartedLoading

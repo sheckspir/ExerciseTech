@@ -61,7 +61,7 @@ class VideoListFeature @Inject constructor(
             Log.d("TAG", "new action in videos $action")
             return when(action) {
                 is Wish.RedownloadList -> {
-                    redownloadUseCase.getData()
+                    redownloadUseCase.invoke()
                         .map {
                             when(it){
                                 is DownloadDataEffect.StartDownload -> Effect.StartedLoading

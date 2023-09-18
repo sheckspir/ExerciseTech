@@ -6,6 +6,9 @@ import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
+import ru.fm4m.exercisetechnique.techdomain.data.ProgramInfo
+import ru.fm4m.exercisetechnique.techdomain.data.ProgramPartShort
+import ru.fm4m.exercisetechnique.techdomain.data.ProgrammPartInfo
 import ru.fm4m.exercisetechnique.techdomain.server.ServerApi
 import java.util.concurrent.TimeUnit
 
@@ -20,6 +23,11 @@ interface ServerApiBackend : ServerApi {
     @GET("actual_program")
     override fun getNewProgram(): Single<List<VideoInfo>>
 
+    @GET("actual_program")
+    override suspend fun getActualProgram(): ProgramInfo
+
+    @GET("day_info")
+    override suspend fun getDayInfo(programmId: Int, dayId: Int): ProgrammPartInfo
 }
 
 class ServerApiImpl : ServerApi {
@@ -332,5 +340,69 @@ class ServerApiImpl : ServerApi {
 */
                 }
             })
+    }
+
+    override suspend fun getActualProgram(): ProgramInfo {
+        val programDays = ArrayList<ProgramPartShort>().apply {
+            add(ProgramPartShort(0, "1", "", 5))
+            add(ProgramPartShort(0, "2", "", 6))
+            add(ProgramPartShort(0, "3", "", 5))
+            add(ProgramPartShort(0, "4", "", 6))
+        }
+        return ProgramInfo(
+            0,
+            "Очень крутая программа",
+            "Программа рассчитана на 4 недели, каждый день выпоняется особенным образом.\n" +
+                    "День 1: Икры всегда 5*25\n" +
+                    "Неделя 1: Все упражнения 5*8\n" +
+                    "Неделя 2: Все упражнения 5*15\n" +
+                    "Неделя 3: Дропсеты\n" +
+                    "Неделя 4: Все 6*12\n" +
+                    "Дропсеты: 2 разогревочных + 1 подводящий + 1 рабочий на максимум 8 повторений, сразу же скидываем 30% и выполняем максимум, скидываем 30% и на максимум\n" +
+                    "\n" +
+                    "День2: Подъём ног на висе всегда 3*MAX\n" +
+                    "Велосипед 20 минут после каждой тренировки\n" +
+                    "Неделя 1: Обратная пирамида\n" +
+                    "Неделя 2: 5*15\n" +
+                    "Неделя 3: 5*8\n" +
+                    "Неделя 4: 6*12\n" +
+                    "Обратная пирамида: 2 разогрвочных, 1 подводящий\n" +
+                    "1 Рабочий вес х 10 повторений\n" +
+                    "Отдых 2 минуты\n" +
+                    "2 -20% х 15 повторений\n" +
+                    "Отдых 2 минуты\n" +
+                    "3 -20% х 20 повторений\n" +
+                    "\n" +
+                    "День 3: Подъём на носки сидя 5х15\n" +
+                    "Неделя 1: 5*8\n" +
+                    "Неделя 2: 5*15\n" +
+                    "Неделя 3: 6*12\n" +
+                    "Неделя 4: Прямая пирамида\n" +
+                    "Прямая пирамида: 2 разогревочных, 1 подводящий\n" +
+                    "1 Рабочий х 20 повторений\n" +
+                    "Отдых 2 минуты\n" +
+                    "2 +20% х 15 повторений\n" +
+                    "Отдых 2 минуты\n" +
+                    "3 +20% 10 повторений\n" +
+                    "\n" +
+                    "День 4: Обратные скручивания 3хМАКС, Велосипед в конце тренировки 20 минут\n" +
+                    "Неделя 1: 5х8\n" +
+                    "Неделя 2: Отдых-пауза\n" +
+                    "Неделя 3: 5х15\n" +
+                    "Неделя 4: 6х12\n" +
+                    "Отдых-пауза: 2 Разогревочных + 1 подводящий\n" +
+                    "{\n" +
+                    "1 Рабочий х 8 повторений\n" +
+                    "Отдых 15 секунд\n" +
+                    "2 Рабочий на 4 повторения\n" +
+                    "Отдых 15 секунд\n" +
+                    "3 Рабочий на 2-3 повторений\n" +
+                    "} (повторить 2 раза)",
+            programDays
+        )
+    }
+
+    override suspend fun getDayInfo(programmId: Int, dayId: Int): ProgrammPartInfo {
+        TODO("Not yet implemented")
     }
 }

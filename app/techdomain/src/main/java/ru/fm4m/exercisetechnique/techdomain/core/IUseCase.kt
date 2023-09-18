@@ -5,7 +5,7 @@ import io.reactivex.Scheduler
 
 interface IUseCase<T> {
 
-    fun getData() : Observable<DownloadDataEffect<T>>
+    operator fun invoke() : Observable<DownloadDataEffect<T>>
 }
 
 sealed class DownloadDataEffect<T> {

@@ -12,6 +12,7 @@ import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 import ru.fm4m.exercisetechnique.techdomain.server.TechniqueRepository
 import javax.inject.Inject
 
+@Deprecated("remove")
 class RedownloadNewProgramUseCaseImpl @Inject constructor(
     private val repository: TechniqueRepository,
 ) : RedownloadNewProgramUseCase {
@@ -31,7 +32,7 @@ class RedownloadNewProgramUseCaseImpl @Inject constructor(
             emit(DownloadDataEffect.StartDownload<List<VideoInfo>>() as DownloadDataEffect<List<VideoInfo>>)
         }.flowOn(Dispatchers.Main)
 
-    override fun getData(): Observable<DownloadDataEffect<List<VideoInfo>>> {
+    override fun invoke(): Observable<DownloadDataEffect<List<VideoInfo>>> {
         return coldFlow.asObservable()
     }
 }

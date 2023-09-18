@@ -17,8 +17,8 @@
             android:id="@+id/action_checkSexFragment_to_searchVideosFragment"
             app:destination="@id/searchVideosFragment" />
         <action
-            android:id="@+id/action_checkSexFragment_to_newProgramFragment"
-            app:destination="@id/newProgramFragment" />
+            android:id="@+id/action_checkSexFragment_to_actualProgramFragment"
+            app:destination="@id/actualProgramFragment" />
     </fragment>
 
     <fragment
@@ -93,5 +93,9 @@
             app:popEnterAnim="@android:anim/slide_in_left"
             app:popExitAnim="@android:anim/slide_out_right"/>
     </fragment>
+    <fragment
+        android:id="@+id/actualProgramFragment"
+        android:name="ru.fm4m.exercisetechnique.techview.actualprogramm.ActualProgramFragment"
+        android:label="ActualProgramFragment" />
 
 </navigation>

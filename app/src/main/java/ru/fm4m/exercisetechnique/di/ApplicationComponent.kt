@@ -4,6 +4,7 @@ import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
 import ru.fm4m.exercisetechnique.ExerciseApplication
 import ru.fm4m.exercisetechnique.techdata.server.TechdataModule
+import ru.fm4m.exercisetechnique.techview.actualprogramm.ActualProgramProvider
 import ru.fm4m.exercisetechnique.techview.bodymain.BodyMainFragmentProvider
 import ru.fm4m.exercisetechnique.techview.bodymain.body.BodyFragmentProvider
 import ru.fm4m.exercisetechnique.techview.newprogram.NewProgramProvider
@@ -19,6 +20,7 @@ import javax.inject.Singleton
         TechdataModule::class,
         BodyFragmentProvider::class,
         NewProgramProvider::class,
+        ActualProgramProvider::class,
         BodyMainFragmentProvider::class,
         VideoListFragmentProvider::class,
         SearchVideosFragmentProvider::class,

@@ -20,6 +20,11 @@ class TechdataModule {
     @Singleton
     @Provides
     fun retrofitProvider(logger: Logger) : ServerApi {
+//        if (true) {
+//            // TODO: temp
+//            return ServerApiImpl()
+//        }
+
         val gson = GsonBuilder()
             .registerTypeAdapter(VideoInfo::class.java, ApiVideoInfoAdapter(logger))
             .create()
