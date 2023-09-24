@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import ru.fm4m.exercisetechnique.techdomain.data.ProgramInfo
 import ru.fm4m.exercisetechnique.techdomain.data.ProgramPartShort
-import ru.fm4m.exercisetechnique.techdomain.data.ProgrammPartInfo
+import ru.fm4m.exercisetechnique.techdomain.data.ProgramPartInfo
 import ru.fm4m.exercisetechnique.techdomain.server.ServerApi
 import java.util.concurrent.TimeUnit
 
@@ -27,7 +27,7 @@ interface ServerApiBackend : ServerApi {
     override suspend fun getActualProgram(): ProgramInfo
 
     @GET("day_info")
-    override suspend fun getDayInfo(programmId: Int, dayId: Int): ProgrammPartInfo
+    override suspend fun getDayInfo(dayId: Int): ProgramPartInfo
 }
 
 class ServerApiImpl : ServerApi {
@@ -402,7 +402,7 @@ class ServerApiImpl : ServerApi {
         )
     }
 
-    override suspend fun getDayInfo(programmId: Int, dayId: Int): ProgrammPartInfo {
+    override suspend fun getDayInfo(dayId: Int): ProgramPartInfo {
         TODO("Not yet implemented")
     }
 }

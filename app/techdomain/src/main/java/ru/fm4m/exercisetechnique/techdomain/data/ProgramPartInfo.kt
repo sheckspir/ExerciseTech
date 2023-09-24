@@ -1,9 +1,9 @@
 package ru.fm4m.exercisetechnique.techdomain.data
 
-data class ProgrammPartInfo(
+data class ProgramPartInfo(
     val id: Int,
-    val programmName: String,
-    val programmId: Int,
+    val programName: String,
+    val programId: Int,
     val dayName: String,
     val image : String,
     val exercises: List<ExerciseInfo>

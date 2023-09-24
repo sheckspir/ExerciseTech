@@ -3,7 +3,7 @@ package ru.fm4m.exercisetechnique.techdomain.server
 import io.reactivex.Single
 import ru.fm4m.exercisetechnique.techdomain.data.Muscle
 import ru.fm4m.exercisetechnique.techdomain.data.ProgramInfo
-import ru.fm4m.exercisetechnique.techdomain.data.ProgrammPartInfo
+import ru.fm4m.exercisetechnique.techdomain.data.ProgramPartInfo
 import ru.fm4m.exercisetechnique.techdomain.data.VideoInfo
 
 interface ServerApi {
@@ -16,6 +16,6 @@ interface ServerApi {
 
     suspend fun getActualProgram() : ProgramInfo
 
-    suspend fun getDayInfo(programmId : Int, dayId : Int) : ProgrammPartInfo
+    suspend fun getDayInfo(dayId : Int) : ProgramPartInfo
 
 }
