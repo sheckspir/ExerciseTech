@@ -1,0 +1,86 @@
+[versions]
+mvicore         = "1.4.0"
+rxjava          = "2.2.21"
+rxandroid       = "2.1.1"
+coroutines      = "1.7.3"
+lifecycle       = "2.6.2"
+kotlin-stdlib   = "1.7.0"
+xcore-ktx       = "1.9.0"
+appcompat       = "1.6.1"
+android-material = "1.9.0"
+constraintlayout = "2.1.4"
+xandroid-legacy = "1.0.0"
+xandroid-navigation = "2.6.0" #2.7.3
+retrofit        = "2.9.0"
+okhttp-logging  = "4.11.0"
+dagger          = "2.47"
+junit           = "4.13.2"
+mockk           = "1.12.0"
+kotlin-bom      = "1.8.0"
+inject          = "1"
+photoview       = "2.3.0"
+pixplicity      = "+@aar"
+youtubeplayer   = "10.0.5"
+swiperefresh    = "1.2.0-alpha01"
+coil-compose    = "2.2.2"
+xandroid-work   = "2.8.+"
+xandroid-activity = "1.7.0"
+xandroid-compose-bom = "2023.03.00"
+
+[libraries]
+
+
+mvicore-mvicore = {group = "com.github.badoo.mvicore", name = "mvicore", version.ref = "mvicore"}
+mvicore-binder = {group = "com.github.badoo.mvicore", name = "binder", version.ref = "mvicore"}
+mvicore-android = {group = "com.github.badoo.mvicore", name = "mvicore-android", version.ref = "mvicore"}
+mvicore-diff = {group = "com.github.badoo.mvicore", name = "mvicore-diff", version.ref = "mvicore"}
+mvicore-debug = {group = "com.github.badoo.mvicore", name = "mvicore-debugdrawer", version.ref = "mvicore"}
+
+rxjava2 = {group = "io.reactivex.rxjava2", name = "rxjava", version.ref = "rxjava"}
+rxandroid = {group = "io.reactivex.rxjava2", name = "rxandroid", version.ref = "rxandroid"}
+coroutines-rx2 = {group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-rx2", version.ref = "coroutines"}
+coroutines-core = {group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines"}
+
+kotlin-stdlib = {group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin-stdlib"}
+android-material = {group = "com.google.android.material", name = "material", version.ref = "android-material"}
+xandroid-appcompat = {group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat"}
+xandroid-constraintlayout = {group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout"}
+xandroid-legacy = {group = "androidx.legacy", name = "legacy-support-v4", version.ref = "xandroid-legacy"}
+xandroid-swiperefresh = {group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefresh"}
+xandroid-navigation-fragment = {group = "androidx.navigation", name = "navigation-fragment-ktx", version.ref = "xandroid-navigation"}
+xandroid-navigation-ui = {group = "androidx.navigation", name = "navigation-ui-ktx", version.ref = "xandroid-navigation"}
+xandroid-navigation-dynamic = {group = "androidx.navigation", name = "navigation-dynamic-features-fragment", version.ref = "xandroid-navigation"}
+xandroid-lifecycle-viewmodel = {group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycle"}
+xandroid-lifecycle-runtime = {group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle"}
+xandroid-corektx = {group = "androidx.core", name = "core-ktx", version.ref = "xcore-ktx"}
+
+retrofit-retrofit = {group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit"}
+retrofit-gson = {group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit"}
+retrofit-rxjava2 = {group = "com.squareup.retrofit2", name = "adapter-rxjava2", version.ref = "retrofit"}
+okhttp-logging = {group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp-logging"}
+
+dagger-dagger = {group = "com.google.dagger", name = "dagger", version.ref = "dagger"}
+dagger-compiler = {group = "com.google.dagger", name = "dagger-compiler", version.ref = "dagger"}
+dagger-android-support = {group = "com.google.dagger", name = "dagger-android-support", version.ref = "dagger"}
+dagger-android-processor = {group = "com.google.dagger", name = "dagger-android-processor", version.ref = "dagger"}
+inject = {group = "javax.inject", name = "javax.inject", version.ref = "inject"}
+
+junit = {group = "junit", name = "junit", version.ref = "junit"}
+mockk = {group = "io.mockk", name = "mockk", version.ref = "mockk"}
+
+photoview = {group = "com.github.chrisbanes", name = "PhotoView", version.ref = "photoview"}
+pixplicity = {group = "com.pixplicity.sharp", name = "library", version.ref = "pixplicity"}
+youtubeplayer = {group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "core", version.ref = "youtubeplayer"}
+
+coil-compose = {group = "io.coil-kt", name = "coil-compose", version.ref = "coil-compose"}
+xandroid-work = {group = "androidx.work", name = "work-runtime-ktx", version.ref = "xandroid-work"}
+xandroid-activity-compose = {group = "androidx.activity", name = "activity-compose", version.ref = "xandroid-activity"}
+xandroid-compose-bom = {group = "androidx.compose", name = "compose-bom", version.ref = "xandroid-compose-bom"}
+
+xandroid-compose-ui-ui = {group = "androidx.compose.ui", name = "ui"}
+xandroid-compose-ui-graphics = {group = "androidx.compose.ui", name = "ui-graphics"}
+xandroid-compose-ui-preview = {group = "androidx.compose.ui", name = "ui-tooling-preview"}
+xandroid-compose-material = {group = "androidx.compose.material3", name = "material3"}
+
+
+[plugins]

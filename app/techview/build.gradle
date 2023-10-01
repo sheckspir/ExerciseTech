@@ -44,41 +44,38 @@ dependencies {
     implementation project(':clickableareasimage')
 
 
-    implementation 'com.github.chrisbanes:PhotoView:2.3.0'
-    implementation 'com.pixplicity.sharp:library:+@aar'
+    implementation libs.photoview
+    implementation libs.pixplicity
 
-    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+    implementation libs.youtubeplayer
 
     //todo temp!
-    implementation "io.reactivex.rxjava2:rxjava:2.2.21"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation libs.rxjava2
+    implementation libs.rxandroid
 
-    implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-//    implementation "com.google.dagger:dagger-android:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    implementation libs.dagger.dagger
+    kapt libs.dagger.compiler
+    implementation libs.dagger.android.support
+    kapt libs.dagger.android.processor
 
     // Dynamic Feature Module Support
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:$navigation_version"
+    implementation libs.xandroid.navigation.dynamic
+    implementation libs.xandroid.navigation.fragment
+    implementation libs.xandroid.navigation.ui
 
-    // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation libs.xandroid.swiperefresh
 
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
+    implementation libs.mvicore.mvicore
+    implementation libs.mvicore.binder
+    implementation libs.mvicore.android
+    implementation libs.mvicore.diff
+    implementation libs.mvicore.debug
 
-    implementation "com.github.badoo.mvicore:mvicore:1.4.0"
-    implementation 'com.github.badoo.mvicore:binder:1.4.0'
-    implementation 'com.github.badoo.mvicore:mvicore-android:1.4.0'
-    implementation 'com.github.badoo.mvicore:mvicore-diff:1.4.0'
-    implementation 'com.github.badoo.mvicore:mvicore-debugdrawer:1.4.0'
-
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation libs.xandroid.corektx
     implementation platform('org.jetbrains.kotlin:kotlin-bom:1.8.0')
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
-    testImplementation 'junit:junit:4.13.2'
+    implementation libs.xandroid.appcompat
+    implementation libs.android.material
+    testImplementation libs.junit
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 

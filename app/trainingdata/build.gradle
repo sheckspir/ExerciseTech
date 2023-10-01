@@ -37,10 +37,10 @@ dependencies {
     implementation project(path: ':app:trainingdomain')
     implementation project(path: ':app:coredomain')
 
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'javax.inject:javax.inject:1'
+    implementation libs.xandroid.corektx
+    implementation libs.inject
     implementation platform('org.jetbrains.kotlin:kotlin-bom:1.7.0')
 
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation libs.junit
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
 }

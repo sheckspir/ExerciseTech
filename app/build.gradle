@@ -57,9 +57,6 @@ android {
     }
 }
 
-def lifecycle_version = "2.5.1"
-def dagger_version = '2.47'
-def navigation_version = '2.6.0'
 dependencies {
     //todo разобраться бы почему это сработало
     constraints {
@@ -85,46 +82,40 @@ dependencies {
     implementation project(path: ':app:trainingdomain')
     implementation project(path: ':app:trainingdata')
 
-    implementation "com.github.badoo.mvicore:mvicore:1.4.0"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation libs.mvicore.mvicore
+    implementation libs.rxandroid
 
+    implementation libs.xandroid.lifecycle.viewmodel
 
-//    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.9.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation libs.kotlin.stdlib
+    implementation libs.xandroid.corektx
+    implementation libs.xandroid.appcompat
+    implementation libs.android.material
+    implementation libs.xandroid.constraintlayout
+    implementation libs.xandroid.legacy
 
     // Navigation
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+    implementation libs.xandroid.navigation.fragment
+    implementation libs.xandroid.navigation.ui
+    implementation libs.xandroid.navigation.dynamic
 
-    // Dynamic Feature Module Support
-    implementation "androidx.navigation:navigation-dynamic-features-fragment:$navigation_version"
+    implementation libs.retrofit.retrofit
+    implementation libs.retrofit.gson
+    implementation libs.retrofit.rxjava2
+    implementation libs.okhttp.logging
 
+    implementation libs.dagger.dagger
 
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.11.0'
-
-    implementation "com.google.dagger:dagger:$dagger_version"
-
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-
+    kapt libs.dagger.compiler
+    implementation libs.dagger.android.support
+    kapt libs.dagger.android.processor
 
     // Testing Navigation
 //    androidTestImplementation "androidx.navigation:navigation-testing:2.3.5"
 //    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation "io.mockk:mockk:1.12.0"
+    testImplementation libs.junit
+    testImplementation libs.mockk
 
 }

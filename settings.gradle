@@ -11,3 +11,5 @@ include ':app:coreviewbadoo'
 include ':app:techview'
 include ':app:coredomain'
 include ':app:testmodule'
+enableFeaturePreview("VERSION_CATALOGS")
+
